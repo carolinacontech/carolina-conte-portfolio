@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portfolio de Carolina Conte — Product Designer & Design Engineer. Diseño de producto e ingeniería de interfaz." />
+  <title>Carolina Conte — Product Designer & Design Engineer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css?v=19" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home">CAROLINA<span>.</span>CONTE</a>
+
+    <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <nav class="nav">
+      <a href="#work">WORK</a>
+      <a href="#about">ABOUT</a>
+      <a href="#services">SERVICES</a>
+      <a href="#journal">JOURNAL</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero shell">
+      <div class="hero-media-stage">
+        <video
+          class="hero-video"
+          src="assets/hero.mp4"
+          poster="assets/hero-final.jpg"
+          playsinline
+          preload="auto"
+        ></video>
+        <img class="hero-video-still" src="assets/hero-final.jpg" alt="" />
+        <div class="hero-scrim"></div>
+      </div>
+
+      <button class="hero-play" type="button" aria-label="Reproducir mensaje de bienvenida">
+        <span class="hero-play-icon">▶</span>
+        <span class="hero-play-label">Play with sound</span>
+      </button>
+
+      <div class="hero-copy">
+        <p class="eyebrow">PRODUCT DESIGNER · DESIGN ENGINEER</p>
+        <div class="hero-logo-stage">
+          <img class="hero-logo" src="assets/logo-name.png" alt="Carolina Conte" />
+        </div>
+        <p class="hero-headline">I design what a brand needs — then I build it.</p>
+        <p class="hero-text">
+          My work sits between brand, product, and code. I design interfaces, build them
+          myself, and use AI-assisted workflows to move faster from idea to working
+          experience — without losing the thinking that makes a brand feel coherent.
+        </p>
+
+        <div class="hero-actions">
+          <a class="button button-dark" href="#work">See what I've built</a>
+          <a class="button button-light" href="#contact">Trabajemos juntas</a>
+        </div>
+      </div>
+
+      <div class="trust-strip">
+        <span>STACK</span>
+        <div class="trust-logos">
+          <i>Figma</i><i>React</i><i>Next.js</i><i>Framer Motion</i><i>Swift UI</i><i>TypeScript</i>
+        </div>
+      </div>
+    </section>
+
+    <section class="split-grid shell">
+      <article class="about card" id="about">
+        <div>
+          <p class="section-kicker">ABOUT</p>
+          <h2>WHO<br><span>Am I</span></h2>
+          <p>
+            My résumé says marketing. But the part I always loved was never the campaign —
+            it was building the brand, the message, the identity, the thing itself. That
+            instinct for building is the actual thread running through my career.
+          </p>
+          <p>
+            Over time it expanded into web, product, and interface design. Today I design
+            digital experiences and build them myself, using AI-assisted workflows to move
+            faster from idea to something real — without losing the brand and business
+            thinking that got me here in the first place.
+          </p>
+          <div class="stack-list">
+            <span>Product Design</span>
+            <span>Design Engineering</span>
+            <span>Brand Systems</span>
+            <span>Front-end Development</span>
+            <span>AI-assisted Workflows</span>
+          </div>
+          <a class="cv-link" href="assets/carolina-conte-cv.pdf" target="_blank" rel="noopener">Download CV ↓</a>
+        </div>
+        <div class="about-portrait">
+          <img src="assets/about-collage.png" alt="Carolina Conte — collage de estudio" />
+        </div>
+      </article>
+
+      <article class="rates card" id="services">
+        <p class="section-kicker">SERVICES</p>
+        <h2><span>Rates &</span><strong>SERVICES</strong></h2>
+
+        <div class="service-grid">
+          <div class="service-card">
+            <h3>Product Design</h3>
+            <p>UX research, wireframes, UI de alta fidelidad y sistemas de diseño escalables para producto digital.</p>
+            <strong>Desde $1.200</strong>
+          </div>
+          <div class="service-card">
+            <h3>Design Engineering</h3>
+            <p>Implementación de interfaces en código: componentes, animaciones y prototipos funcionales listos para producción.</p>
+            <strong>Desde $1.800</strong>
+          </div>
+        </div>
+
+        <div class="workflow">
+          <div><b>1</b><span>Consultoría inicial gratuita</span></div>
+          <div><b>2</b><span>Diseño y prototipado</span></div>
+          <div><b>3</b><span>Implementación & entrega</span></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="capabilities shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">CAPABILITIES</p>
+          <h2><span>What I</span> BRING</h2>
+        </div>
+        <p>Five ways of thinking that move together — not a list of software.</p>
+      </div>
+
+      <div class="capability-grid">
+        <div class="capability-card">
+          <span class="capability-index">01</span>
+          <h3>Product & Experience</h3>
+          <p>Product thinking, UX/UI, prototyping, user journeys, information architecture.</p>
+        </div>
+        <div class="capability-card">
+          <span class="capability-index">02</span>
+          <h3>Design Engineering & Web</h3>
+          <p>Web design, implementation, rapid prototyping, HTML, AI-assisted development, vibe coding.</p>
+        </div>
+        <div class="capability-card">
+          <span class="capability-index">03</span>
+          <h3>Brand Systems</h3>
+          <p>Brand identity, visual direction, messaging, digital brand experiences.</p>
+        </div>
+        <div class="capability-card">
+          <span class="capability-index">04</span>
+          <h3>Optimization & Intelligence</h3>
+          <p>SEO, audits, analytics, data interpretation, experimentation.</p>
+        </div>
+        <div class="capability-card">
+          <span class="capability-index">05</span>
+          <h3>AI & Emerging Technology</h3>
+          <p>Prompt design, AI workflows, AI-assisted prototyping, research, automation, cloud experimentation.</p>
+        </div>
+        <div class="capability-card">
+          <span class="capability-index">06</span>
+          <h3>CRM & Data Management</h3>
+          <p>CRM systems, data hygiene, pipeline reporting, and using structured data to inform decisions.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="tools" class="tools shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">TOOLS</p>
+          <h2><span>What I</span><br>WORK WITH</h2>
+        </div>
+        <p>The actual stack — not a badge wall.</p>
+      </div>
+
+      <div class="tools-grid">
+        <div class="tools-group">
+          <h3>Design</h3>
+          <div class="tools-tags">
+            <span>Figma</span>
+            <span>Framer</span>
+            <span>Photoshop</span>
+            <span>Illustrator</span>
+            <span>Canva</span>
+          </div>
+        </div>
+        <div class="tools-group">
+          <h3>Code & Web</h3>
+          <div class="tools-tags">
+            <span>HTML/CSS</span>
+            <span>JavaScript</span>
+            <span>React</span>
+            <span>Next.js</span>
+            <span>Python</span>
+            <span>VS Code</span>
+            <span>Supabase</span>
+          </div>
+        </div>
+        <div class="tools-group">
+          <h3>AI & Workflow</h3>
+          <div class="tools-tags">
+            <span>Claude</span>
+            <span>ChatGPT</span>
+            <span>Perplexity</span>
+            <span>Claude Agent SDK</span>
+          </div>
+        </div>
+        <div class="tools-group">
+          <h3>Data & SEO</h3>
+          <div class="tools-tags">
+            <span>Google Search Console</span>
+            <span>Screaming Frog</span>
+            <span>Google Analytics</span>
+          </div>
+        </div>
+        <div class="tools-group">
+          <h3>Video & Motion</h3>
+          <div class="tools-tags">
+            <span>CapCut</span>
+            <span>Final Cut Pro</span>
+            <span>Premiere Pro</span>
+          </div>
+        </div>
+        <div class="tools-group">
+          <h3>CRM & Marketing Ops</h3>
+          <div class="tools-tags">
+            <span>HubSpot</span>
+            <span>Salesforce</span>
+            <span>Go High Level</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="process shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">HOW I WORK</p>
+          <h2><span>From idea</span><br>TO REAL</h2>
+        </div>
+        <p>I move between strategy and execution — the same instinct, applied at every step.</p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-step">
+          <span class="process-index">01</span>
+          <h3>Understand</h3>
+          <p>What's the real problem — for the business, the brand, the user?</p>
+        </div>
+        <div class="process-step">
+          <span class="process-index">02</span>
+          <h3>Explore</h3>
+          <p>Open the tools, test ideas, see what breaks before committing to a direction.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-index">03</span>
+          <h3>Design</h3>
+          <p>Make the decisions — visual, structural, interactive — and know why each one was made.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-index">04</span>
+          <h3>Build</h3>
+          <p>Implement it myself, using AI-assisted workflows to move from concept to working product.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-index">05</span>
+          <h3>Test</h3>
+          <p>Put it in front of reality — data, users, edge cases — and see what actually holds up.</p>
+        </div>
+        <div class="process-step">
+          <span class="process-index">06</span>
+          <h3>Refine</h3>
+          <p>Cut what doesn't work. Sharpen what does. Ship it better than the first version.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="work" class="portfolio shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">SELECTED WORK</p>
+          <h2><span>Recent</span> PROJECTS</h2>
+        </div>
+        <p>Proyectos de producto y sistemas de diseño — placeholders listos para reemplazar con casos reales.</p>
+      </div>
+
+      <div class="project-spotlight">
+        <video
+          class="spotlight-video spotlight-video-intro"
+          src="assets/project-01-intro.mp4"
+          muted
+          autoplay
+          playsinline
+          preload="auto"
+        ></video>
+        <video
+          class="spotlight-video spotlight-video-loop"
+          src="assets/project-01-loop.mp4"
+          muted
+          loop
+          playsinline
+          preload="auto"
+        ></video>
+        <div class="spotlight-scrim"></div>
+
+        <div class="spotlight-side spotlight-side-left" data-role="left">
+          <div class="browser-bar"><i></i><i></i><i></i></div>
+          <div class="spotlight-side-content"></div>
+        </div>
+
+        <div class="spotlight-side spotlight-side-right" data-role="right">
+          <div class="browser-bar"><i></i><i></i><i></i></div>
+          <div class="spotlight-side-content"></div>
+        </div>
+      </div>
+
+      <div class="video-grid">
+        <article class="phone-card" data-tag="Mobile App">
+          <div class="browser-bar"><i></i><i></i><i></i></div>
+          <div class="mock">project.01</div>
+          <span class="tag">Mobile App</span>
+        </article>
+        <article class="phone-card" data-tag="Design System">
+          <div class="browser-bar"><i></i><i></i><i></i></div>
+          <div class="mock">project.02</div>
+          <span class="tag">Design System</span>
+        </article>
+        <article class="phone-card" data-tag="Dashboard">
+          <div class="browser-bar"><i></i><i></i><i></i></div>
+          <div class="mock">project.03</div>
+          <span class="tag">Dashboard</span>
+        </article>
+        <article class="phone-card" data-tag="Marketing Site">
+          <div class="browser-bar"><i></i><i></i><i></i></div>
+          <div class="mock">project.04</div>
+          <span class="tag">Marketing Site</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="case-study shell">
+      <div class="case-copy">
+        <p class="section-kicker">CASE STUDY 01</p>
+        <h2><span>Project</span> NAME</h2>
+        <p>
+          Rediseño end-to-end de un producto digital: research, sistema de diseño,
+          prototipado de alta fidelidad e implementación del front-end en producción.
+        </p>
+
+        <div class="case-stats">
+          <div><strong>+40%</strong><span>conversión</span></div>
+          <div><strong>−60%</strong><span>tiempo de dev</span></div>
+          <div><strong>98</strong><span>lighthouse score</span></div>
+        </div>
+      </div>
+
+      <div class="case-image">
+        <div class="browser-bar"><i></i><i></i><i></i></div>
+        <div class="mock">case-study.png</div>
+      </div>
+    </section>
+
+    <section class="gallery shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">UI</p>
+          <h2><span>Interface</span><br>SNAPSHOTS</h2>
+        </div>
+      </div>
+
+      <div class="masonry">
+        <div class="tile">component<br>library</div>
+        <div class="tile">onboarding<br>flow</div>
+        <div class="tile">dashboard<br>UI</div>
+        <div class="tile">design<br>tokens</div>
+        <div class="tile">mobile<br>navigation</div>
+        <div class="tile">motion<br>study</div>
+        <div class="tile">landing<br>page</div>
+        <div class="tile">dark mode<br>UI</div>
+        <div class="tile">form<br>system</div>
+      </div>
+    </section>
+
+    <section id="brand-work" class="brand-work shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">BRAND SYSTEMS</p>
+          <h2><span>Brand</span><br>WORK</h2>
+        </div>
+        <p>Identity, visual language, and brand systems built to hold up across every touchpoint.</p>
+      </div>
+
+      <div class="brand-grid">
+        <button class="brand-card" type="button" data-brand="cakes-for-a-cause" data-name="Cakes for a Cause" data-bg="#fffbf3" data-label-web-mobile="Social media" aria-haspopup="dialog">
+          <span class="brand-mark"></span>
+          <h3>Cakes for a Cause</h3>
+          <span class="brand-tags"><span>Identity</span><span>Brand Sheet</span><span>Web &amp; Social</span></span>
+        </button>
+        <button class="brand-card" type="button" data-brand="eva-shoes" data-name="Eva Shoes" data-bg="#f6f0e8" aria-haspopup="dialog">
+          <span class="brand-mark"></span>
+          <h3>Eva Shoes</h3>
+          <span class="brand-tags"><span>Identity</span><span>Brand Sheet</span><span>Web</span></span>
+        </button>
+        <button class="brand-card" type="button" data-brand="brand-03" data-name="Brand 03" data-bg="#f6f2e9" aria-haspopup="dialog">
+          <span class="brand-mark"></span>
+          <h3>Brand 03</h3>
+          <span class="brand-tags"><span>Coming soon</span></span>
+        </button>
+        <button class="brand-card" type="button" data-brand="brand-04" data-name="Brand 04" data-bg="#1c1b19" aria-haspopup="dialog">
+          <span class="brand-mark"></span>
+          <h3>Brand 04</h3>
+          <span class="brand-tags"><span>Coming soon</span></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="metrics shell">
+      <div class="metrics-title">
+        <p class="section-kicker">TRACK RECORD</p>
+        <h2><span>Experience &</span><br>METRICS</h2>
+      </div>
+
+      <div class="metric-grid">
+        <div><strong>20+</strong><span>proyectos entregados</span></div>
+        <div><strong>15+</strong><span>clientes</span></div>
+        <div><strong>5+</strong><span>años de experiencia</span></div>
+        <div><strong>98%</strong><span>satisfacción de cliente</span></div>
+        <div><strong>10+</strong><span>design systems</span></div>
+        <div><strong>90%</strong><span>clientes recurrentes</span></div>
+      </div>
+    </section>
+
+    <section id="journal" class="journal shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">AI GROWTH JOURNAL</p>
+          <h2><span>Research &</span><br>NOTES</h2>
+        </div>
+        <p>Un journal donde documento qué funciona (y qué no) al usar IA en workflows reales de crecimiento y SEO.</p>
+      </div>
+
+      <div class="journal-grid">
+        <a class="journal-card" href="https://aigrowthjournal.vercel.app" target="_blank" rel="noopener">
+          <span class="journal-tag">Automation</span>
+          <h3>Can an AI Agent Run a Technical SEO Audit Without Me?</h3>
+          <span class="journal-meta">Jul 23, 2026 · 2 min read</span>
+        </a>
+        <a class="journal-card" href="https://aigrowthjournal.vercel.app" target="_blank" rel="noopener">
+          <span class="journal-tag">Growth Engineering</span>
+          <h3>Rebuilding Internal Linking with Embeddings Instead of Guesswork</h3>
+          <span class="journal-meta">Jul 20, 2026 · 2 min read</span>
+        </a>
+        <a class="journal-card" href="https://aigrowthjournal.vercel.app" target="_blank" rel="noopener">
+          <span class="journal-tag">LLM SEO</span>
+          <h3>What Actually Gets a Page Cited by ChatGPT and Perplexity</h3>
+          <span class="journal-meta">Jul 14, 2026 · 4 min read</span>
+        </a>
+      </div>
+
+      <a class="journal-link" href="https://aigrowthjournal.vercel.app" target="_blank" rel="noopener">Ver el journal completo →</a>
+    </section>
+
+    <section id="certifications" class="certifications shell">
+      <div class="section-heading">
+        <div>
+          <p class="section-kicker">CERTIFICATIONS</p>
+          <h2><span>Keeping</span><br>SHARP</h2>
+        </div>
+        <p>Structured learning in the areas I use every day — UX, AI, and applied tools.</p>
+      </div>
+
+      <div class="cert-grid">
+        <div class="cert-card">
+          <span class="cert-issuer">Google</span>
+          <h3>UX Design Foundations</h3>
+          <p>Foundations of UX Design · Start the UX Design Process</p>
+          <span class="cert-meta">2 courses · 2024</span>
+        </div>
+        <div class="cert-card">
+          <span class="cert-issuer">Google</span>
+          <h3>AI Essentials</h3>
+          <p>AI Fundamentals · App Deployment · Research & Insights · Writing · Brainstorming · Content Creation</p>
+          <span class="cert-meta">6 courses · 2026</span>
+        </div>
+        <div class="cert-card">
+          <span class="cert-issuer">TestGorilla</span>
+          <h3>Skill Assessments</h3>
+          <ul class="cert-list">
+            <li>E-commerce Skills — 98th percentile</li>
+            <li>Google Sheets — 99th percentile</li>
+          </ul>
+          <span class="cert-meta">2026</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact shell">
+      <img class="contact-bg" src="assets/contact.png" alt="" />
+      <div class="contact-scrim"></div>
+
+      <div class="contact-heading">
+        <p class="section-kicker">CONTACT</p>
+        <h2>LET'S BUILD<br><span>SOMETHING GREAT.</span></h2>
+      </div>
+
+      <div class="contact-card">
+        <a href="mailto:carolina@carolinaconte.com">carolina@carolinaconte.com</a>
+        <div class="socials">
+          <a href="https://linkedin.com/in/carolinaconte2024" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+          <a href="https://www.upwork.com/freelancers/carolinac3" target="_blank" rel="noopener" aria-label="Upwork">UP</a>
+          <a href="#" aria-label="GitHub">GH</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <span>© 2026 Carolina Conte</span>
+    <a href="#home">Back to top ↑</a>
+  </footer>
+
+  <dialog id="brand-modal" class="brand-modal" aria-labelledby="brand-modal-title">
+    <div class="brand-modal-head">
+      <div>
+        <p class="section-kicker">BRAND WORK</p>
+        <h3 id="brand-modal-title"></h3>
+      </div>
+      <button class="brand-modal-close" type="button" aria-label="Cerrar">Close ✕</button>
+    </div>
+    <div class="brand-modal-body" id="brand-modal-body"></div>
+  </dialog>
+
+  <script src="script.js"></script>
+</body>
+</html>
