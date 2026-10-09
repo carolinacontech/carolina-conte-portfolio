@@ -257,6 +257,12 @@ const UI_GALLERIES = {
       { src: 'assets/ui/component-library-stay-scout.png', label: 'Stay Scout' },
     ],
   },
+  'design-tokens': {
+    title: 'Design tokens',
+    embed: 'assets/ui/stay-scout-tokens.html',
+    label: 'Stay Scout · from a logo to a token system (interactive)',
+    bg: '#fbf9f7',
+  },
   'dashboard-ui': {
     title: 'Dashboard UI',
     embed: 'assets/ui/jarvis-briefing.html',
@@ -276,6 +282,7 @@ function openGalleryModal(gallery) {
 
     const frame = document.createElement('div');
     frame.className = 'deliv-frame';
+    if (gallery.bg) frame.style.background = gallery.bg;
     const iframe = document.createElement('iframe');
     iframe.src = gallery.embed;
     iframe.title = gallery.title;
