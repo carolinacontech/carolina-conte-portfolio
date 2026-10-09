@@ -1,0 +1,653 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Jarvis · Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Share+Tech+Mono&display=swap">
+<style>
+/* Layout: login HUD — "day status" ring + briefing on top, three panels (tasks · schedule · mail) below. Deliberately dark, single theme. */
+:root{
+  --bg:#060b14;
+  --panel:#0b1422;
+  --line:#16304a;
+  --fg:#d6e6f5;
+  --muted:#6f8aa6;
+  --cyan:#4fd8ff;
+  --amber:#ffb547;
+  --red:#ff5d6c;
+  --green:#5ee0a0;
+  --f-display:"Chakra Petch", "Avenir Next Condensed", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  --f-mono:"Share Tech Mono","IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --glow:0 0 8px rgba(79,216,255,.55);
+  --edge:rgba(79,216,255,.28);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{
+  background:var(--bg);
+  background-image:
+    radial-gradient(ellipse 70% 50% at 20% 0%, rgba(79,216,255,.08), transparent 70%),
+    linear-gradient(rgba(79,216,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,216,255,.035) 1px, transparent 1px);
+  background-size:auto, 32px 32px, 32px 32px;
+  color:var(--fg);font:15px/1.5 var(--f-body);
+  padding-inline:clamp(16px,3vw,40px);padding-block:28px 48px;
+}
+.wrap{max-width:1240px;margin:0 auto;display:grid;gap:22px}
+.label{font:500 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* top bar */
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+.sys{display:flex;align-items:center;gap:10px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2.4s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.sample{font:500 11px var(--f-mono);color:var(--amber);border:1px solid rgba(255,181,71,.4);padding:4px 8px;border-radius:3px;letter-spacing:.06em}
+
+/* hero */
+.hero{display:grid;grid-template-columns:auto 1fr;gap:clamp(20px,4vw,48px);align-items:center;
+  padding:clamp(18px,3vw,32px);border:1px solid var(--line);background:linear-gradient(180deg,rgba(11,20,34,.9),rgba(6,11,20,.6));position:relative}
+.hero::before,.hero::after{content:"";position:absolute;width:18px;height:18px;border:2px solid var(--cyan)}
+.hero::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+.hero::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+.ring{width:clamp(150px,22vw,210px);aspect-ratio:1;max-width:100%;position:relative}
+.ring svg{width:100%;height:100%;display:block}
+.ring .spin{transform-origin:50% 50%;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ring-c{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:2px}
+.clock{font:600 clamp(30px,4.2vw,44px)/1 var(--f-display);color:var(--fg);letter-spacing:.02em}
+.ring-c .label{font-size:10px}
+.greet{font:600 clamp(26px,3.6vw,40px)/1.1 var(--f-display);margin:6px 0 12px;text-wrap:balance}
+.greet span{color:var(--cyan)}
+.brief{font-size:16.5px;max-width:64ch;color:#b9cde2;min-height:4.5em}
+.brief b{color:var(--fg);font-weight:600}
+.brief .caret{display:inline-block;width:8px;height:1.05em;background:var(--cyan);vertical-align:-2px;margin-left:2px;animation:pulse 1s steps(1) infinite}
+.stats{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:18px}
+.stat{display:grid;gap:4px}
+.stat .n{font:600 26px/1 var(--f-display)}
+.n.amber{color:var(--amber)} .n.red{color:var(--red)} .n.cyan{color:var(--cyan)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+button{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+  background:transparent;color:var(--cyan);border:1px solid var(--cyan);padding:9px 14px;border-radius:2px}
+button:hover{background:rgba(79,216,255,.1)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+button.ghost{color:var(--muted);border-color:var(--line)}
+
+/* panels */
+.grid{display:grid;grid-template-columns:1.05fr 1fr 1.1fr;gap:22px}
+.panel{border:1px solid var(--line);background:rgba(11,20,34,.75);min-width:0;display:flex;flex-direction:column}
+.ph{display:flex;justify-content:space-between;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--line)}
+.ph h2{margin:0;font:600 15px var(--f-display);letter-spacing:.12em;text-transform:uppercase}
+.ph h2 i{font-style:normal;color:var(--cyan);margin-right:8px}
+ul{list-style:none;margin:0;padding:0}
+
+/* tasks */
+.task{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:12px 18px;border-bottom:1px solid rgba(22,48,74,.6)}
+.task input{appearance:none;width:16px;height:16px;border:1.5px solid var(--muted);margin:3px 0 0;cursor:pointer;display:grid;place-content:center}
+.task input:checked{background:var(--cyan);border-color:var(--cyan)}
+.task input:checked::after{content:"";width:8px;height:4px;border:2px solid var(--bg);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.task.done .t{text-decoration:line-through;color:var(--muted)}
+.t{font-weight:500}
+.meta{font:12px var(--f-mono);color:var(--muted);margin-top:2px}
+.pri{font:500 10px var(--f-mono);letter-spacing:.1em;padding:3px 6px;border:1px solid;white-space:nowrap}
+.p1{color:var(--red);border-color:rgba(255,93,108,.5)}
+.p2{color:var(--amber);border-color:rgba(255,181,71,.45)}
+.p3{color:var(--muted);border-color:var(--line)}
+.overdue{color:var(--red)}
+
+/* calendar */
+.tl{padding:10px 18px 16px;position:relative}
+.ev{display:grid;grid-template-columns:52px 1fr;gap:14px;padding:10px 0;position:relative}
+.ev .h{font:500 13px var(--f-mono);color:var(--muted);padding-top:2px}
+.ev .card{border-left:2px solid var(--line);padding:2px 0 2px 12px}
+.ev.past{opacity:.45}
+.ev.next .card{border-left-color:var(--cyan)}
+.ev.next .h{color:var(--cyan)}
+.ev .where{font:12px var(--f-mono);color:var(--muted)}
+.now{display:grid;grid-template-columns:52px 1fr;gap:14px;align-items:center;margin:2px 0}
+.now .h{font:600 11px var(--f-mono);color:var(--amber)}
+.now .l{height:1px;background:var(--amber);position:relative;box-shadow:0 0 8px var(--amber)}
+.now .l::before{content:"";position:absolute;left:-4px;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.chip{font:500 10px var(--f-mono);letter-spacing:.08em;color:var(--cyan);border:1px solid rgba(79,216,255,.4);padding:2px 6px;margin-left:6px;vertical-align:1px}
+
+/* mail */
+.mail{display:grid;grid-template-columns:4px 1fr;gap:14px;padding:12px 18px 12px 0;border-bottom:1px solid rgba(22,48,74,.6)}
+.mail .s{align-self:stretch}
+.mail.urgent .s{background:var(--red)} .mail.reply .s{background:var(--amber)} .mail.fyi .s{background:var(--line)}
+.mrow{display:flex;justify-content:space-between;gap:10px}
+.from{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.subj{font-size:14px;color:#b9cde2}
+.ai{font-size:13px;color:var(--muted);margin-top:3px}
+.ai::before{content:"› ";color:var(--cyan);font-family:var(--f-mono)}
+.foot{padding:12px 18px;margin-top:auto;font:12px var(--f-mono);color:var(--muted)}
+
+/* day plan */
+.row2{display:grid;grid-template-columns:1.25fr 1fr;gap:22px}
+.pbody{padding:16px 18px;display:grid;gap:14px}
+.track{position:relative;height:42px;border:1px solid var(--line);background:rgba(6,11,20,.6);overflow:hidden}
+.track .past{position:absolute;top:0;bottom:0;left:0;background:repeating-linear-gradient(135deg,rgba(111,138,166,.14) 0 4px,transparent 4px 8px);border-right:1px solid var(--amber)}
+.blk{position:absolute;top:7px;bottom:7px}
+.blk.m{background:rgba(79,216,255,.16);border:1px solid var(--cyan)}
+.blk.t{background:var(--amber);opacity:.9}
+.ticks{position:relative;height:14px;font:10px var(--f-mono);color:var(--muted);margin-top:-8px}
+.ticks span{position:absolute;transform:translateX(-50%)}
+.ticks span:first-child{transform:none}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font:11px var(--f-mono);color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px}
+.legend .lm{background:rgba(79,216,255,.16);border:1px solid var(--cyan)} .legend .lt{background:var(--amber)}
+.plist li{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:12px;padding:7px 0;border-bottom:1px dashed rgba(22,48,74,.8);align-items:baseline}
+.plist .tm{font:12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.plist li.t .tm{color:var(--amber)}
+.kind{font:500 10px var(--f-mono);letter-spacing:.1em;color:var(--muted);white-space:nowrap}
+.alert{border:1px solid rgba(255,93,108,.5);background:rgba(255,93,108,.07);padding:12px 14px;display:grid;gap:8px}
+.alert.ok{border-color:rgba(94,224,160,.4);background:rgba(94,224,160,.05)}
+.alert h3{margin:0;font:600 13px var(--f-display);letter-spacing:.1em;text-transform:uppercase;color:var(--red)}
+.alert.ok h3{color:var(--green)}
+.alert p{margin:0;font-size:14px;color:#b9cde2}
+.defer{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:14px}
+button.sm{padding:5px 9px;font-size:10.5px}
+button:disabled{opacity:.45;cursor:default;background:transparent}
+.prow{display:flex;gap:10px;flex-wrap:wrap}
+
+/* client pulse */
+.client{display:grid;grid-template-columns:minmax(0,1fr) 112px 92px;gap:14px;align-items:center;padding:12px 18px;border-bottom:1px solid rgba(22,48,74,.6)}
+.cname{font-weight:600}
+.spark{width:112px;height:34px;display:block}
+.cnum{text-align:right;display:grid;gap:2px}
+.big{font:600 20px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.delta{font:12px var(--f-mono)} .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--muted)}
+.cnote{grid-column:1/-1;display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted);margin-top:-4px}
+.st{font:500 10px var(--f-mono);letter-spacing:.1em;padding:2px 6px;border:1px solid;white-space:nowrap}
+.st.alert{color:var(--red);border-color:rgba(255,93,108,.5)} .st.watch{color:var(--amber);border-color:rgba(255,181,71,.45)}
+.st.ok{color:var(--green);border-color:rgba(94,224,160,.4)} .st.new{color:var(--cyan);border-color:rgba(79,216,255,.4)}
+
+/* mail actions, modal, toast */
+.mact{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.modal{position:fixed;inset:0;background:rgba(3,6,12,.75);display:grid;place-items:center;padding:16px;z-index:10}
+.sheet{width:min(640px,100%);background:var(--panel);border:1px solid var(--cyan);padding:20px;display:grid;gap:12px;max-height:90vh;overflow:auto}
+.sheet h3{margin:0;font:600 16px var(--f-display);letter-spacing:.08em;text-transform:uppercase}
+.sheet .meta b{color:var(--fg);font-weight:500}
+textarea{width:100%;min-height:220px;background:var(--bg);color:var(--fg);border:1px solid var(--line);font:14px/1.6 var(--f-body);padding:12px;resize:vertical}
+textarea:focus-visible{outline:2px solid var(--amber);outline-offset:1px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--panel);border:1px solid var(--cyan);padding:10px 16px;font:13px var(--f-mono);z-index:20;max-width:calc(100% - 32px)}
+
+/* ===== HUD / FUI layer ===== */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:30;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px);opacity:.35}
+body::after{content:"";position:fixed;left:0;right:0;top:-20vh;height:20vh;pointer-events:none;z-index:31;
+  background:linear-gradient(180deg,transparent,rgba(79,216,255,.05) 70%,rgba(79,216,255,.12) 100%,transparent);
+  animation:scan 9s linear infinite}
+@keyframes scan{to{transform:translateY(140vh)}}
+.panel,.hero{position:relative;border-color:var(--edge);
+  background:linear-gradient(180deg,rgba(13,26,44,.85),rgba(7,14,25,.82));
+  box-shadow:inset 0 0 0 1px rgba(79,216,255,.04),inset 0 0 40px rgba(79,216,255,.035);
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));
+  animation:boot .7s cubic-bezier(.2,.8,.2,1) both}
+.panel::before,.panel::after{content:"";position:absolute;width:14px;height:14px;border:1.5px solid var(--cyan);pointer-events:none;filter:drop-shadow(var(--glow))}
+.panel::before{top:0;left:0;border-right:0;border-bottom:0}
+.panel::after{bottom:0;right:0;border-left:0;border-top:0}
+/* chamfer edge lines */
+.panel>.ph::after,.hero>.chamf{content:"";position:absolute;top:0;right:0;width:23px;height:23px;pointer-events:none;
+  background:linear-gradient(45deg,transparent calc(50% - .75px),var(--cyan) calc(50% - .75px),var(--cyan) calc(50% + .75px),transparent calc(50% + .75px))}
+.panel{transition:border-color .2s, box-shadow .2s}
+.panel:hover{border-color:rgba(79,216,255,.5);box-shadow:inset 0 0 0 1px rgba(79,216,255,.08),0 0 24px rgba(79,216,255,.08)}
+.row2 .panel:nth-child(1){animation-delay:.08s}.row2 .panel:nth-child(2){animation-delay:.16s}
+.grid .panel:nth-child(1){animation-delay:.24s}.grid .panel:nth-child(2){animation-delay:.32s}.grid .panel:nth-child(3){animation-delay:.4s}
+@keyframes boot{from{opacity:.25;transform:translateY(8px);filter:brightness(1.8)}to{opacity:1;transform:none;filter:none}}
+.ph{background:linear-gradient(90deg,rgba(79,216,255,.1),transparent 65%);border-bottom:1px solid var(--edge);position:relative}
+.ph h2{font-family:var(--f-display);color:var(--fg);text-shadow:0 0 12px rgba(79,216,255,.35)}
+.ph h2 i{font-family:var(--f-mono);font-size:12px;padding:1px 5px;border:1px solid var(--edge);color:var(--cyan);vertical-align:1px}
+.ph .label{color:var(--cyan);opacity:.85}
+.ph .label::before{content:"";display:inline-block;width:6px;height:6px;background:var(--cyan);margin-right:8px;vertical-align:1px;box-shadow:var(--glow);animation:pulse 1.6s steps(2) infinite}
+.foot{border-top:1px dashed rgba(79,216,255,.15);letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+.n{text-shadow:0 0 14px currentColor}
+.clock{text-shadow:0 0 18px rgba(79,216,255,.6)}
+.greet span{text-shadow:0 0 18px rgba(79,216,255,.55)}
+.label{font-family:var(--f-mono);font-size:11.5px}
+.stat{padding-left:12px;border-left:1px solid var(--edge)}
+
+/* buttons: angled, glowing, SVG icons */
+button{display:inline-flex;align-items:center;gap:8px;min-height:40px;font-family:var(--f-mono);font-size:12.5px;
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 9px,100% 100%,9px 100%,0 calc(100% - 9px));
+  background:rgba(79,216,255,.06);transition:background .18s, box-shadow .18s, color .18s}
+button:hover:not(:disabled){background:rgba(79,216,255,.18);box-shadow:inset 0 0 14px rgba(79,216,255,.25)}
+button:active:not(:disabled){transform:translateY(1px)}
+button.sm{min-height:34px;padding:6px 10px;font-size:11.5px}
+button svg{width:14px;height:14px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* top system bar */
+.bar{border:1px solid var(--edge);padding:8px 14px;background:rgba(7,14,25,.7)}
+.links{display:flex;flex-wrap:wrap;gap:6px}
+.link{font:11px var(--f-mono);letter-spacing:.08em;padding:3px 7px;border:1px solid var(--edge);color:var(--muted)}
+.link b{font-weight:400;color:var(--green)}
+.link.demo b{color:var(--amber)}
+
+/* ring upgrades */
+.ring .rev{transform-origin:50% 50%;animation:spin 22s linear infinite reverse}
+.ring .sweep{transform-origin:50% 50%;animation:spin 6s linear infinite}
+.ring-c .label{color:var(--cyan)}
+
+/* ticker */
+.ticker{overflow:hidden;border:1px solid var(--edge);background:rgba(7,14,25,.75);white-space:nowrap;font:12.5px var(--f-mono);letter-spacing:.06em;position:relative}
+.ticker::before{content:"LIVE FEED";position:absolute;left:0;top:0;bottom:0;z-index:1;display:flex;align-items:center;padding:0 12px;background:var(--cyan);color:var(--bg);font-weight:400}
+.ticker .run{display:inline-block;padding:9px 0 9px 100%;animation:tick 48s linear infinite}
+.ticker span{margin-right:36px;color:#b9cde2}
+.ticker i{font-style:normal}.ticker .up{color:var(--green)} .ticker .down{color:var(--red)}
+@keyframes tick{to{transform:translateX(-100%)}}
+
+/* data rows glow */
+.task input{border-color:var(--edge)}
+.task input:checked{box-shadow:var(--glow)}
+.mail.urgent .s{box-shadow:0 0 8px var(--red)} .mail.reply .s{box-shadow:0 0 6px var(--amber)}
+.blk.t{box-shadow:0 0 10px rgba(255,181,71,.6)}
+.blk.m{box-shadow:inset 0 0 8px rgba(79,216,255,.3)}
+.track{background-image:repeating-linear-gradient(90deg,transparent 0 calc(100%/22 - 1px),rgba(79,216,255,.08) calc(100%/22 - 1px) calc(100%/22))}
+.sheet{clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));box-shadow:0 0 40px rgba(79,216,255,.15)}
+.toast{box-shadow:0 0 18px rgba(79,216,255,.3)}
+
+@media (max-width:1000px){.row2{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.grid .panel:last-child{grid-column:1/-1}}
+@media (max-width:680px){
+  .hero{grid-template-columns:1fr;justify-items:center;text-align:left}
+  .hero > div:last-child{justify-self:stretch}
+  .grid{grid-template-columns:1fr}
+  .client{grid-template-columns:minmax(0,1fr) auto}
+  .spark{grid-column:1/-1;order:3;width:100%}
+  .plist li{grid-template-columns:84px minmax(0,1fr)}
+  .plist .kind{grid-column:2}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="bar">
+    <div class="sys"><span class="dot"></span><span class="label">J.A.R.V.I.S · all systems online</span></div>
+    <div class="links" aria-label="Connections"><span class="link demo">GMAIL <b>DEMO</b></span><span class="link demo">CALENDAR <b>DEMO</b></span><span class="link demo">NOTION <b>DEMO</b></span><span class="link demo">LSA/GBP <b>DEMO</b></span></div>
+    <div class="sys"><span class="label mono" id="date"></span><span class="sample">SAMPLE DATA</span></div>
+  </header>
+
+  <section class="hero"><span class="chamf" aria-hidden="true"></span>
+    <div class="ring" aria-hidden="true">
+      <svg viewBox="0 0 200 200">
+        <circle cx="100" cy="100" r="94" fill="none" stroke="#16304a" stroke-width="1"/>
+        <defs><linearGradient id="sw" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4fd8ff" stop-opacity="0"/><stop offset="1" stop-color="#4fd8ff" stop-opacity=".35"/></linearGradient></defs>
+        <g class="spin"><circle cx="100" cy="100" r="86" fill="none" stroke="#4fd8ff" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 6"/></g>
+        <g class="rev"><circle cx="100" cy="100" r="98" fill="none" stroke="#4fd8ff" stroke-opacity=".5" stroke-width="1.5" stroke-dasharray="40 22 6 22"/></g>
+        <g id="ticksRing"></g>
+        <g class="sweep"><path d="M100 100 L100 46 A54 54 0 0 1 146.8 73 Z" fill="url(#sw)"/></g>
+        <circle cx="100" cy="100" r="54" fill="none" stroke="#16304a" stroke-width="1"/>
+        <circle cx="100" cy="100" r="76" fill="none" stroke="#16304a" stroke-width="6"/>
+        <circle id="dayArc" cx="100" cy="100" r="76" fill="none" stroke="#4fd8ff" stroke-width="6" stroke-linecap="butt"
+          transform="rotate(-90 100 100)" stroke-dasharray="0 478" style="filter:drop-shadow(0 0 6px rgba(79,216,255,.6))"/>
+        <circle id="taskArc" cx="100" cy="100" r="64" fill="none" stroke="#ffb547" stroke-width="3"
+          transform="rotate(-90 100 100)" stroke-dasharray="0 402"/>
+      </svg>
+      <div class="ring-c">
+        <div class="clock mono" id="clock">--:--</div>
+        <div class="label" id="dayPct">workday 0%</div>
+      </div>
+    </div>
+    <div>
+      <div class="label">Login briefing</div>
+      <h1 class="greet"><span id="greetWord">Good morning</span>, Carolina.</h1>
+      <p class="brief" id="brief"></p>
+      <div class="stats">
+        <div class="stat"><span class="n amber mono" id="sTasks">0</span><span class="label">open tasks</span></div>
+        <div class="stat"><span class="n cyan mono" id="sEvents">0</span><span class="label">meetings today</span></div>
+        <div class="stat"><span class="n red mono" id="sMail">0</span><span class="label">urgent emails</span></div>
+        <div class="stat"><span class="n red mono" id="sClients">0</span><span class="label">client alerts</span></div>
+      </div>
+      <div class="actions">
+        <button id="speak" type="button"><svg viewBox="0 0 24 24"><path d="M7 5v14l11-7z"/></svg>Read aloud</button>
+        <button id="replay" type="button" class="ghost"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>Replay briefing</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-label="Live feed"><div class="run" id="ticker"></div></div>
+
+  <section class="row2">
+    <article class="panel">
+      <div class="ph"><h2><i>01</i>Your plan</h2><span class="label" id="planLabel"></span></div>
+      <div class="pbody">
+        <div>
+          <div class="track" id="track"></div>
+          <div class="ticks" id="ticks"></div>
+        </div>
+        <div class="legend"><span><i class="lm"></i>Meeting</span><span><i class="lt"></i>Task block, auto-scheduled</span></div>
+        <div id="planAlert"></div>
+        <ul class="plist" id="plist"></ul>
+        <div class="prow"><button type="button" id="pushPlan"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Add task blocks to calendar</button></div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="ph"><h2><i>02</i>Client pulse</h2><span class="label" id="pulseLabel"></span></div>
+      <ul id="clients"></ul>
+      <div class="foot">LSA calls per week, last 8 weeks · Maps = avg. rank in local pack · Sources: LSA, GBP</div>
+    </article>
+  </section>
+
+  <section class="grid">
+    <article class="panel">
+      <div class="ph"><h2><i>03</i>Tasks</h2><span class="label" id="taskCount"></span></div>
+      <ul id="tasks"></ul>
+      <div class="foot">Source: Notion · syncs at login</div>
+    </article>
+
+    <article class="panel">
+      <div class="ph"><h2><i>04</i>Today's schedule</h2><span class="label" id="calCount"></span></div>
+      <div class="tl" id="cal"></div>
+      <div class="foot">Source: Google Calendar</div>
+    </article>
+
+    <article class="panel">
+      <div class="ph"><h2><i>05</i>Priority inbox</h2><span class="label" id="mailCount"></span></div>
+      <ul id="mail"></ul>
+      <div class="foot">Source: Gmail · summaries by Claude</div>
+    </article>
+  </section>
+</div>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
+  <div class="sheet">
+    <div class="label">Draft by Jarvis · review before sending</div>
+    <h3 id="mTitle">Reply</h3>
+    <div class="meta">To: <b id="mTo"></b><br>Subject: <b id="mSubj"></b></div>
+    <textarea id="mBody" aria-label="Reply text"></textarea>
+    <div class="prow">
+      <button type="button" id="mSend"><svg viewBox="0 0 24 24"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/></svg>Send</button>
+      <button type="button" id="mCopy" class="ghost"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="1"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>Copy text</button>
+      <button type="button" id="mClose" class="ghost"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>Close</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+// ---- Sample data (replace with Notion / Google Calendar / Gmail / LSA + GBP) ----
+const TASKS = [
+  {id:"t1", t:"Send SEO proposal to HVAC client", due:"Overdue since yesterday", p:1, dur:60, overdue:true},
+  {id:"t2", t:"Review monthly LSA report", due:"Today", p:1, dur:45},
+  {id:"t3", t:"Publish Maps SEO blog post", due:"Today", p:2, dur:90},
+  {id:"t4", t:"Update Roofing Co. Google Business Profile", due:"Tomorrow", p:2, dur:30},
+  {id:"t5", t:"Sort September invoices", due:"Friday", p:3, dur:30},
+];
+const EVENTS = [
+  {h:"08:30", dur:30, t:"Weekly metrics review", where:"Internal · 30 min"},
+  {h:"10:00", dur:45, t:"Call with Plumbing Pros", where:"Google Meet · 45 min", tag:"client"},
+  {h:"13:30", dur:60, t:"Team lunch", where:"Office · 60 min"},
+  {h:"15:00", dur:60, t:"New client onboarding: Tree Care", where:"Zoom · 60 min", tag:"client"},
+  {h:"17:30", dur:60, t:"Focus block: content", where:"Do not disturb · 60 min"},
+];
+const MAIL = [
+  {id:"m1", k:"urgent", from:"Mike R. · Plumbing Pros", to:"mike@plumbingpros.example", when:"07:12", subj:"LSA calls dropped this week",
+   ai:"Wants an explanation before the 10:00 call. Pull numbers from the LSA dashboard.",
+   task:{t:"Prep LSA numbers for Plumbing Pros call", p:1, dur:30},
+   draft:"Hi Mike,\n\nThanks for flagging this. I checked your LSA account this morning: leads went from 25 last week to 14 this week. Most of the drop came after the weekly budget cap was reached on Tuesday, so your ads paused for about three days.\n\nI've already raised the cap and I'll walk you through the numbers and the plan on our 10:00 call.\n\nBest,\nCarolina"},
+  {id:"m2", k:"urgent", from:"Google Ads", when:"06:40", subj:"Account verification issue",
+   ai:"An LSA account needs updated documents. Deadline: 3 days. No-reply sender.",
+   task:{t:"Upload updated LSA verification documents", p:1, dur:20}},
+  {id:"m3", k:"reply", from:"Ana · Tree Care", to:"ana@treecare.example", when:"Yesterday", subj:"Access for onboarding",
+   ai:"Shared GBP access. Confirm receipt and schedule a review.",
+   task:{t:"Confirm Tree Care GBP access", p:2, dur:15},
+   draft:"Hi Ana,\n\nGot the Google Business Profile access, thank you. Everything works on my end.\n\nWe'll go through the full onboarding checklist on today's 15:00 call. If you can, have your service areas and your top 5 services handy.\n\nTalk soon,\nCarolina"},
+  {id:"m4", k:"reply", from:"Diego (design)", to:"diego@marketopenmedia.example", when:"Yesterday", subj:"New blog images",
+   ai:"Waiting on your approval for 4 header images.",
+   task:{t:"Approve blog header images", p:2, dur:15},
+   draft:"Hi Diego,\n\nThese look great. Approved 1, 2 and 4. For #3, can we try a version with a real technician photo instead of the illustration?\n\nThanks!\nCarolina"},
+  {id:"m5", k:"fyi", from:"Search Console", when:"Yesterday", subj:"Page coverage improved",
+   ai:"FYI only. No action needed.",
+   task:{t:"Review Search Console coverage report", p:3, dur:15}},
+];
+const CLIENTS = [
+  {name:"Plumbing Pros", trade:"Plumbing · Austin", calls:[22,25,24,27,26,28,25,14], rank:2.6, rankPrev:1.8, st:"alert", note:"LSA leads down 44% vs last week. Budget cap hit Tuesday."},
+  {name:"Summit Roofing", trade:"Roofing · Denver", calls:[12,13,12,11,12,12,11,12], rank:3.1, rankPrev:3.0, st:"watch", note:"No contact in 12 days · monthly report overdue."},
+  {name:"Peak Air HVAC", trade:"HVAC · Phoenix", calls:[18,19,21,20,23,24,26,29], rank:1.4, rankPrev:1.7, st:"ok", note:"Best week in the last 8. Good case study candidate."},
+  {name:"Tree Care Co.", trade:"Tree service · Tampa", calls:[0,0,0,0,0,0,3,6], rank:7.2, rankPrev:9.5, st:"new", note:"Onboarding call today at 15:00."},
+];
+
+const ICON = {check:`<svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>`, plus:`<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>`, later:`<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>`};
+
+// ---- State kept in this browser ----
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch(e) { return d; } };
+const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch(e) {} };
+let done = load("jarvis-done", {}), added = load("jarvis-added", []), deferred = load("jarvis-deferred", {});
+const allTasks = () => [...TASKS, ...added];
+
+const $ = id => document.getElementById(id);
+const pri = {1:["HIGH","p1"],2:["MED","p2"],3:["LOW","p3"]};
+const toMin = h => { const [a,b]=h.split(":").map(Number); return a*60+b; };
+const hm = v => `${String(Math.floor(v/60)).padStart(2,"0")}:${String(v%60).padStart(2,"0")}`;
+const dur = d => d>=60 ? `${Math.floor(d/60)}h${d%60?` ${d%60}m`:""}` : `${d}m`;
+const fmt = d => d.toLocaleTimeString("en-GB",{hour:"2-digit",minute:"2-digit",hour12:false});
+const nowMin = () => { const n=new Date(); return n.getHours()*60+n.getMinutes(); };
+const DAY0 = 480, DAY1 = 1140; // workday 08:00–19:00
+
+let toastT;
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true, 3200); }
+
+// ---- Tasks ----
+function renderTasks(){
+  const list = allTasks();
+  $("tasks").innerHTML = list.map(x => `
+    <li class="task ${done[x.id]?"done":""}">
+      <input type="checkbox" id="${x.id}" ${done[x.id]?"checked":""} aria-label="Complete: ${x.t}">
+      <label for="${x.id}"><div class="t">${x.t}</div>
+        <div class="meta ${x.overdue?"overdue":""}">${deferred[x.id]?"Moved to tomorrow":x.due} · ${dur(x.dur)}${x.src?` · from email`:""}</div></label>
+      <span class="pri ${pri[x.p][1]}">${pri[x.p][0]}</span>
+    </li>`).join("");
+  const left = list.filter(x=>!done[x.id]).length;
+  $("taskCount").textContent = `${left} / ${list.length}`;
+  $("sTasks").textContent = left;
+  $("taskArc").setAttribute("stroke-dasharray", `${(402*(list.length-left)/list.length).toFixed(1)} 402`);
+}
+$("tasks").addEventListener("change", e => { done[e.target.id] = e.target.checked; store("jarvis-done", done); renderAll(); });
+
+// ---- Day plan: fit open tasks into free gaps between meetings ----
+function buildPlan(){
+  const m = nowMin();
+  let start = Math.max(DAY0, Math.ceil(m/15)*15), tomorrow = false;
+  if(DAY1 - start < 60){ start = DAY0; tomorrow = true; }
+  const evs = EVENTS.map(e => ({s:toMin(e.h), e:toMin(e.h)+e.dur, t:e.t, kind:"m"})).sort((a,b)=>a.s-b.s);
+  const gaps = []; let cur = start;
+  evs.filter(e => e.e > start).forEach(e => { if(e.s > cur) gaps.push([cur, e.s]); cur = Math.max(cur, e.e); });
+  if(cur < DAY1) gaps.push([cur, DAY1]);
+  const free = gaps.reduce((a,g)=>a+g[1]-g[0], 0);
+  const queue = allTasks().filter(x => !done[x.id] && (tomorrow || !deferred[x.id]))
+    .sort((a,b) => (b.overdue?1:0)-(a.overdue?1:0) || a.p-b.p);
+  const placed = [], unplaced = [];
+  queue.forEach(x => {
+    const g = gaps.find(g => g[1]-g[0] >= x.dur);
+    if(g){ placed.push({s:g[0], e:g[0]+x.dur, t:x.t, kind:"t", d:x.dur}); g[0] = Math.min(g[1], g[0]+x.dur+10); }
+    else unplaced.push(x);
+  });
+  const need = queue.reduce((a,x)=>a+x.dur, 0);
+  return {m, start, tomorrow, evs, placed, unplaced, free, need};
+}
+
+function renderPlan(){
+  const P = buildPlan(), pct = v => ((v-DAY0)/(DAY1-DAY0)*100).toFixed(2);
+  $("planLabel").textContent = P.tomorrow ? "Tomorrow · from 08:00" : `From ${hm(P.start)}`;
+  const past = P.tomorrow ? 0 : Math.min(100, Math.max(0, pct(P.m)));
+  $("track").innerHTML = (past>0?`<div class="past" style="width:${past}%"></div>`:"") +
+    [...P.evs, ...P.placed].map(b => `<div class="blk ${b.kind}" style="left:${pct(b.s)}%;width:${pct(DAY0+b.e-b.s)}%" title="${hm(b.s)}–${hm(b.e)} ${b.t}"></div>`).join("");
+  $("ticks").innerHTML = [8,10,12,14,16,18].map(h => `<span style="left:${pct(h*60)}%">${String(h).padStart(2,"0")}</span>`).join("");
+
+  if(P.unplaced.length){
+    $("planAlert").innerHTML = `<div class="alert"><h3>Overbooked</h3>
+      <p>Your open tasks need ${dur(P.need)} and you have ${dur(P.free)} free${P.tomorrow?" tomorrow":" left today"}. These won't fit:</p>
+      ${P.unplaced.map(x=>`<div class="defer"><span>${x.t} · ${dur(x.dur)}</span>${P.tomorrow?"":`<button type="button" class="sm ghost" data-defer="${x.id}">${ICON.later}Move to tomorrow</button>`}</div>`).join("")}</div>`;
+  } else {
+    $("planAlert").innerHTML = `<div class="alert ok"><h3>Everything fits</h3><p>${P.placed.length} task blocks scheduled, ${dur(Math.max(0,P.free-P.need))} of slack left.</p></div>`;
+  }
+  const items = [...P.evs.filter(e=>e.e>P.start), ...P.placed].sort((a,b)=>a.s-b.s);
+  $("plist").innerHTML = items.map(b => `<li class="${b.kind}"><span class="tm">${hm(b.s)}–${hm(b.e)}</span><span>${b.t}</span><span class="kind">${b.kind==="m"?"MEETING":"TASK · "+dur(b.d)}</span></li>`).join("")
+    || `<li><span class="tm">—</span><span>Nothing left to schedule.</span></li>`;
+  $("pushPlan").disabled = !P.placed.length;
+  $("pushPlan").dataset.n = P.placed.length;
+  return P;
+}
+$("planAlert").addEventListener("click", e => {
+  const id = e.target.closest("button")?.dataset.defer; if(!id) return;
+  deferred[id] = true; store("jarvis-deferred", deferred); renderAll(); toast("Moved to tomorrow.");
+});
+$("pushPlan").onclick = () => toast(`Demo: connect Google Calendar to add ${$("pushPlan").dataset.n} task blocks.`);
+
+// ---- Client pulse ----
+function spark(v, color){
+  const W=112, H=34, max=Math.max(...v, 1), x=i=>(i/(v.length-1))*(W-6)+3, y=n=>H-4-(n/max)*(H-10);
+  const line = v.map((n,i)=>`${x(i).toFixed(1)},${y(n).toFixed(1)}`).join(" ");
+  return `<svg class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="0" x2="${W}" y1="${H-4}" y2="${H-4}" stroke="#16304a" stroke-width="1"/>
+    <polygon points="${x(0)},${H-4} ${line} ${x(v.length-1)},${H-4}" fill="${color}" fill-opacity=".14"/>
+    <polyline points="${line}" fill="none" stroke="${color}" stroke-width="1.5"/>
+    <circle cx="${x(v.length-1)}" cy="${y(v[v.length-1])}" r="3" fill="${color}"/></svg>`;
+}
+const ST = {alert:["ALERT","#ff5d6c"], watch:["WATCH","#ffb547"], ok:["HEALTHY","#5ee0a0"], new:["NEW","#4fd8ff"]};
+function renderClients(){
+  $("clients").innerHTML = CLIENTS.map(c => {
+    const a=c.calls.at(-1), b=c.calls.at(-2), d = b ? Math.round((a-b)/b*100) : null;
+    const dc = d===null ? "flat" : d>2 ? "up" : d<-2 ? "down" : "flat";
+    const rb = c.rank < c.rankPrev ? "up" : c.rank > c.rankPrev ? "down" : "flat";
+    return `<li class="client">
+      <div style="min-width:0"><div class="cname">${c.name}</div><div class="meta">${c.trade} · Maps <span class="${rb}">${c.rank.toFixed(1)} ${rb==="up"?"▲":rb==="down"?"▼":""}</span></div></div>
+      ${spark(c.calls, ST[c.st][1])}
+      <div class="cnum"><span class="big">${a}</span><span class="delta ${dc}">${d===null?"new":(d>0?"+":"")+d+"%"} wk</span></div>
+      <div class="cnote"><span class="st ${c.st}">${ST[c.st][0]}</span><span>${c.note}</span></div>
+    </li>`;}).join("");
+  const al = CLIENTS.filter(c=>c.st==="alert").length, w = CLIENTS.filter(c=>c.st==="watch").length;
+  $("pulseLabel").textContent = `${al} alert · ${w} watch`;
+  $("sClients").textContent = al;
+}
+
+// ---- Schedule ----
+function renderCal(now){
+  const m = now.getHours()*60+now.getMinutes();
+  let html = "", nowDrawn = false, nextFound = false;
+  EVENTS.forEach(ev => {
+    const s = toMin(ev.h);
+    if(!nowDrawn && s > m){ html += `<div class="now"><span class="h mono">${fmt(now)}</span><span class="l"></span></div>`; nowDrawn = true; }
+    const cls = s < m ? "past" : (!nextFound ? (nextFound = true, "next") : "");
+    html += `<div class="ev ${cls}"><span class="h">${ev.h}</span><div class="card"><div class="t">${ev.t}${ev.tag?`<span class="chip">${ev.tag.toUpperCase()}</span>`:""}</div><div class="where">${ev.where}</div></div></div>`;
+  });
+  if(!nowDrawn) html += `<div class="now"><span class="h mono">${fmt(now)}</span><span class="l"></span></div>`;
+  $("cal").innerHTML = html;
+  $("calCount").textContent = `${EVENTS.filter(e=>toMin(e.h)>=m).length} remaining`;
+  $("sEvents").textContent = EVENTS.length;
+}
+
+// ---- Inbox with actions ----
+const isTasked = id => added.some(x => x.src === id);
+function renderMail(){
+  $("mail").innerHTML = MAIL.map(x => `
+    <li class="mail ${x.k}"><span class="s"></span><div style="min-width:0">
+      <div class="mrow"><span class="from">${x.from}</span><span class="meta">${x.when}</span></div>
+      <div class="subj">${x.subj}</div><div class="ai">${x.ai}</div>
+      <div class="mact">
+        ${x.draft?`<button type="button" class="sm" data-draft="${x.id}"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Draft reply</button>`:""}
+        <button type="button" class="sm ghost" data-task="${x.id}" ${isTasked(x.id)?"disabled":""}>${isTasked(x.id)?ICON.check+"In your tasks":ICON.plus+"Make task"}</button>
+      </div></div></li>`).join("");
+  const urg = MAIL.filter(x=>x.k==="urgent").length;
+  $("mailCount").textContent = `${urg} urgent · ${MAIL.filter(x=>x.k==="reply").length} to reply`;
+  $("sMail").textContent = urg;
+}
+$("mail").addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  const x = MAIL.find(m => m.id === (b.dataset.draft || b.dataset.task));
+  if(b.dataset.task && !isTasked(x.id)){
+    added.push({id:"a-"+x.id, src:x.id, due:"Today", ...x.task});
+    store("jarvis-added", added); renderAll();
+    toast(`Added “${x.task.t}” and scheduled it in your plan.`);
+  }
+  if(b.dataset.draft) openDraft(x, b);
+});
+
+let lastBtn;
+function openDraft(x, btn){
+  lastBtn = btn;
+  $("mTitle").textContent = `Reply to ${x.from.split(" · ")[0]}`;
+  $("mTo").textContent = x.to; $("mSubj").textContent = "Re: " + x.subj;
+  $("mBody").value = x.draft;
+  $("modal").hidden = false; $("mBody").focus();
+}
+function closeDraft(){ $("modal").hidden = true; lastBtn?.focus(); }
+$("mClose").onclick = closeDraft;
+$("modal").addEventListener("click", e => { if(e.target.id === "modal") closeDraft(); });
+document.addEventListener("keydown", e => { if(e.key === "Escape" && !$("modal").hidden) closeDraft(); });
+$("mSend").onclick = () => { toast("Not sent: Gmail isn't connected in this prototype."); };
+$("mCopy").onclick = () => {
+  navigator.clipboard.writeText($("mBody").value).then(() => toast("Reply copied."))
+    .catch(() => { $("mBody").select(); toast("Press ⌘C to copy the selected text."); });
+};
+
+// ---- Clock + briefing ----
+function tick(){
+  const now = new Date(), h = now.getHours();
+  $("clock").textContent = fmt(now);
+  $("date").textContent = now.toLocaleDateString("en-US",{weekday:"long",day:"numeric",month:"long"}).toUpperCase();
+  $("greetWord").textContent = h<12 ? "Good morning" : h<19 ? "Good afternoon" : "Good evening";
+  const pct = Math.min(1, Math.max(0, (h*60+now.getMinutes()-DAY0)/(DAY1-DAY0)));
+  $("dayArc").setAttribute("stroke-dasharray", `${(478*pct).toFixed(1)} 478`);
+  $("dayPct").textContent = `workday ${Math.round(pct*100)}%`;
+  renderCal(now); renderPlan();
+}
+
+function briefingText(){
+  const m = nowMin(), P = buildPlan();
+  const next = EVENTS.find(e=>toMin(e.h)>=m);
+  const pend = allTasks().filter(x=>!done[x.id]);
+  const urgent = pend.filter(x=>x.p===1);
+  const um = MAIL.filter(x=>x.k==="urgent");
+  const alert = CLIENTS.find(c=>c.st==="alert");
+  return [
+    `You have <b>${pend.length} open tasks</b>${urgent.length?`, ${urgent.length} high priority: <b>${urgent[0].t}</b>${urgent[0].overdue?" is overdue":""}`:""}.`,
+    next ? ` Your next meeting is <b>${next.t}</b> at ${next.h}.` : " No more meetings today.",
+    P.placed.length ? ` I've fit <b>${P.placed.length} task blocks</b> into your free time${P.tomorrow?" tomorrow":""}; first up is ${P.placed[0].t} at ${hm(P.placed[0].s)}.` : "",
+    P.unplaced.length ? ` ${P.unplaced.length} won't fit.` : "",
+    alert ? ` Client alert: <b>${alert.name}</b>, ${alert.note.split(".")[0]}.` : "",
+    um.length ? ` And <b>${um.length} urgent emails</b>, starting with ${um[0].from.split(" · ")[0]}.` : ""
+  ].join("");
+}
+
+let typer;
+function typeBrief(){
+  clearTimeout(typer);
+  const html = briefingText(), el = $("brief");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.innerHTML = html; return; }
+  let i = 0;
+  (function step(){
+    // advance, skipping whole tags
+    if(html[i]==="<"){ i = html.indexOf(">", i)+1; } else i++;
+    el.innerHTML = html.slice(0,i) + (i<html.length?'<span class="caret"></span>':"");
+    if(i<html.length) typer = setTimeout(step, 12);
+  })();
+}
+$("replay").onclick = typeBrief;
+$("speak").onclick = () => {
+  try{
+    const u = new SpeechSynthesisUtterance(briefingText().replace(/<[^>]+>/g,""));
+    u.lang = "en-US"; speechSynthesis.cancel(); speechSynthesis.speak(u);
+  }catch(e){ $("speak").lastChild.textContent = "Voice unavailable"; }
+};
+
+function renderTicker(){
+  const items = CLIENTS.map(c => { const a=c.calls.at(-1), b=c.calls.at(-2), d=b?Math.round((a-b)/b*100):0;
+    return `<span>${c.name.toUpperCase()} · LSA ${a} <i class="${d>=0?"up":"down"}">${d>=0?"▲":"▼"}${Math.abs(d)}%</i> · MAPS ${c.rank.toFixed(1)}</span>`; });
+  const t = allTasks().filter(x=>!done[x.id]).length;
+  items.push(`<span>TASKS OPEN ${t}</span>`, `<span>INBOX URGENT ${MAIL.filter(x=>x.k==="urgent").length}</span>`, `<span>NEXT SYNC 05:00</span>`);
+  $("ticker").innerHTML = items.join("");
+}
+$("ticksRing").innerHTML = Array.from({length:60},(_,i)=>{ const a=i*6*Math.PI/180, r1=i%5?90:87, r2=93;
+  return `<line x1="${100+r1*Math.sin(a)}" y1="${100-r1*Math.cos(a)}" x2="${100+r2*Math.sin(a)}" y2="${100-r2*Math.cos(a)}" stroke="#4fd8ff" stroke-opacity="${i%5?.25:.7}" stroke-width="1"/>`;}).join("");
+
+function renderAll(){ renderTicker(); renderTasks(); renderMail(); renderClients(); tick(); }
+
+// Full initial state, then animate the briefing
+renderAll();
+$("brief").innerHTML = briefingText();
+setInterval(tick, 30000);
+setTimeout(typeBrief, 300);
+</script>
+
+</body></html>

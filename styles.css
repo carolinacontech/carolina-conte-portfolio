@@ -786,6 +786,70 @@ section h2 span {
   text-align: center;
   padding: 10px;
 }
+.masonry .tile-video {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+.masonry .tile-gallery {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background: #fcfbf8;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  transition: border-color .25s ease, transform .25s ease;
+}
+.masonry .tile-gallery:hover { border-color: rgba(255,255,255,.4); transform: translateY(-3px); }
+.masonry .tile-gallery:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.tile-gallery img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.tile-gallery img.is-on { opacity: 1; }
+.masonry .tile-dashboard { background: #060b14; }
+.tile-dashboard img { object-fit: cover; object-position: top left; }
+.tile-gallery .tile-label {
+  position: relative;
+  z-index: 1;
+  background: rgba(0,0,0,.6);
+  color: rgba(255,255,255,.9);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  margin: 10px;
+}
+
+.tile-video video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #0d0d0d;
+}
+.tile-video .tile-label {
+  position: relative;
+  z-index: 1;
+  background: rgba(0,0,0,.55);
+  color: rgba(255,255,255,.85);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  margin: 10px;
+}
 .masonry .tile:nth-child(2),
 .masonry .tile:nth-child(5) { grid-row: span 2; }
 
@@ -865,6 +929,7 @@ body.modal-open { overflow: hidden; }
   overflow: hidden;
 }
 .brand-modal[open] { display: flex; flex-direction: column; }
+.brand-modal.is-wide { width: min(1560px, 97vw); max-height: 96vh; }
 .brand-modal::backdrop { background: rgba(10,10,10,.72); backdrop-filter: blur(4px); }
 .brand-modal-head {
   display: flex;
@@ -931,6 +996,11 @@ body.modal-open { overflow: hidden; }
 .brand-mark img { object-fit: contain; }
 .brand-card.is-soon { cursor: default; opacity: .55; }
 .brand-card.is-soon:hover .brand-mark { transform: none; box-shadow: none; }
+.deliv-natural .deliv-frame { background: #fcfbf8; }
+.deliv-embed .deliv-frame { background: #060b14; aspect-ratio: auto; }
+.deliv-embed iframe { display: block; width: 100%; height: min(800px, calc(96vh - 270px)); border: 0; background: #060b14; }
+.deliv-embed figcaption a { color: var(--accent); margin-left: 12px; }
+.deliv-natural .deliv-frame img { height: auto; object-fit: contain; }
 .deliv-logo .deliv-frame { aspect-ratio: 1 / 1; }
 .deliv-sheet .deliv-frame { aspect-ratio: 4 / 3; }
 .deliv-web-desktop .deliv-frame { aspect-ratio: 16 / 10; }

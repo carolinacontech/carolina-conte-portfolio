@@ -192,6 +192,8 @@ document.querySelectorAll('.brand-card').forEach(async (card) => {
 
 async function openBrandModal(card) {
   const slug = card.dataset.brand;
+  document.getElementById('brand-modal-kicker').textContent = 'BRAND WORK';
+  brandModal.classList.remove('is-wide');
   brandModalTitle.textContent = card.dataset.name;
   brandModalBody.innerHTML = '';
 
@@ -241,4 +243,93 @@ brandModal?.querySelector('.brand-modal-close').addEventListener('click', closeB
 brandModal?.addEventListener('click', (e) => {
   if (e.target === brandModal) closeBrandModal();
 });
-brandModal?.addEventListener('close', () => document.body.classList.remove('modal-open'));
+brandModal?.addEventListener('close', () => {
+  document.body.classList.remove('modal-open');
+  brandModal.classList.remove('is-wide');
+  brandModalBody.innerHTML = '';
+});
+
+const UI_GALLERIES = {
+  'component-library': {
+    title: 'Component library',
+    items: [
+      { src: 'assets/ui/component-library-market-open-media.png', label: 'Market Open Media' },
+      { src: 'assets/ui/component-library-stay-scout.png', label: 'Stay Scout' },
+    ],
+  },
+  'dashboard-ui': {
+    title: 'Dashboard UI',
+    embed: 'assets/ui/jarvis-briefing.html',
+    label: 'Jarvis · daily briefing (interactive, sample data)',
+  },
+};
+
+function openGalleryModal(gallery) {
+  document.getElementById('brand-modal-kicker').textContent = 'INTERFACE SNAPSHOTS';
+  brandModalTitle.textContent = gallery.title;
+  brandModal.classList.add('is-wide');
+  brandModalBody.innerHTML = '';
+
+  if (gallery.embed) {
+    const figure = document.createElement('figure');
+    figure.className = 'deliv deliv-embed';
+
+    const frame = document.createElement('div');
+    frame.className = 'deliv-frame';
+    const iframe = document.createElement('iframe');
+    iframe.src = gallery.embed;
+    iframe.title = gallery.title;
+    frame.appendChild(iframe);
+
+    const caption = document.createElement('figcaption');
+    caption.textContent = gallery.label;
+    const open = document.createElement('a');
+    open.href = gallery.embed;
+    open.target = '_blank';
+    open.rel = 'noopener';
+    open.textContent = 'Open full screen ↗';
+    caption.appendChild(open);
+
+    figure.append(frame, caption);
+    brandModalBody.appendChild(figure);
+  }
+
+  (gallery.items || []).forEach((item) => {
+    const figure = document.createElement('figure');
+    figure.className = 'deliv deliv-natural';
+
+    const frame = document.createElement('div');
+    frame.className = 'deliv-frame';
+    const img = new Image();
+    img.src = item.src;
+    img.alt = `${gallery.title} · ${item.label}`;
+    frame.appendChild(img);
+
+    const caption = document.createElement('figcaption');
+    caption.textContent = item.label;
+
+    figure.append(frame, caption);
+    brandModalBody.appendChild(figure);
+  });
+
+  brandModal.showModal();
+  document.body.classList.add('modal-open');
+}
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+document.querySelectorAll('.tile-gallery').forEach((tile) => {
+  const gallery = UI_GALLERIES[tile.dataset.gallery];
+  const imgs = tile.querySelectorAll('img');
+
+  tile.addEventListener('click', () => gallery && openGalleryModal(gallery));
+
+  if (imgs.length > 1 && !reduceMotion) {
+    let current = 0;
+    setInterval(() => {
+      imgs[current].classList.remove('is-on');
+      current = (current + 1) % imgs.length;
+      imgs[current].classList.add('is-on');
+    }, 3500);
+  }
+});
