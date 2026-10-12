@@ -377,6 +377,11 @@ section h2 span {
 .rates h2 span { display: block; }
 
 .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rates .service-grid { --stagger: 64px; padding-bottom: var(--stagger); }
+.rates .service-card:nth-child(even) {
+  margin-top: var(--stagger);
+  margin-bottom: calc(var(--stagger) * -1);
+}
 .service-card {
   min-height: 190px;
   border: 1px solid rgba(255,255,255,.18);
@@ -1343,6 +1348,8 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
   .workflow,
   .video-grid,
   .metric-grid { grid-template-columns: 1fr; }
+  .rates .service-grid { padding-bottom: 0; }
+  .rates .service-card:nth-child(even) { margin-top: 0; margin-bottom: 0; }
   .capability-grid { grid-template-columns: 1fr; }
 
   .section-heading { align-items: flex-start; flex-direction: column; }
