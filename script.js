@@ -266,9 +266,10 @@ const UI_GALLERIES = {
   },
   'design-tokens': {
     title: 'Design tokens',
-    embed: 'assets/ui/stay-scout-tokens.html',
-    label: 'Stay Scout · from a logo to a token system (interactive)',
-    bg: '#fbf9f7',
+    embeds: [
+      { src: 'assets/ui/carolina-conte-tokens.html', label: 'Carolina Conte · auditing my own portfolio into a token system (interactive)', bg: '#ece6da' },
+      { src: 'assets/ui/stay-scout-tokens.html', label: 'Stay Scout · from a logo to a token system (interactive)', bg: '#fbf9f7' },
+    ],
   },
   'dashboard-ui': {
     title: 'Dashboard UI',
@@ -283,22 +284,24 @@ function openGalleryModal(gallery) {
   brandModal.classList.add('is-wide');
   brandModalBody.innerHTML = '';
 
-  if (gallery.embed) {
+  const embeds = gallery.embeds || (gallery.embed ? [{ src: gallery.embed, label: gallery.label, bg: gallery.bg }] : []);
+
+  embeds.forEach((embed) => {
     const figure = document.createElement('figure');
     figure.className = 'deliv deliv-embed';
 
     const frame = document.createElement('div');
     frame.className = 'deliv-frame';
-    if (gallery.bg) frame.style.background = gallery.bg;
+    if (embed.bg) frame.style.background = embed.bg;
     const iframe = document.createElement('iframe');
-    iframe.src = gallery.embed;
-    iframe.title = gallery.title;
+    iframe.src = embed.src;
+    iframe.title = `${gallery.title} · ${embed.label}`;
     frame.appendChild(iframe);
 
     const caption = document.createElement('figcaption');
-    caption.textContent = gallery.label;
+    caption.textContent = embed.label;
     const open = document.createElement('a');
-    open.href = gallery.embed;
+    open.href = embed.src;
     open.target = '_blank';
     open.rel = 'noopener';
     open.textContent = 'Open full screen ↗';
@@ -306,7 +309,7 @@ function openGalleryModal(gallery) {
 
     figure.append(frame, caption);
     brandModalBody.appendChild(figure);
-  }
+  });
 
   (gallery.items || []).forEach((item) => {
     const figure = document.createElement('figure');
