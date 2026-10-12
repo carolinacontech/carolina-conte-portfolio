@@ -253,9 +253,16 @@ const UI_GALLERIES = {
   'component-library': {
     title: 'Component library',
     items: [
+      { src: 'assets/ui/component-library-carolina-conte.png', label: 'Carolina Conte · portfolio' },
       { src: 'assets/ui/component-library-market-open-media.png', label: 'Market Open Media' },
       { src: 'assets/ui/component-library-stay-scout.png', label: 'Stay Scout' },
     ],
+  },
+  'landing-page': {
+    title: 'Landing page',
+    embed: 'assets/ui/free-trial/index.html',
+    label: 'Market Open Media · Free 7-day ranking trial (live copy)',
+    bg: '#050b18',
   },
   'design-tokens': {
     title: 'Design tokens',

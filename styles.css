@@ -821,6 +821,8 @@ section h2 span {
 .tile-dashboard img { object-fit: cover; object-position: top left; }
 .masonry .tile-tokens { background: #fbf9f7; }
 .tile-tokens img { object-fit: cover; object-position: top center; }
+.masonry .tile-landing { background: #050b18; }
+.tile-landing img { object-fit: cover; object-position: center top; }
 .tile-gallery .tile-label {
   position: relative;
   z-index: 1;
