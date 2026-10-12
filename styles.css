@@ -378,7 +378,7 @@ section h2 span {
 
 .service-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .service-card {
-  min-height: 250px;
+  min-height: 190px;
   border: 1px solid rgba(255,255,255,.18);
   padding: 24px;
   background: rgba(255,255,255,.04);
