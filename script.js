@@ -18,6 +18,13 @@ const heroStage = document.querySelector('.hero-media-stage');
 const heroSection = document.querySelector('.hero');
 const heroPlayBtn = document.querySelector('.hero-play');
 
+const heroPhoneMq = window.matchMedia('(max-width: 560px)');
+const setHeroPoster = () => {
+  if (heroVideo) heroVideo.poster = heroPhoneMq.matches ? 'assets/hero-final-mobile.jpg?v=1' : 'assets/hero-final.jpg?v=2';
+};
+setHeroPoster();
+heroPhoneMq.addEventListener('change', setHeroPoster);
+
 heroPlayBtn?.addEventListener('click', () => {
   if (!heroVideo) return;
   heroVideo.muted = false;

@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=36" />
+  <link rel="stylesheet" href="styles.css?v=39" />
 </head>
 <body>
   <header class="site-header">
@@ -35,11 +35,14 @@
         <video
           class="hero-video"
           src="assets/hero.mp4"
-          poster="assets/hero-final.jpg"
+          poster="assets/hero-final.jpg?v=2"
           playsinline
           preload="auto"
         ></video>
-        <img class="hero-video-still" src="assets/hero-final.jpg" alt="" />
+        <picture>
+          <source media="(max-width: 560px)" srcset="assets/hero-final-mobile.jpg?v=1" />
+          <img class="hero-video-still" src="assets/hero-final.jpg?v=2" alt="" />
+        </picture>
         <div class="hero-scrim"></div>
       </div>
 
@@ -521,7 +524,7 @@
     </section>
 
     <section id="contact" class="contact shell">
-      <img class="contact-bg" src="assets/contact.png" alt="" />
+      <img class="contact-bg" src="assets/contact.png?v=2" alt="" />
       <div class="contact-scrim"></div>
 
       <div class="contact-heading">
