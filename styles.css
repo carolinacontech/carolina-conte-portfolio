@@ -833,6 +833,8 @@ section h2 span {
 .tile-mobile-app img { object-fit: cover; object-position: center top; }
 .masonry .tile-landing { background: #050b18; }
 .tile-landing img { object-fit: cover; object-position: center top; }
+.masonry .tile-form { background: #040c1b; }
+.tile-form img { object-fit: cover; object-position: center center; }
 .tile-gallery .tile-label {
   position: relative;
   z-index: 1;

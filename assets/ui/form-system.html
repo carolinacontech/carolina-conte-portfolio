@@ -1,0 +1,772 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Market Open Media Form System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single dark brand world. Case-study column on the left of each section, live specimen on the right; specimens sit on the brand's own navy so the system is shown in its real context. */
+:root {
+  color-scheme: dark;
+  --bg: #040c1b;          /* brand navy */
+  --bg-raised: #081530;
+  --bg-sunk: #030915;
+  --line: rgba(178, 191, 207, 0.14);
+  --line-strong: rgba(178, 191, 207, 0.28);
+  --fg: #f5f6f8;
+  --fg-muted: #b2bfcf;
+  --fg-dim: #7d8aa0;
+  --accent: #0b72ff;      /* brand blue */
+  --accent-hover: #2a85ff;
+  --accent-soft: rgba(11, 114, 255, 0.14);
+  --go: #3ecf6a;
+  --go-soft: rgba(62, 207, 106, 0.14);
+  --danger: #ff6b6b;
+  --danger-soft: rgba(255, 107, 107, 0.12);
+  --field-bg: #0b1a38;
+  --field-border: #23365c;
+
+  --font-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --r-field: 10px;
+  --r-panel: 16px;
+  --max: 1120px;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  padding-inline: 20px;
+}
+.wrap { max-width: var(--max); margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent-hover); }
+:focus-visible { outline: 2px solid var(--accent-hover); outline-offset: 3px; }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-block: 72px 56px; border-bottom: 1px solid var(--line); }
+.hero-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; align-items: center; }
+.status {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted);
+  border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 12px;
+}
+.status i { width: 7px; height: 7px; border-radius: 50%; background: var(--go); box-shadow: 0 0 0 3px var(--go-soft); }
+.hero h1 {
+  font-size: clamp(48px, 9vw, 112px);
+  font-weight: 800;
+  line-height: 0.92;
+  margin-top: 36px;
+}
+.hero h1 span { color: var(--accent); }
+.hero .lede { margin-top: 28px; max-width: 62ch; font-size: 19px; color: var(--fg-muted); }
+.facts {
+  margin-top: 44px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.facts > div { padding: 18px 20px 0 0; display: grid; gap: 6px; }
+.facts > div + div { padding-left: 20px; border-left: 1px solid var(--line); }
+.facts strong { font-weight: 600; font-size: 15px; }
+@media (max-width: 760px) {
+  .facts { grid-template-columns: 1fr 1fr; }
+  .facts > div:nth-child(3) { padding-left: 0; border-left: 0; }
+}
+
+/* ---------- Sections ---------- */
+section.block { padding-block: 80px; border-bottom: 1px solid var(--line); }
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: start; }
+.split > * { min-width: 0; }
+@media (max-width: 900px) { .split { grid-template-columns: 1fr; gap: 36px; } }
+.copy { display: grid; gap: 18px; }
+.copy h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 700; line-height: 1.05; }
+.copy p { color: var(--fg-muted); max-width: 60ch; }
+.copy ul { margin: 0; padding-left: 18px; color: var(--fg-muted); display: grid; gap: 8px; }
+.copy ul strong { color: var(--fg); font-weight: 600; }
+
+/* Problem numbers */
+.audit { display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--r-panel); overflow: hidden; }
+.audit-row { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 20px; padding: 22px 24px; align-items: baseline; }
+.audit-row + .audit-row { border-top: 1px solid var(--line); }
+.audit-row b { font-family: var(--font-display); font-size: 44px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.audit-row b.bad { color: var(--danger); }
+.audit-row p { color: var(--fg-muted); font-size: 15px; }
+.audit-row p strong { color: var(--fg); display: block; font-weight: 600; margin-bottom: 2px; }
+@media (max-width: 520px) { .audit-row { grid-template-columns: 1fr; gap: 8px; } }
+
+/* ---------- Brand field component (the system itself) ---------- */
+.specimen {
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  padding: 28px;
+}
+@media (max-width: 520px) { .specimen { padding: 20px; } }
+
+.mom-form { display: grid; gap: 18px; font-family: var(--font-body); }
+.mom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .mom-row { grid-template-columns: 1fr; } }
+.mom-field { display: grid; gap: 7px; min-width: 0; }
+.mom-label { font-size: 13.5px; font-weight: 600; color: var(--fg); display: flex; justify-content: space-between; gap: 8px; }
+.mom-label em { font-style: normal; font-weight: 500; color: var(--fg-dim); }
+.mom-input, .mom-select {
+  width: 100%;
+  font: 500 15.5px/1.2 var(--font-body);
+  color: var(--fg);
+  background: var(--field-bg);
+  border: 1.5px solid var(--field-border);
+  border-radius: var(--r-field);
+  padding: 13px 14px;
+  min-height: 48px;
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  appearance: none;
+}
+.mom-select {
+  background-image: linear-gradient(45deg, transparent 50%, var(--fg-muted) 50%), linear-gradient(135deg, var(--fg-muted) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 21px, calc(100% - 15px) 21px;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: 38px;
+}
+.mom-input::placeholder { color: var(--fg-dim); }
+.mom-input:hover, .mom-select:hover { border-color: #33507f; }
+.mom-input:focus, .mom-select:focus, .is-focus .mom-input {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+.mom-field.is-error .mom-input, .mom-field.is-error .mom-select { border-color: var(--danger); background: #1a1424; }
+.mom-field.is-error .mom-input:focus { box-shadow: 0 0 0 4px var(--danger-soft); }
+.mom-field.is-valid .mom-input { border-color: rgba(62, 207, 106, 0.55); }
+.mom-input:disabled { opacity: .5; cursor: not-allowed; }
+.mom-help { font-size: 12.5px; color: var(--fg-dim); }
+.mom-error { font-size: 12.5px; color: var(--danger); font-weight: 500; display: flex; gap: 6px; align-items: flex-start; }
+.mom-error::before { content: "!"; flex: none; width: 15px; height: 15px; border-radius: 50%; background: var(--danger); color: var(--bg); font-size: 10.5px; font-weight: 800; display: grid; place-items: center; margin-top: 2px; }
+
+.mom-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.mom-chip input { position: absolute; opacity: 0; pointer-events: none; }
+.mom-chip span {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 8px 14px;
+  border: 1.5px solid var(--field-border); border-radius: 999px; background: var(--field-bg);
+  font-size: 14px; font-weight: 600; color: var(--fg-muted); cursor: pointer;
+  transition: all .15s ease;
+}
+.mom-chip span:hover { border-color: #33507f; color: var(--fg); }
+.mom-chip input:checked + span { border-color: var(--accent); background: var(--accent-soft); color: var(--fg); }
+.mom-chip input:focus-visible + span { outline: 2px solid var(--accent-hover); outline-offset: 2px; }
+
+.mom-check { display: flex; gap: 10px; align-items: flex-start; font-size: 12.5px; color: var(--fg-dim); line-height: 1.5; cursor: pointer; }
+.mom-check input { margin-top: 2px; width: 17px; height: 17px; accent-color: var(--accent); flex: none; }
+
+.mom-btn {
+  display: inline-flex; justify-content: center; align-items: center; gap: 10px;
+  width: 100%; min-height: 54px; border: 0; border-radius: var(--r-field);
+  background: var(--accent); color: #fff; font: 700 16px var(--font-body); cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+.mom-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.mom-btn:disabled { opacity: .7; cursor: progress; transform: none; }
+.mom-btn .spin { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.mom-sub { text-align: center; font-size: 12.5px; color: var(--fg-dim); }
+
+.steps { display: flex; gap: 8px; align-items: center; font-family: var(--font-mono); font-size: 12px; color: var(--fg-dim); }
+.steps .bar { flex: 1; height: 4px; border-radius: 99px; background: var(--field-border); overflow: hidden; }
+.steps .bar i { display: block; height: 100%; width: 50%; background: var(--accent); transition: width .3s ease; }
+
+.form-head { display: grid; gap: 6px; }
+.form-head h3 { font-family: var(--font-body); font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+.form-head p { color: var(--fg-muted); font-size: 14.5px; }
+
+.success { display: grid; gap: 16px; text-align: left; }
+.success-badge { width: 44px; height: 44px; border-radius: 50%; background: var(--go-soft); border: 1.5px solid var(--go); display: grid; place-items: center; color: var(--go); font-weight: 800; font-size: 20px; }
+
+/* Demo side panel: what the system sends */
+.demo-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 20px; margin-top: 40px; }
+.demo-grid > * { min-width: 0; }
+@media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } }
+.payload { background: var(--bg-sunk); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 20px; display: grid; gap: 14px; align-content: start; }
+.payload-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.payload pre {
+  margin: 0; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.65; color: var(--fg-muted);
+  overflow-x: auto; white-space: pre;
+}
+.payload pre .k { color: #8fb8ff; }
+.payload pre .s { color: #9fe3b4; }
+.payload pre .n { color: var(--fg-dim); }
+.event-log { display: grid; gap: 8px; }
+.event { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--fg-dim); align-items: baseline; }
+.event b { font-weight: 500; padding: 2px 8px; border-radius: 6px; background: var(--field-bg); color: var(--fg-muted); }
+.event.on b { background: var(--go-soft); color: var(--go); }
+.event span { overflow-wrap: anywhere; }
+
+/* ---------- States gallery ---------- */
+.states { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+@media (max-width: 900px) { .states { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .states { grid-template-columns: 1fr; } }
+.state { background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--r-panel); padding: 18px; display: grid; gap: 14px; align-content: start; }
+.state-name { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.state-name strong { font-size: 14px; font-weight: 600; }
+.state p.rule { font-size: 13px; color: var(--fg-dim); }
+
+/* ---------- Tokens / anatomy ---------- */
+.tokens { display: grid; gap: 0; border: 1px solid var(--line); border-radius: var(--r-panel); overflow: hidden; }
+.token { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px 18px; }
+.token + .token { border-top: 1px solid var(--line); }
+.swatch { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--line-strong); }
+.token code, .token .val { font-family: var(--font-mono); font-size: 12.5px; }
+.token .val { color: var(--fg-dim); }
+.token div strong { display: block; font-size: 14px; font-weight: 600; }
+.token div span { font-size: 13px; color: var(--fg-dim); }
+
+.anatomy { display: grid; gap: 10px; }
+.anatomy-field { position: relative; }
+.pin { display: grid; grid-template-columns: 24px minmax(0,1fr); gap: 10px; font-size: 14px; color: var(--fg-muted); align-items: baseline; }
+.pin i { font-style: normal; font-family: var(--font-mono); font-size: 11px; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--accent); color: var(--accent-hover); display: grid; place-items: center; }
+.pin strong { color: var(--fg); font-weight: 600; }
+.anatomy-pins { display: grid; gap: 10px; margin-top: 22px; }
+
+/* ---------- Data flow ---------- */
+.flow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 40px; border: 1px solid var(--line); border-radius: var(--r-panel); overflow: hidden; }
+.flow-step { padding: 24px 22px; display: grid; gap: 10px; align-content: start; position: relative; }
+.flow-step + .flow-step { border-left: 1px solid var(--line); }
+.flow-step .n { font-family: var(--font-mono); font-size: 12px; color: var(--accent-hover); }
+.flow-step h3 { font-family: var(--font-body); font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+.flow-step p { font-size: 14px; color: var(--fg-muted); }
+.flow-step code { font-family: var(--font-mono); font-size: 12px; color: var(--fg); background: var(--field-bg); padding: 1px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+@media (max-width: 900px) {
+  .flow { grid-template-columns: 1fr 1fr; }
+  .flow-step:nth-child(3) { border-left: 0; }
+  .flow-step:nth-child(n+3) { border-top: 1px solid var(--line); }
+}
+@media (max-width: 520px) {
+  .flow { grid-template-columns: 1fr; }
+  .flow-step + .flow-step { border-left: 0; border-top: 1px solid var(--line); }
+}
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-panel); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+th, td { text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+th { font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-dim); background: var(--bg-raised); }
+td code { font-family: var(--font-mono); font-size: 12.5px; color: #8fb8ff; }
+td { color: var(--fg-muted); }
+td:first-child { color: var(--fg); font-weight: 500; }
+
+/* ---------- Copy rules ---------- */
+.rules { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+@media (max-width: 700px) { .rules { grid-template-columns: 1fr; } }
+.rule-card { border: 1px solid var(--line); border-radius: var(--r-panel); padding: 18px; display: grid; gap: 10px; }
+.rule-card .no, .rule-card .yes { font-size: 14px; display: grid; grid-template-columns: 46px minmax(0,1fr); gap: 8px; }
+.rule-card .no b, .rule-card .yes b { font-family: var(--font-mono); font-size: 11px; font-weight: 500; letter-spacing: .06em; padding-top: 3px; }
+.rule-card .no b { color: var(--danger); }
+.rule-card .yes b { color: var(--go); }
+.rule-card .no span { color: var(--fg-dim); text-decoration: line-through; text-decoration-color: rgba(255,107,107,.5); }
+.rule-card .yes span { color: var(--fg); }
+
+/* ---------- Rollout ---------- */
+.rollout { display: grid; gap: 0; margin-top: 40px; }
+.phase { display: grid; grid-template-columns: 140px minmax(0, 1fr) auto; gap: 24px; padding: 22px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.phase:last-child { border-bottom: 1px solid var(--line); }
+.phase h3 { font-family: var(--font-body); font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+.phase p { color: var(--fg-muted); font-size: 14.5px; margin-top: 4px; }
+.pill { font-family: var(--font-mono); font-size: 11.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--fg-dim); white-space: nowrap; }
+.pill.now { border-color: var(--accent); color: var(--accent-hover); background: var(--accent-soft); }
+@media (max-width: 640px) { .phase { grid-template-columns: 1fr; gap: 8px; } .phase .pill { justify-self: start; } }
+
+footer { padding-block: 40px 64px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--fg-dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+<!-- ================= HERO ================= -->
+<header class="hero">
+  <div class="hero-top">
+    <span class="label">Case study · Market Open Media</span>
+    <span class="status"><i></i>Concept · design &amp; working prototype</span>
+  </div>
+  <h1>Form<br><span>System</span></h1>
+  <p class="lede">One set of fields, states, rules and wiring for every lead form on marketopenmedia.com, a Google Maps SEO and Local Services Ads agency for home-service companies. Designed to start on the free-trial page and become the standard for every page after it.</p>
+  <div class="facts">
+    <div><span class="label">Role</span><strong>UX, UI &amp; front-end</strong></div>
+    <div><span class="label">Scope</span><strong>Components, validation, CRM + GA4 wiring</strong></div>
+    <div><span class="label">Stack</span><strong>HTML, CSS, vanilla JS</strong></div>
+    <div><span class="label">Audience</span><strong>HVAC, plumbing, roofing, tree service owners</strong></div>
+  </div>
+</header>
+
+<!-- ================= PROBLEM ================= -->
+<section class="block">
+  <div class="split">
+    <div class="copy">
+      <span class="label">The problem</span>
+      <h2>Every path ended in a calendar.</h2>
+      <p>An audit of the site showed that every call to action, on every page, pointed to the same Calendly booking link. There was no form anywhere on the site.</p>
+      <p>Booking a call is a big ask for a busy contractor who is still deciding. Anyone who wasn't ready to commit to a time slot left without a trace, and the leads who did book showed up with nothing in the CRM: no trade, no city, no Google Business Profile to review before the call.</p>
+    </div>
+    <div class="audit">
+      <div class="audit-row"><b>73</b><p><strong>Calendly links</strong>Spread across service, trade and blog pages, all pointing to one booking URL.</p></div>
+      <div class="audit-row"><b class="bad">0</b><p><strong>Owned lead forms</strong>No <code>&lt;form&gt;</code> elements anywhere on the site.</p></div>
+      <div class="audit-row"><b>1</b><p><strong>Conversion event</strong><code>schedule_call</code> fires only after a booking. Interest before that point isn't measured.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LIVE DEMO ================= -->
+<section class="block" id="demo">
+  <div class="copy">
+    <span class="label">Live component · try it</span>
+    <h2>A two-step form that qualifies the lead before the call.</h2>
+    <p>Step one asks only about the business, so it feels low-risk. Contact details come in step two, once the visitor has invested a few taps. The panel beside it shows what the system sends to the CRM and to analytics as you go. Nothing leaves this page.</p>
+  </div>
+
+  <div class="demo-grid">
+    <div class="specimen">
+      <form class="mom-form" id="leadForm" novalidate>
+        <div class="steps" aria-hidden="true"><span id="stepLabel">Step 1 of 2</span><span class="bar"><i id="stepBar"></i></span></div>
+
+        <!-- Step 1 -->
+        <div id="step1" class="mom-form">
+          <div class="form-head">
+            <h3>See if your Google Maps listing can rank higher</h3>
+            <p>Takes 30 seconds. We review your profile before we talk.</p>
+          </div>
+
+          <fieldset class="mom-field" id="f-trade" style="border:0;padding:0;margin:0">
+            <legend class="mom-label" style="padding:0;margin-bottom:7px">What's your trade?</legend>
+            <div class="mom-chips">
+              <label class="mom-chip"><input type="radio" name="trade" value="HVAC" id="t-hvac"><span>HVAC</span></label>
+              <label class="mom-chip"><input type="radio" name="trade" value="Plumbing" id="t-plumbing"><span>Plumbing</span></label>
+              <label class="mom-chip"><input type="radio" name="trade" value="Roofing" id="t-roofing"><span>Roofing</span></label>
+              <label class="mom-chip"><input type="radio" name="trade" value="Tree service" id="t-tree"><span>Tree service</span></label>
+              <label class="mom-chip"><input type="radio" name="trade" value="Other" id="t-other"><span>Other</span></label>
+            </div>
+            <p class="mom-error" hidden>Choose your trade so we can compare you to the right competitors.</p>
+          </fieldset>
+
+          <div class="mom-row">
+            <div class="mom-field" id="f-city">
+              <label class="mom-label" for="city">Main city you serve</label>
+              <input class="mom-input" id="city" name="city" placeholder="Tampa, FL" autocomplete="address-level2">
+              <p class="mom-error" hidden>Enter the city where most of your jobs are.</p>
+            </div>
+            <div class="mom-field" id="f-goal">
+              <label class="mom-label" for="goal">What do you need most?</label>
+              <select class="mom-select" id="goal" name="goal">
+                <option value="">Choose one</option>
+                <option>Rank in the Google Maps 3-pack</option>
+                <option>Get Local Services Ads working</option>
+                <option>Both</option>
+                <option>Not sure yet</option>
+              </select>
+              <p class="mom-error" hidden>Pick the option closest to your goal.</p>
+            </div>
+          </div>
+
+          <div class="mom-field" id="f-gbp">
+            <label class="mom-label" for="gbp">Google Business Profile link <em>Optional</em></label>
+            <input class="mom-input" id="gbp" name="gbp" placeholder="https://maps.app.goo.gl/…" inputmode="url">
+            <p class="mom-help">Paste it from Google Maps → Share. It lets us audit your listing before the call.</p>
+            <p class="mom-error" hidden>That doesn't look like a Google Maps link. Copy it from the Share button in Google Maps.</p>
+          </div>
+
+          <button type="button" class="mom-btn" id="next">Continue</button>
+        </div>
+
+        <!-- Step 2 -->
+        <div id="step2" class="mom-form" hidden>
+          <div class="form-head">
+            <h3>Where should we send your audit?</h3>
+            <p>We'll call or text once. No spam, no long contracts.</p>
+          </div>
+          <div class="mom-row">
+            <div class="mom-field" id="f-name">
+              <label class="mom-label" for="name">Your name</label>
+              <input class="mom-input" id="name" name="name" placeholder="Mike Torres" autocomplete="name">
+              <p class="mom-error" hidden>Enter your name.</p>
+            </div>
+            <div class="mom-field" id="f-business">
+              <label class="mom-label" for="business">Business name</label>
+              <input class="mom-input" id="business" name="business" placeholder="Torres Cooling & Heating" autocomplete="organization">
+              <p class="mom-error" hidden>Enter your business name as it appears on Google.</p>
+            </div>
+          </div>
+          <div class="mom-row">
+            <div class="mom-field" id="f-phone">
+              <label class="mom-label" for="phone">Mobile phone</label>
+              <input class="mom-input" id="phone" name="phone" placeholder="(813) 555-0142" inputmode="tel" autocomplete="tel-national">
+              <p class="mom-error" hidden>Enter a 10-digit US phone number.</p>
+            </div>
+            <div class="mom-field" id="f-email">
+              <label class="mom-label" for="email">Email</label>
+              <input class="mom-input" id="email" name="email" type="email" placeholder="mike@torrescooling.com" autocomplete="email">
+              <p class="mom-error" hidden>Enter an email like name@company.com.</p>
+            </div>
+          </div>
+          <label class="mom-check" for="consent"><input type="checkbox" id="consent" name="consent" checked> I agree to receive calls and texts from Market Open Media about my audit. Reply STOP to opt out.</label>
+          <button type="submit" class="mom-btn" id="submit">Get my free audit</button>
+          <p class="mom-sub"><a href="#" id="back">← Back</a></p>
+        </div>
+
+        <!-- Success -->
+        <div id="done" class="success" hidden>
+          <div class="success-badge" aria-hidden="true">✓</div>
+          <div class="form-head">
+            <h3 id="doneTitle">You're in, Mike.</h3>
+            <p>Your audit request is in. Pick a time below and we'll walk through it together. Your details are already filled in.</p>
+          </div>
+          <div class="payload" style="padding:14px 16px">
+            <span class="label">Calendly link, prefilled</span>
+            <pre id="calUrl" style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>
+          </div>
+          <button type="button" class="mom-btn" id="reset" style="background:var(--field-bg);border:1.5px solid var(--field-border)">Reset demo</button>
+        </div>
+      </form>
+    </div>
+
+    <aside class="payload" aria-live="polite">
+      <div class="payload-head"><span class="label">CRM contact payload</span><span class="label" id="crmState">draft</span></div>
+      <pre id="json"></pre>
+      <span class="label">Events</span>
+      <div class="event-log">
+        <div class="event" id="ev1"><b>GA4</b><span>form_start · first field touched</span></div>
+        <div class="event" id="ev2"><b>GA4</b><span>form_step · step 2 reached</span></div>
+        <div class="event" id="ev3"><b>CRM</b><span>contact upserted · stage “New lead”</span></div>
+        <div class="event" id="ev4"><b>GA4</b><span>generate_lead · value by trade</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= STATES ================= -->
+<section class="block">
+  <div class="copy">
+    <span class="label">Field states</span>
+    <h2>Six states, one look.</h2>
+    <p>Every input in the system moves through the same states. Each one changes color and adds a second cue (a ring, an icon, a message), so the state never depends on color alone.</p>
+  </div>
+  <div class="states">
+    <div class="state">
+      <div class="state-name"><strong>Default</strong><span class="label">rest</span></div>
+      <div class="mom-field"><label class="mom-label" for="s1">Main city you serve</label><input class="mom-input" id="s1" placeholder="Tampa, FL"></div>
+      <p class="rule">Placeholder shows a real example, never the label repeated.</p>
+    </div>
+    <div class="state">
+      <div class="state-name"><strong>Focus</strong><span class="label">:focus</span></div>
+      <div class="mom-field is-focus"><label class="mom-label" for="s2">Main city you serve</label><input class="mom-input" id="s2" value="Tam" tabindex="-1"></div>
+      <p class="rule">Brand-blue border plus a 4px soft ring, visible on the navy background.</p>
+    </div>
+    <div class="state">
+      <div class="state-name"><strong>Valid</strong><span class="label">on blur</span></div>
+      <div class="mom-field is-valid"><label class="mom-label" for="s3">Email</label><input class="mom-input" id="s3" value="mike@torrescooling.com" tabindex="-1"></div>
+      <p class="rule">Shown only after the user leaves the field, never while typing.</p>
+    </div>
+    <div class="state">
+      <div class="state-name"><strong>Error</strong><span class="label">on blur / submit</span></div>
+      <div class="mom-field is-error"><label class="mom-label" for="s4">Mobile phone</label><input class="mom-input" id="s4" value="(813) 555-01" tabindex="-1"><p class="mom-error">Enter a 10-digit US phone number.</p></div>
+      <p class="rule">Message says what to fix. It clears as soon as the value is valid.</p>
+    </div>
+    <div class="state">
+      <div class="state-name"><strong>Optional</strong><span class="label">helper</span></div>
+      <div class="mom-field"><label class="mom-label" for="s5">Google Business Profile <em>Optional</em></label><input class="mom-input" id="s5" placeholder="https://maps.app.goo.gl/…"><p class="mom-help">Paste it from Google Maps → Share.</p></div>
+      <p class="rule">Mark the optional fields, not the required ones. Most fields are required.</p>
+    </div>
+    <div class="state">
+      <div class="state-name"><strong>Disabled</strong><span class="label">:disabled</span></div>
+      <div class="mom-field"><label class="mom-label" for="s6">Trade</label><input class="mom-input" id="s6" value="HVAC" disabled></div>
+      <p class="rule">Used when a trade page pre-selects the trade for the visitor.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOKENS + ANATOMY ================= -->
+<section class="block">
+  <div class="split">
+    <div class="copy">
+      <span class="label">Anatomy &amp; tokens</span>
+      <h2>Built from the site's existing brand.</h2>
+      <p>The system doesn't add a new palette. It reuses the navy, brand blue and green already on the site, and adds a few form-only tokens for field surfaces and the error state.</p>
+      <div class="specimen anatomy" style="margin-top:8px">
+        <div class="mom-field is-error anatomy-field">
+          <label class="mom-label" for="a1">① Mobile phone <em>② US only</em></label>
+          <input class="mom-input" id="a1" value="(813) 555-01" tabindex="-1">
+          <p class="mom-error">④ Enter a 10-digit US phone number.</p>
+        </div>
+        <div class="anatomy-pins">
+          <div class="pin"><i>1</i><span><strong>Label</strong> above the field, 13.5px semibold. Always visible, so it's never replaced by placeholder text.</span></div>
+          <div class="pin"><i>2</i><span><strong>Qualifier</strong> on the right side of the label, for "Optional" or a format hint.</span></div>
+          <div class="pin"><i>3</i><span><strong>Field</strong> 48px tall minimum, a comfortable thumb target on a phone in a work truck.</span></div>
+          <div class="pin"><i>4</i><span><strong>Message</strong> helper or error text. Errors get an icon so they don't rely on red alone.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="tokens">
+      <div class="token"><span class="swatch" style="background:#040c1b"></span><div><strong>Surface</strong><span>Page background, brand navy</span></div><code class="val">#040c1b</code></div>
+      <div class="token"><span class="swatch" style="background:#0b1a38"></span><div><strong>Field</strong><span>Input fill, one step above the surface</span></div><code class="val">#0b1a38</code></div>
+      <div class="token"><span class="swatch" style="background:#23365c"></span><div><strong>Field border</strong><span>Resting edge, 1.5px</span></div><code class="val">#23365c</code></div>
+      <div class="token"><span class="swatch" style="background:#0b72ff"></span><div><strong>Accent</strong><span>Focus ring, primary button, selected chip</span></div><code class="val">#0b72ff</code></div>
+      <div class="token"><span class="swatch" style="background:#3ecf6a"></span><div><strong>Valid</strong><span>Confirmed fields and the success state</span></div><code class="val">#3ecf6a</code></div>
+      <div class="token"><span class="swatch" style="background:#ff6b6b"></span><div><strong>Error</strong><span>Lightened from the site's red to stay readable on navy</span></div><code class="val">#ff6b6b</code></div>
+      <div class="token"><span class="swatch" style="background:var(--field-bg);display:grid;place-items:center;font-family:var(--font-mono);font-size:11px;color:var(--fg-muted)">10</span><div><strong>Radius</strong><span>Fields and buttons. Chips use a full pill.</span></div><code class="val">10px</code></div>
+      <div class="token"><span class="swatch" style="background:var(--field-bg);display:grid;place-items:center;font-family:var(--font-mono);font-size:11px;color:var(--fg-muted)">48</span><div><strong>Min height</strong><span>Every input; buttons are 54px</span></div><code class="val">48px</code></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DATA FLOW ================= -->
+<section class="block">
+  <div class="copy">
+    <span class="label">What happens on submit</span>
+    <h2>One script handles every form.</h2>
+    <p>Each form on the site uses the same submit handler. A page only declares which form it is and what it pre-fills; validation, the CRM call and the tracking events come from the system.</p>
+  </div>
+  <div class="flow">
+    <div class="flow-step"><span class="n">1 · Validate</span><h3>Check in the browser</h3><p>Required fields, US phone format, email shape, Google Maps URL pattern. Errors appear on blur and again on submit.</p></div>
+    <div class="flow-step"><span class="n">2 · Send</span><h3>Create the CRM contact</h3><p>Upsert by email so repeat visitors don't create duplicates. Tagged with trade and source page, stage <code>New lead</code>.</p></div>
+    <div class="flow-step"><span class="n">3 · Measure</span><h3>Fire GA4 events</h3><p><code>form_start</code>, <code>form_step</code> and <code>generate_lead</code>, so drop-off is visible by step and by page.</p></div>
+    <div class="flow-step"><span class="n">4 · Book</span><h3>Hand off to Calendly</h3><p>The booking link opens with name, email and trade filled in. The existing <code>schedule_call</code> event still fires.</p></div>
+  </div>
+
+  <div style="margin-top:40px" class="table-wrap">
+    <table>
+      <thead><tr><th>Field</th><th>CRM property</th><th>Why we ask</th></tr></thead>
+      <tbody>
+        <tr><td>Trade</td><td><code>trade</code></td><td>Routes the lead and sets the competitor set for the audit.</td></tr>
+        <tr><td>Main city</td><td><code>service_area</code></td><td>Maps rankings are local, so the audit needs a city.</td></tr>
+        <tr><td>Goal</td><td><code>interest</code></td><td>Separates Maps SEO, LSA and combined leads.</td></tr>
+        <tr><td>Google Business Profile</td><td><code>gbp_url</code></td><td>Lets the team review the listing before the call.</td></tr>
+        <tr><td>Name, business, phone, email</td><td><code>firstname</code>, <code>company</code>, <code>phone</code>, <code>email</code></td><td>Contact and follow-up.</td></tr>
+        <tr><td>Hidden</td><td><code>source_page</code>, <code>utm_*</code></td><td>Shows which page and campaign produced the lead.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= COPY RULES ================= -->
+<section class="block">
+  <div class="split">
+    <div class="copy">
+      <span class="label">Writing rules</span>
+      <h2>Words are part of the component.</h2>
+      <p>The audience is contractors filling this in between jobs, often on a phone. Labels use their words, errors say how to fix the problem, and buttons say what the visitor gets.</p>
+    </div>
+    <div class="rules">
+      <div class="rule-card"><span class="label">Buttons</span><div class="no"><b>NO</b><span>Submit</span></div><div class="yes"><b>YES</b><span>Get my free audit</span></div></div>
+      <div class="rule-card"><span class="label">Errors</span><div class="no"><b>NO</b><span>Invalid input</span></div><div class="yes"><b>YES</b><span>Enter a 10-digit US phone number.</span></div></div>
+      <div class="rule-card"><span class="label">Labels</span><div class="no"><b>NO</b><span>GBP URL</span></div><div class="yes"><b>YES</b><span>Google Business Profile link</span></div></div>
+      <div class="rule-card"><span class="label">Reassurance</span><div class="no"><b>NO</b><span>We value your privacy</span></div><div class="yes"><b>YES</b><span>We'll call or text once. No spam, no long contracts.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROLLOUT ================= -->
+<section class="block" style="border-bottom:0">
+  <div class="copy">
+    <span class="label">Proposed rollout</span>
+    <h2>One page first, then the rest.</h2>
+    <p>The free-trial page already tracks bookings, so it gives a clean before-and-after. Once the form proves itself there, each next page reuses the same component with different pre-filled values.</p>
+  </div>
+  <div class="rollout">
+    <div class="phase"><span class="label">Phase 1</span><div><h3>Free-trial landing page</h3><p>The two-step form goes above the Calendly embed. Booking stays available for visitors who are ready now.</p></div><span class="pill now">Start here</span></div>
+    <div class="phase"><span class="label">Phase 2</span><div><h3>Trade pages</h3><p>HVAC, plumbing, roofing and tree service. The trade is pre-selected and locked, so step one is one field shorter.</p></div><span class="pill">Then</span></div>
+    <div class="phase"><span class="label">Phase 3</span><div><h3>Service pages</h3><p>Google Maps SEO and Local Services Ads. The goal field is pre-filled from the page topic.</p></div><span class="pill">Later</span></div>
+    <div class="phase"><span class="label">Phase 4</span><div><h3>Blog articles</h3><p>A one-step "free Maps audit" form at the end of each article, for readers who aren't ready for a call.</p></div><span class="pill">Later</span></div>
+  </div>
+</section>
+
+<footer>
+  <span>Carolina Conte · Form System for Market Open Media</span>
+  <span>2026</span>
+</footer>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $("leadForm");
+  var started = false;
+
+  var urlRe = /^https?:\/\/(maps\.app\.goo\.gl|goo\.gl\/maps|(www\.)?google\.[a-z.]+\/maps|g\.page)\S*/i;
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function digits(v) { return (v || "").replace(/\D/g, "").replace(/^1(?=\d{10}$)/, ""); }
+
+  var rules = {
+    trade: function () { return !!form.querySelector('input[name="trade"]:checked'); },
+    city: function () { return $("city").value.trim().length >= 2; },
+    goal: function () { return !!$("goal").value; },
+    gbp: function () { var v = $("gbp").value.trim(); return !v || urlRe.test(v); },
+    name: function () { return $("name").value.trim().length >= 2; },
+    business: function () { return $("business").value.trim().length >= 2; },
+    phone: function () { return digits($("phone").value).length === 10; },
+    email: function () { return emailRe.test($("email").value.trim()); }
+  };
+
+  function show(key, ok) {
+    var wrap = $("f-" + key);
+    if (!wrap) return ok;
+    var err = wrap.querySelector(".mom-error");
+    wrap.classList.toggle("is-error", !ok);
+    var hasValue = key === "trade" ? ok : (($(key) && $(key).value.trim()) !== "");
+    wrap.classList.toggle("is-valid", ok && hasValue && key !== "trade" && key !== "goal");
+    if (err) err.hidden = ok;
+    var input = $(key);
+    if (input) input.setAttribute("aria-invalid", ok ? "false" : "true");
+    return ok;
+  }
+
+  function check(keys) {
+    var firstBad = null;
+    keys.forEach(function (k) {
+      var ok = show(k, rules[k]());
+      if (!ok && !firstBad) firstBad = k;
+    });
+    if (firstBad) {
+      var el = firstBad === "trade" ? form.querySelector('input[name="trade"]') : $(firstBad);
+      if (el) el.focus();
+    }
+    return !firstBad;
+  }
+
+  // Validate on blur; clear errors live once fixed
+  Object.keys(rules).forEach(function (k) {
+    var el = $(k);
+    if (!el) return;
+    el.addEventListener("blur", function () { if (el.value.trim() || k !== "gbp") show(k, rules[k]()); });
+    el.addEventListener("input", function () {
+      if ($("f-" + k).classList.contains("is-error") && rules[k]()) show(k, true);
+      render();
+    });
+    el.addEventListener("change", render);
+  });
+  form.querySelectorAll('input[name="trade"]').forEach(function (r) {
+    r.addEventListener("change", function () { show("trade", true); render(); });
+  });
+
+  // US phone mask
+  $("phone").addEventListener("input", function (e) {
+    var d = digits(e.target.value).slice(0, 10);
+    var out = d;
+    if (d.length > 6) out = "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + "-" + d.slice(6);
+    else if (d.length > 3) out = "(" + d.slice(0, 3) + ") " + d.slice(3);
+    else if (d.length > 0) out = "(" + d;
+    e.target.value = out;
+  });
+
+  form.addEventListener("focusin", function () {
+    if (!started) { started = true; $("ev1").classList.add("on"); }
+  });
+
+  function data() {
+    var t = form.querySelector('input[name="trade"]:checked');
+    var d = digits($("phone").value);
+    return {
+      email: $("email").value.trim(),
+      firstname: $("name").value.trim().split(" ")[0],
+      company: $("business").value.trim(),
+      phone: d.length === 10 ? "+1" + d : "",
+      trade: t ? t.value : "",
+      service_area: $("city").value.trim(),
+      interest: $("goal").value,
+      gbp_url: $("gbp").value.trim(),
+      sms_consent: $("consent").checked,
+      source_page: "/free-trial",
+      lifecycle_stage: "New lead"
+    };
+  }
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+  function render() {
+    var d = data();
+    var lines = Object.keys(d).map(function (k) {
+      var v = d[k];
+      var val = typeof v === "boolean" ? '<span class="n">' + v + '</span>'
+        : v === "" ? '<span class="n">""</span>'
+        : '<span class="s">"' + esc(v) + '"</span>';
+      return '  <span class="k">"' + k + '"</span>: ' + val;
+    });
+    $("json").innerHTML = "{\n" + lines.join(",\n") + "\n}";
+  }
+
+  function goStep(n) {
+    $("step1").hidden = n !== 1;
+    $("step2").hidden = n !== 2;
+    $("done").hidden = n !== 3;
+    $("stepLabel").textContent = n === 3 ? "Done" : "Step " + n + " of 2";
+    $("stepBar").style.width = n === 1 ? "50%" : "100%";
+  }
+
+  $("next").addEventListener("click", function () {
+    if (check(["trade", "city", "goal", "gbp"])) {
+      goStep(2);
+      $("ev2").classList.add("on");
+      $("name").focus();
+    }
+  });
+  $("back").addEventListener("click", function (e) { e.preventDefault(); goStep(1); });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!check(["name", "business", "phone", "email"])) return;
+    var btn = $("submit");
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span>Sending…';
+    setTimeout(function () {
+      var d = data();
+      $("crmState").textContent = "sent";
+      $("ev3").classList.add("on");
+      $("ev4").classList.add("on");
+      $("doneTitle").textContent = "You're in, " + (d.firstname || "there") + ".";
+      $("calUrl").textContent = "calendly.com/marketopenmedia/googlemapsseo"
+        + "?name=" + encodeURIComponent($("name").value.trim())
+        + "&email=" + encodeURIComponent(d.email)
+        + "&a1=" + encodeURIComponent(d.trade + " · " + d.service_area);
+      goStep(3);
+      btn.disabled = false;
+      btn.textContent = "Get my free audit";
+    }, 900);
+  });
+
+  $("reset").addEventListener("click", function () {
+    form.reset();
+    form.querySelectorAll(".mom-field").forEach(function (f) { f.classList.remove("is-error", "is-valid"); });
+    form.querySelectorAll(".mom-error").forEach(function (e) { e.hidden = true; });
+    ["ev1", "ev2", "ev3", "ev4"].forEach(function (id) { $(id).classList.remove("on"); });
+    $("crmState").textContent = "draft";
+    started = false;
+    prefill();
+    goStep(1);
+  });
+
+  // Open in a realistic working state: step one partly filled
+  function prefill() {
+    $("t-hvac").checked = true;
+    $("city").value = "Tampa, FL";
+    render();
+  }
+  prefill();
+})();
+</script>
+
+</body></html>

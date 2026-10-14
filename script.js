@@ -283,6 +283,12 @@ const UI_GALLERIES = {
     label: 'Market Open Media · Free 7-day ranking trial (live copy)',
     bg: '#050b18',
   },
+  'form-system': {
+    title: 'Form system',
+    embed: 'assets/ui/form-system.html',
+    label: 'Market Open Media · lead form system (interactive, nothing is sent)',
+    bg: '#040c1b',
+  },
   'design-tokens': {
     title: 'Design tokens',
     embeds: [
