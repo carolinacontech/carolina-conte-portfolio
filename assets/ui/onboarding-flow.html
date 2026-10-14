@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Stay Scout Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: case notes on the left, the working flow in a phone on the right; built only from the Stay Scout tokens. */
+:root{
+  --coral-50:#FEF3F1;--coral-100:#FDE3E0;--coral-200:#FBC5BF;--coral-300:#F7998F;--coral-400:#F47A6F;
+  --coral-500:#F26157;--coral-600:#C2413A;--coral-700:#A3352F;--coral-800:#7D2924;--coral-900:#521B18;
+  --sand-0:#FFFFFF;--sand-100:#FBF9F7;--sand-200:#F3EEE9;--sand-300:#E6DED6;
+  --ink-300:#B8AEA9;--ink-500:#6E6460;--ink-700:#4A413D;--ink-900:#2B2523;--ink-950:#1A1614;--ink-920:#231E1C;--ink-880:#2E2725;
+
+  --bg-page:var(--sand-100);--bg-surface:var(--sand-0);--bg-sunken:var(--sand-200);
+  --text-primary:var(--ink-900);--text-secondary:var(--ink-500);
+  --border:var(--sand-300);
+  --brand:var(--coral-500);
+  --action-bg:var(--coral-600);--action-bg-hover:var(--coral-700);--action-fg:var(--sand-0);
+  --tag-bg:var(--coral-50);--tag-fg:var(--coral-700);
+  --selected-bg:var(--coral-50);--selected-border:var(--coral-600);
+  --error:var(--coral-700);
+  --scene-sky:var(--sand-200);--scene-hill:var(--coral-200);--scene-hill-2:var(--coral-100);--scene-water:var(--sand-300);
+
+  --font-display:"Outfit",ui-rounded,system-ui,sans-serif;
+  --font-body:"Figtree",system-ui,-apple-system,sans-serif;
+  --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --radius-sm:8px;--radius-md:16px;--radius-pill:999px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg-page:var(--ink-950);--bg-surface:var(--ink-920);--bg-sunken:var(--ink-880);
+  --text-primary:#F4EEEA;--text-secondary:var(--ink-300);--border:#3A322F;
+  --brand:var(--coral-400);--action-bg:var(--coral-400);--action-bg-hover:var(--coral-300);--action-fg:var(--ink-950);
+  --tag-bg:#3A2220;--tag-fg:var(--coral-300);
+  --selected-bg:#3A2220;--selected-border:var(--coral-400);
+  --error:var(--coral-300);
+  --scene-sky:#2E2725;--scene-hill:#7D2924;--scene-hill-2:#521B18;--scene-water:#3A322F;
+  color-scheme:dark}}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg-page);color:var(--text-primary);font-family:var(--font-body);font-size:16px;line-height:1.6;padding:28px 20px 40px}
+h1,h2,h3,p{margin:0}
+h1,h2,h3{font-family:var(--font-display);line-height:1.12;text-wrap:balance}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+
+.wrap{max-width:1080px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:start}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand)}
+
+/* case notes */
+.notes{display:grid;gap:20px;max-width:52ch;padding-top:8px}
+.notes h1{font-size:clamp(2rem,4.4vw,3.1rem);font-weight:600;letter-spacing:-.02em}
+.lede{color:var(--text-secondary);font-size:1.05rem}
+.rail{list-style:none;margin:8px 0 0;padding:0;border-top:1px solid var(--border)}
+.rail li{border-bottom:1px solid var(--border)}
+.rail button{width:100%;display:flex;align-items:baseline;gap:14px;padding:12px 0;background:none;border:0;text-align:left;color:var(--text-secondary)}
+.rail .n{font-family:var(--font-mono);font-size:12px;width:1.5em}
+.rail .t{font:500 16px var(--font-display)}
+.rail button:hover{color:var(--text-primary)}
+.rail li.is-current button{color:var(--text-primary)}
+.rail li.is-current .n{color:var(--brand)}
+.rail .note{display:none;padding:0 0 16px calc(1.5em + 14px);font-size:15px;color:var(--text-secondary)}
+.rail li.is-current .note{display:block}
+.restart{justify-self:start;font:500 13px var(--font-body);background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-pill);padding:8px 14px}
+
+/* phone */
+.stage{background:var(--bg-sunken);border-radius:var(--radius-md);padding:20px 36px;display:grid;place-items:center}
+.phone{width:372px;height:756px;background:var(--bg-page);border:8px solid var(--ink-950);border-radius:46px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.status{display:flex;justify-content:space-between;align-items:center;padding:12px 26px 4px;font:600 13px var(--font-body);flex-shrink:0}
+.status i{display:block;width:22px;height:10px;border:1.5px solid currentColor;border-radius:3px;position:relative;opacity:.8}
+.status i::after{content:"";position:absolute;inset:1.5px 6px 1.5px 1.5px;background:currentColor;border-radius:1px}
+.topbar{display:flex;align-items:center;gap:12px;padding:8px 16px 0;height:48px;flex-shrink:0}
+.back{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--bg-surface);display:grid;place-items:center;flex-shrink:0}
+.back svg{width:16px;height:16px}
+.progress{flex:1;display:flex;gap:6px}
+.progress span{flex:1;height:4px;border-radius:2px;background:var(--border);overflow:hidden}
+.progress span::after{content:"";display:block;height:100%;width:0;background:var(--brand);transition:width .3s ease}
+.progress span.is-done::after{width:100%}
+.topbar .where{font:500 12px var(--font-mono);color:var(--text-secondary);min-width:40px;text-align:right}
+
+.screen{flex:1;min-height:0;overflow-y:auto;padding:20px 20px 16px;display:flex;flex-direction:column;gap:16px;animation:in .28s ease both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.screen h2{font-size:27px;font-weight:600;letter-spacing:-.01em}
+.screen h2:focus{outline:0}
+.sub{color:var(--text-secondary);font-size:15px;line-height:1.5}
+
+/* welcome */
+.welcome{justify-content:flex-end;padding-bottom:8px}
+.welcome .scene{flex:1;min-height:0;border-radius:var(--radius-md);overflow:hidden;margin-bottom:8px}
+.welcome .scene svg{width:100%;height:100%;display:block}
+.wordmark{display:flex;align-items:center;gap:8px;font:600 20px var(--font-display)}
+.wordmark svg{width:22px;height:28px}
+.welcome h2{font-size:34px;line-height:1.05}
+
+/* choices */
+.cards{display:grid;gap:10px}
+.card{display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:center;padding:14px;text-align:left;background:var(--bg-surface);border:1.5px solid var(--border);border-radius:var(--radius-md);transition:border-color .15s ease,background .15s ease}
+.card .ico{width:44px;height:44px;border-radius:12px;background:var(--tag-bg);color:var(--tag-fg);display:grid;place-items:center}
+.card .ico svg{width:22px;height:22px}
+.card b{display:block;font:600 16px var(--font-display)}
+.card small{display:block;font-size:13.5px;color:var(--text-secondary);line-height:1.35}
+.card[aria-pressed="true"],.chip[aria-pressed="true"]{background:var(--selected-bg);border-color:var(--selected-border)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:10px 14px;min-height:44px;background:var(--bg-surface);border:1.5px solid var(--border);border-radius:var(--radius-pill);font-weight:500;font-size:15px;transition:border-color .15s ease,background .15s ease,opacity .15s ease}
+.chip[aria-pressed="true"]::before{content:"✓ ";color:var(--tag-fg)}
+.chip[aria-disabled="true"]{opacity:.45}
+.hint{font:500 12px var(--font-mono);color:var(--text-secondary)}
+
+/* distance */
+.field{display:grid;gap:6px}
+.field label,.label{font:600 12px var(--font-body);letter-spacing:.06em;text-transform:uppercase;color:var(--text-secondary)}
+.input{width:100%;height:48px;padding:0 14px;background:var(--bg-surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);font-size:16px}
+.input:focus-visible{outline:0;border-color:var(--selected-border)}
+.input[aria-invalid="true"]{border-color:var(--error)}
+.linkbtn{justify-self:start;background:none;border:0;padding:6px 0;color:var(--tag-fg);font-weight:600;font-size:14px;display:inline-flex;gap:6px;align-items:center}
+.linkbtn svg{width:14px;height:14px}
+.drive{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:18px 16px;display:grid;gap:10px}
+.drive output{font:600 30px var(--font-display);letter-spacing:-.01em}
+.drive input[type=range]{width:100%;accent-color:var(--action-bg);height:28px;margin:0}
+.ticks{display:flex;justify-content:space-between;font:500 11px var(--font-mono);color:var(--text-secondary)}
+.err{color:var(--error);font-size:13.5px;font-weight:500}
+
+/* footer */
+.foot{flex-shrink:0;padding:12px 20px 22px;display:grid;gap:10px;border-top:1px solid var(--border);background:var(--bg-page)}
+.foot.is-bare{border-top:0}
+.count{font-size:14px;color:var(--text-secondary);display:flex;align-items:baseline;gap:6px}
+.count b{font:600 22px var(--font-display);color:var(--text-primary);font-variant-numeric:tabular-nums;min-width:2.1em}
+.btn{height:52px;border:0;border-radius:var(--radius-pill);background:var(--action-bg);color:var(--action-fg);font:600 16px var(--font-display);transition:background .15s ease}
+.btn:hover{background:var(--action-bg-hover)}
+.btn:disabled{background:var(--border);color:var(--text-secondary);cursor:not-allowed}
+.btn-quiet{height:44px;background:none;border:0;font-weight:600;font-size:15px;color:var(--text-primary)}
+
+/* shortlist */
+.stays{display:grid;gap:12px}
+.stay{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;display:grid;grid-template-columns:104px 1fr}
+.stay svg{width:104px;height:100%;min-height:112px;display:block}
+.stay div{padding:12px 14px;display:grid;gap:4px;align-content:center}
+.stay h3{font-size:16px;font-weight:600}
+.stay p{font-size:13px;color:var(--text-secondary);line-height:1.4}
+.stay .why{color:var(--text-primary);font-weight:500}
+.tag{justify-self:start;font:500 11px var(--font-mono);padding:3px 8px;border-radius:var(--radius-pill);background:var(--tag-bg);color:var(--tag-fg)}
+
+/* done */
+.done{justify-content:center;align-items:flex-start}
+.done .seal{width:64px;height:64px;border-radius:50%;background:var(--tag-bg);color:var(--tag-fg);display:grid;place-items:center}
+.done .seal svg{width:28px;height:28px}
+
+@media (max-width:860px){
+  body{padding:16px 16px 32px}
+  .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .stage{order:-1;padding:16px 8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .screen{animation:none}
+  .progress span::after,.card,.chip,.btn{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="notes">
+    <p class="eyebrow">Case study · Onboarding flow</p>
+    <h1>Stay Scout: the first three minutes</h1>
+    <p class="lede">Three questions, a shortlist, then the account. The flow is live: answer in the phone and watch the number of matching stays narrow with every choice.</p>
+
+    <ol class="rail">
+      <li><button type="button" data-go="0"><span class="n">1</span><span class="t">Welcome</span></button>
+        <p class="note">One promise and one action. Signing in is a quiet second option, because returning guests already know what they are looking for.</p></li>
+      <li><button type="button" data-go="1"><span class="n">2</span><span class="t">Kind of trip</span></button>
+        <p class="note">The first question is one anyone can answer in two seconds. The match count appears here and stays in the same place until the end, so each answer has a visible result.</p></li>
+      <li><button type="button" data-go="2"><span class="n">3</span><span class="t">Must-haves</span></button>
+        <p class="note">Up to three. The limit makes people rank what matters, which produces better matches than ten ticked boxes. This step is optional and the button says so.</p></li>
+      <li><button type="button" data-go="3"><span class="n">4</span><span class="t">Drive time</span></button>
+        <p class="note">Hours behind the wheel, not miles, because that is how a weekend gets planned. Location is requested at the moment it is useful, with a typed city as the default path.</p></li>
+      <li><button type="button" data-go="4"><span class="n">5</span><span class="t">Shortlist</span></button>
+        <p class="note">Results come before sign-up. Each card repeats the guest's own must-haves, so the questions are shown to have counted.</p></li>
+      <li><button type="button" data-go="5"><span class="n">6</span><span class="t">Save</span></button>
+        <p class="note">The account is requested once there is something worth keeping, and it costs one field. Password and profile wait for the second visit.</p></li>
+    </ol>
+    <button class="restart" type="button" id="restart">Start over</button>
+    <p class="hint">Interactive prototype · sample data · Stay Scout tokens</p>
+  </div>
+
+  <div class="stage">
+    <div class="phone" id="phone">
+      <div class="status"><span>9:41</span><i aria-hidden="true"></i></div>
+
+      <div class="topbar" id="topbar" hidden>
+        <button class="back" type="button" id="back" aria-label="Back">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3 5 8l5 5"/></svg>
+        </button>
+        <div class="progress" id="progress" aria-hidden="true"><span></span><span></span><span></span></div>
+        <span class="where" id="where"></span>
+      </div>
+
+      <!-- 0 · welcome -->
+      <section class="screen welcome" data-screen="0">
+        <div class="scene" aria-hidden="true">
+          <svg viewBox="0 0 320 300" preserveAspectRatio="xMidYMid slice">
+            <rect width="320" height="300" fill="var(--scene-sky)"/>
+            <circle cx="232" cy="92" r="38" fill="var(--coral-300)"/>
+            <path d="M0 190 90 120l70 52 60-40 100 70v98H0z" fill="var(--scene-hill-2)"/>
+            <path d="M0 232 110 170l90 50 120-44v124H0z" fill="var(--scene-hill)"/>
+            <path d="M118 262 160 186l42 76z" fill="var(--coral-600)"/>
+            <rect x="152" y="234" width="16" height="28" rx="2" fill="var(--sand-100)"/>
+            <rect y="262" width="320" height="38" fill="var(--scene-water)"/>
+          </svg>
+        </div>
+        <div class="wordmark">
+          <svg viewBox="0 0 22 28" aria-hidden="true"><path d="M11 0C4.9 0 0 4.9 0 11c0 8 11 17 11 17s11-9 11-17C22 4.900 17.100 0 11 0z" fill="var(--brand)"/><path d="M6 12.500 11 8l5 4.500V17H6z" fill="var(--sand-100)"/></svg>
+          Stay Scout
+        </div>
+        <h2 tabindex="-1">Stays a person has checked.</h2>
+        <p class="sub">Someone on our team visits every cabin before it is listed. Answer three questions and see the ones that fit you.</p>
+      </section>
+
+      <!-- 1 · trip -->
+      <section class="screen" data-screen="1" hidden>
+        <h2 tabindex="-1">What kind of trip is this?</h2>
+        <div class="cards" id="trips">
+          <button class="card" type="button" data-trip="quiet" aria-pressed="false">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14A8 8 0 1 1 10 4a6.500 6.500 0 0 0 10 10z"/></svg></span>
+            <span><b>A quiet weekend</b><small>Two people, few plans</small></span>
+          </button>
+          <button class="card" type="button" data-trip="family" aria-pressed="false">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></span>
+            <span><b>With the family</b><small>Room for kids and their things</small></span>
+          </button>
+          <button class="card" type="button" data-trip="friends" aria-pressed="false">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c2 3 5 4.500 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3 0-5 1-8z"/><path d="M5 21h14"/></svg></span>
+            <span><b>With friends</b><small>A big table and several bedrooms</small></span>
+          </button>
+          <button class="card" type="button" data-trip="work" aria-pressed="false">
+            <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="11" rx="2"/><path d="M2 20h20"/></svg></span>
+            <span><b>Working from somewhere else</b><small>A desk, a door, a good signal</small></span>
+          </button>
+        </div>
+      </section>
+
+      <!-- 2 · must-haves -->
+      <section class="screen" data-screen="2" hidden>
+        <h2 tabindex="-1">What can't you do without?</h2>
+        <p class="sub">Choose up to three. We check each one in person.</p>
+        <div class="chips" id="musts"></div>
+        <p class="hint" id="mustHint" aria-live="polite"></p>
+      </section>
+
+      <!-- 3 · distance -->
+      <section class="screen" data-screen="3" hidden>
+        <h2 tabindex="-1">How far will you drive?</h2>
+        <div class="field">
+          <label for="place">Leaving from</label>
+          <input class="input" id="place" type="text" autocomplete="off" value="Portland, OR">
+          <button class="linkbtn" type="button" id="locate">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2"/></svg>
+            Use my location instead
+          </button>
+          <p class="err" id="placeErr" hidden>Enter a city or use your location.</p>
+        </div>
+        <div class="drive">
+          <span class="label" id="driveLabel">Longest drive</span>
+          <output id="driveOut" for="drive">3 h</output>
+          <input id="drive" type="range" min="1" max="6" step="0.5" value="3" aria-labelledby="driveLabel">
+          <div class="ticks" aria-hidden="true"><span>1 h</span><span>6 h</span></div>
+        </div>
+      </section>
+
+      <!-- 4 · shortlist -->
+      <section class="screen" data-screen="4" hidden>
+        <h2 tabindex="-1" id="listTitle">Your shortlist</h2>
+        <p class="sub" id="listSub"></p>
+        <div class="stays" id="stays"></div>
+      </section>
+
+      <!-- 5 · save -->
+      <section class="screen" data-screen="5" hidden>
+        <h2 tabindex="-1">Keep this shortlist</h2>
+        <p class="sub">We'll email you a link that opens it on any device. No password to set today.</p>
+        <div class="field">
+          <label for="email">Email</label>
+          <input class="input" id="email" type="email" inputmode="email" autocomplete="off" placeholder="name@example.com" aria-describedby="emailErr">
+          <p class="err" id="emailErr" hidden>Enter an email like name@example.com.</p>
+        </div>
+      </section>
+
+      <!-- 6 · done -->
+      <section class="screen done" data-screen="6" hidden>
+        <span class="seal" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.500" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.500 4.500 4.500L19 7.500"/></svg></span>
+        <h2 tabindex="-1">Shortlist saved</h2>
+        <p class="sub" id="doneSub"></p>
+      </section>
+
+      <div class="foot" id="foot">
+        <p class="count" id="count" aria-live="polite" hidden><b id="countNum">412</b><span id="countText">verified stays to choose from</span></p>
+        <button class="btn" type="button" id="primary">Find my kind of stay</button>
+        <button class="btn-quiet" type="button" id="secondary">I already have an account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const TRIPS = {
+  quiet:   { label: 'a quiet weekend', factor: .46 },
+  family:  { label: 'a family trip', factor: .38 },
+  friends: { label: 'a trip with friends', factor: .33 },
+  work:    { label: 'working away', factor: .27 },
+};
+const MUSTS = [
+  ['lake', 'Lake nearby', .58], ['fire', 'Fireplace', .71], ['dog', 'Dog welcome', .62], ['wifi', 'Fast wifi', .74],
+  ['alone', 'No neighbors in sight', .49], ['tub', 'Hot tub', .44], ['town', 'Walk to town', .52], ['step', 'Step-free access', .37],
+];
+const STAYS = [
+  { name: 'A-frame on Pine Lake', price: 185, share: .55, roof: 'var(--coral-600)' },
+  { name: 'The Orchard Cabin', price: 140, share: .8, roof: 'var(--coral-800)' },
+  { name: 'Ridge House', price: 230, share: .95, roof: 'var(--coral-500)' },
+];
+const MAX_MUSTS = 3;
+const TOTAL = 412;
+
+const state = { step: 0, trip: null, musts: [], hours: 3, place: 'Portland, OR', email: '' };
+const $ = (id) => document.getElementById(id);
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const screens = [...document.querySelectorAll('[data-screen]')];
+const railItems = [...document.querySelectorAll('.rail li')];
+
+function matches() {
+  let n = TOTAL;
+  if (state.trip) n *= TRIPS[state.trip].factor;
+  state.musts.forEach((key) => { n *= MUSTS.find((m) => m[0] === key)[2]; });
+  if (state.step >= 3) n *= .35 + .65 * (state.hours / 6);
+  return Math.max(3, Math.round(n));
+}
+
+function fmtHours(h) {
+  const mins = Math.round(h * 6) * 10;
+  const hh = Math.floor(mins / 60), mm = mins % 60;
+  return [hh ? `${hh} h` : '', mm ? `${mm} min` : ''].filter(Boolean).join(' ');
+}
+
+let shown = TOTAL, raf = 0;
+function setCount(n) {
+  cancelAnimationFrame(raf);
+  const el = $('countNum');
+  if (reduceMotion || n === shown) { shown = n; el.textContent = n; return; }
+  const from = shown, start = performance.now();
+  const tick = (now) => {
+    const t = Math.min(1, (now - start) / 350);
+    shown = Math.round(from + (n - from) * (1 - Math.pow(1 - t, 3)));
+    el.textContent = shown;
+    if (t < 1) raf = requestAnimationFrame(tick);
+  };
+  raf = requestAnimationFrame(tick);
+}
+
+function renderMusts() {
+  const full = state.musts.length >= MAX_MUSTS;
+  $('musts').innerHTML = '';
+  MUSTS.forEach(([key, label]) => {
+    const on = state.musts.includes(key);
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip';
+    b.textContent = label;
+    b.setAttribute('aria-pressed', String(on));
+    if (full && !on) b.setAttribute('aria-disabled', 'true');
+    b.addEventListener('click', () => {
+      if (on) state.musts = state.musts.filter((k) => k !== key);
+      else if (!full) state.musts.push(key);
+      else return;
+      renderMusts();
+      renderFoot();
+      [...$('musts').children].find((c) => c.textContent === label)?.focus();
+    });
+    $('musts').appendChild(b);
+  });
+  $('mustHint').textContent = full ? 'Three chosen. Remove one to swap it.' : `${state.musts.length} of ${MAX_MUSTS} chosen`;
+}
+
+function scene(roof) {
+  return `<svg viewBox="0 0 104 112" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <rect width="104" height="112" fill="var(--scene-sky)"/>
+    <path d="M0 78 40 50l30 22 34-18v58H0z" fill="var(--scene-hill)"/>
+    <path d="M30 96 52 56l22 40z" fill="${roof}"/>
+    <rect x="48" y="80" width="8" height="16" rx="1" fill="var(--sand-100)"/>
+    <rect y="96" width="104" height="16" fill="var(--scene-water)"/></svg>`;
+}
+
+function renderShortlist() {
+  const n = matches();
+  const labels = state.musts.map((key) => MUSTS.find((m) => m[0] === key)[1]);
+  const why = labels.length ? labels.slice(0, 2).join(' · ') : 'Good for ' + (state.trip ? TRIPS[state.trip].label : 'any trip');
+  $('listTitle').textContent = `${n} stays fit`;
+  $('listSub').textContent = `Within ${fmtHours(state.hours)} of ${state.place}. Here are the three closest matches.`;
+  $('stays').innerHTML = STAYS.map((s) => `
+    <article class="stay">${scene(s.roof)}
+      <div>
+        <span class="tag">Scout verified</span>
+        <h3>${s.name}</h3>
+        <p class="why"></p>
+        <p>${fmtHours(state.hours * s.share)} drive · $${s.price} a night</p>
+      </div>
+    </article>`).join('');
+  document.querySelectorAll('.stay .why').forEach((p) => { p.textContent = why; });
+}
+
+function renderFoot() {
+  const s = state.step;
+  const primary = $('primary'), secondary = $('secondary'), count = $('count');
+  const n = matches();
+  count.hidden = !(s >= 1 && s <= 3);
+  $('foot').classList.toggle('is-bare', s === 0 || s === 6);
+  secondary.hidden = !(s === 0 || s === 4);
+  primary.disabled = false;
+  setCount(n);
+  $('countText').textContent = state.trip || state.musts.length ? 'verified stays fit so far' : 'verified stays to choose from';
+
+  if (s === 0) { primary.textContent = 'Find my kind of stay'; secondary.textContent = 'I already have an account'; }
+  if (s === 1) { primary.textContent = 'Continue'; primary.disabled = !state.trip; }
+  if (s === 2) primary.textContent = state.musts.length ? 'Continue' : 'Skip, nothing is essential';
+  if (s === 3) primary.textContent = `Show my ${n} stays`;
+  if (s === 4) { primary.textContent = 'Save shortlist'; secondary.textContent = 'Change my answers'; }
+  if (s === 5) primary.textContent = 'Save shortlist';
+  if (s === 6) primary.textContent = 'Run the flow again';
+}
+
+function go(step, focus = true) {
+  state.step = step;
+  screens.forEach((el) => { el.hidden = Number(el.dataset.screen) !== step; });
+  railItems.forEach((li, i) => li.classList.toggle('is-current', i === Math.min(step, 5)));
+  $('topbar').hidden = step === 0 || step === 6;
+  $('progress').style.visibility = step <= 3 ? 'visible' : 'hidden';
+  [...$('progress').children].forEach((seg, i) => seg.classList.toggle('is-done', i < step));
+  $('where').textContent = step >= 1 && step <= 3 ? `${step} of 3` : '';
+  if (step === 2) renderMusts();
+  if (step === 4) renderShortlist();
+  if (step === 6) $('doneSub').textContent = `We sent a link to ${state.email}. Open it on any device to pick up where you left off.`;
+  renderFoot();
+  if (focus) screens[step].querySelector('h2').focus({ preventScroll: true });
+}
+
+function validPlace() {
+  state.place = $('place').value.trim();
+  const ok = state.place.length > 1;
+  $('placeErr').hidden = ok;
+  $('place').setAttribute('aria-invalid', String(!ok));
+  if (!ok) $('place').focus();
+  return ok;
+}
+
+function validEmail() {
+  state.email = $('email').value.trim();
+  const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email);
+  $('emailErr').hidden = ok;
+  $('email').setAttribute('aria-invalid', String(!ok));
+  if (!ok) $('email').focus();
+  return ok;
+}
+
+function reset() {
+  Object.assign(state, { trip: null, musts: [], hours: 3, place: 'Portland, OR', email: '' });
+  document.querySelectorAll('#trips .card').forEach((c) => c.setAttribute('aria-pressed', 'false'));
+  $('place').value = state.place;
+  $('drive').value = 3;
+  $('driveOut').textContent = fmtHours(3);
+  $('email').value = '';
+  [$('placeErr'), $('emailErr')].forEach((e) => { e.hidden = true; });
+  go(0);
+}
+
+$('primary').addEventListener('click', () => {
+  const s = state.step;
+  if (s === 3 && !validPlace()) return;
+  if (s === 5 && !validEmail()) return;
+  if (s === 6) return reset();
+  go(s + 1);
+});
+$('secondary').addEventListener('click', () => {
+  if (state.step === 4) go(1);
+  else go(5);
+});
+$('back').addEventListener('click', () => go(state.step - 1));
+$('restart').addEventListener('click', reset);
+
+// The rail jumps between screens; missing answers are filled so later screens always have content.
+document.querySelectorAll('[data-go]').forEach((b) => b.addEventListener('click', () => {
+  const target = Number(b.dataset.go);
+  if (target > 1 && !state.trip) {
+    state.trip = 'quiet';
+    document.querySelector('[data-trip="quiet"]').setAttribute('aria-pressed', 'true');
+  }
+  go(target);
+}));
+
+document.querySelectorAll('#trips .card').forEach((card) => card.addEventListener('click', () => {
+  state.trip = card.dataset.trip;
+  document.querySelectorAll('#trips .card').forEach((c) => c.setAttribute('aria-pressed', String(c === card)));
+  renderFoot();
+}));
+
+$('drive').addEventListener('input', (e) => {
+  state.hours = Number(e.target.value);
+  $('driveOut').textContent = fmtHours(state.hours);
+  renderFoot();
+});
+$('locate').addEventListener('click', () => {
+  $('place').value = 'your current location';
+  validPlace();
+});
+$('place').addEventListener('input', () => { $('placeErr').hidden = true; $('place').removeAttribute('aria-invalid'); });
+$('email').addEventListener('input', () => { $('emailErr').hidden = true; $('email').removeAttribute('aria-invalid'); });
+$('email').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('primary').click(); });
+
+// Fit the phone to short or narrow viewports (the portfolio modal embeds this page in an iframe).
+function fitPhone() {
+  const byHeight = (innerHeight - 72) / 756;
+  const byWidth = (innerWidth - 48) / 372;
+  $('phone').style.zoom = Math.max(.62, Math.min(1, byHeight, byWidth));
+}
+addEventListener('resize', fitPhone);
+fitPhone();
+
+go(0, false);
+</script>
+</body>
+</html>

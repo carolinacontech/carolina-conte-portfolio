@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Star Bake App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Montserrat:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: screen list on the left in the style of the original presentation sheets, the tappable app in a phone on the right. */
+:root{
+  --green:#144f2c;--green-dark:#0b2a17;--lime:#ebffcb;--olive:#3f5f14;--white:#fff;
+  --sheet:#f4efe5;--sheet-2:#ebe4d6;--sheet-line:#d8d1c2;--sheet-text:#6a665c;
+  --font-display:"Nunito",ui-rounded,system-ui,sans-serif;
+  --font-body:"Montserrat",system-ui,-apple-system,sans-serif;
+  --font-sheet:Georgia,"Times New Roman",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--sheet);color:var(--green);font-family:var(--font-body);font-size:16px;line-height:1.6;padding:28px 20px 40px}
+h1,h2,h3,p{margin:0}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+img{display:block;max-width:100%}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--olive);outline-offset:2px}
+.on-green :focus-visible{outline-color:var(--lime)}
+
+.wrap{max-width:1080px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:48px;align-items:start}
+
+/* sheet notes */
+.notes{display:grid;gap:18px;max-width:50ch;padding-top:8px}
+.eyebrow{font:700 13px var(--font-sheet);letter-spacing:.04em}
+.notes h1{font:400 clamp(2.2rem,4.6vw,3.3rem)/1.05 var(--font-sheet);letter-spacing:.01em}
+.lede{color:var(--sheet-text);font-size:1rem}
+.rail{list-style:none;margin:6px 0 0;padding:0;border-top:1px solid var(--sheet-line)}
+.rail li{border-bottom:1px solid var(--sheet-line)}
+.rail button{width:100%;display:flex;align-items:baseline;gap:14px;padding:11px 0;text-align:left;color:var(--sheet-text)}
+.rail .n{font:700 12px var(--font-sheet);width:1.6em}
+.rail .t{font:400 19px var(--font-sheet)}
+.rail button:hover,.rail li.is-current button{color:var(--green)}
+.rail .note{display:none;padding:0 0 14px calc(1.6em + 14px);font-size:14.5px;color:var(--sheet-text)}
+.rail li.is-current .note{display:block}
+.foot-note{font-size:13px;color:var(--sheet-text)}
+
+/* phone */
+.stage{background:var(--sheet-2);border-radius:16px;padding:20px 36px;display:grid;place-items:center}
+.phone{width:372px;height:756px;border:8px solid #111;border-radius:46px;overflow:hidden;position:relative;background:var(--white)}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;animation:in .28s ease both}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.on-green{background:var(--green);color:var(--lime)}
+.on-white{background:var(--white);color:var(--green)}
+
+/* welcome */
+.welcome{align-items:center;justify-content:center;padding:24px 44px;text-align:center}
+.welcome .logo{width:150px}
+.welcome .cake{width:290px;max-width:none;margin:8px 0 0}
+.welcome h2{font:800 38px/1 var(--font-display);margin-top:6px}
+.welcome .tag{font:600 14.5px var(--font-display);margin-top:6px}
+.pill{width:100%;height:56px;border-radius:999px;background:var(--lime);color:var(--olive);font:800 20px var(--font-display);margin-top:36px}
+.alt{font-size:12.5px;margin-top:18px}
+.alt button{font:800 13.5px var(--font-display);margin-left:4px}
+
+/* auth */
+.auth{padding:0 40px}
+.auth .mid{flex:1;display:flex;flex-direction:column;justify-content:center}
+.auth .hello{position:relative}
+.auth h2{font:900 56px/.98 var(--font-display);letter-spacing:-.01em}
+.auth .hello img{position:absolute;right:0;top:-8px;width:68px}
+.auth .sub{font-size:11.5px;margin-top:4px}
+.auth form{display:grid;gap:14px;margin-top:52px}
+.line{position:relative;display:block}
+.line input{width:100%;height:38px;padding:0 30px 0 0;background:none;border:0;border-bottom:2px solid currentColor;border-radius:0;font-size:13px;color:inherit}
+.line input::placeholder{color:inherit;opacity:.85}
+.line input:focus-visible{outline:0;border-bottom-width:3px}
+.line .eye{position:absolute;right:0;top:8px;width:24px;height:24px;display:grid;place-items:center}
+.line .eye svg{width:20px;height:20px}
+.line small{display:block;font-size:9px;margin-top:5px;opacity:.85}
+.row{display:flex;justify-content:space-between;align-items:center;font-size:11.5px}
+.row label{display:flex;align-items:center;gap:6px}
+.row input{appearance:none;width:15px;height:15px;border:2px solid currentColor;border-radius:2px;margin:0;display:grid;place-items:center}
+.row input:checked{background:var(--lime)}
+.block{height:46px;background:var(--lime);color:var(--olive);font:800 15px var(--font-display);border:2px solid rgba(255,255,255,.35)}
+.on-white .block{background:var(--green-dark);color:var(--lime);border-color:#9fb3a5}
+.auth .alt{padding:0 0 46px;text-align:center}
+.on-white .line input{border-bottom-color:#5d8a6e}
+.badges{display:flex;justify-content:space-between;opacity:.55}
+.badges img{width:22%}
+.forgot h2{font-size:62px;margin-top:6px}
+.forgot .sub{font-size:11.5px;line-height:1.9;margin:14px 0 12px}
+.forgot form{margin-top:24px;gap:22px}
+
+/* app shell */
+.app{padding:0}
+.apphead{flex-shrink:0;padding:40px 22px 0}
+.who{display:flex;justify-content:space-between;align-items:center;padding-bottom:6px;border-bottom:2px solid #c9d6cc}
+.who img{width:50px}
+.who span{display:flex;align-items:center;gap:10px;font:700 12.5px var(--font-body)}
+.who span img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+.search{display:block;position:relative;margin-top:8px}
+.search input{width:100%;height:48px;padding:0 52px 0 20px;background:var(--green);border:0;border-radius:4px;color:var(--lime);font-size:12px}
+.search input::placeholder{color:var(--lime);opacity:.9}
+.search svg{position:absolute;right:12px;top:10px;width:28px;height:28px;pointer-events:none}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.cats button{height:42px;border-radius:4px;background:var(--green);color:var(--lime);font-size:10.5px;display:flex;align-items:center;gap:4px;padding:0 6px 0 4px;overflow:hidden}
+.cats img{width:38px;height:38px;border-radius:50%;object-fit:cover;flex-shrink:0}
+.cats button[aria-pressed="true"]{background:#0c2e19}
+.cats button[aria-disabled="true"]{cursor:default}
+.view{flex:1;min-height:0;overflow-y:auto;padding:0 22px 96px}
+.deal{margin-top:18px;height:120px;border-radius:4px;background:var(--green);color:var(--lime);display:flex;align-items:center;justify-content:space-between;padding-right:14px;overflow:hidden}
+.deal img{height:116px}
+.deal p{text-align:right;font:800 24px/1.05 var(--font-display)}
+.deal small{display:block;font:400 12px var(--font-body);margin-top:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 14px;margin-top:22px}
+.item{position:relative;text-align:center}
+.item .pic{display:block;width:100%;height:92px;padding-right:26px}
+.item .pic img{width:100%;height:100%;object-fit:contain}
+.item .pic[aria-disabled="true"]{cursor:default}
+.item .acts{position:absolute;right:0;top:0;display:grid;gap:4px}
+.round{width:27px;height:27px;border-radius:50%;background:var(--green);color:var(--lime);display:grid;place-items:center}
+.round svg{width:15px;height:15px}
+.round[aria-pressed="true"] svg{fill:currentColor}
+.item b{display:block;font:400 10.5px var(--font-body);margin-top:6px}
+.item span{font:700 11px var(--font-body)}
+.empty{grid-column:1/-1;font-size:13px;padding:24px 0;text-align:center}
+
+/* product */
+.product{position:relative;padding-top:26px}
+.product .acts{position:absolute;left:22px;top:34px;display:grid;gap:5px}
+.product .hero{width:230px;margin:8px auto 0}
+.product .info{display:flex;justify-content:space-between;align-items:flex-start;margin-top:22px;padding:0 4px}
+.product h3{font:700 22px/1.2 var(--font-body);color:var(--olive)}
+.product .wt{font:500 20px var(--font-body)}
+.qty{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.qty output{width:30px;height:30px;border:2px solid #9a9a9a;background:#e4e4e4;display:grid;place-items:center;font:700 13px var(--font-body);color:#333}
+.qty .round{width:32px;height:32px}
+.price{font:600 20px var(--font-body);text-align:right}
+.facts{list-style:none;margin:20px auto 0;padding:0;width:max-content;font-size:11.5px;line-height:1.7;color:#555}
+.facts b{color:#111;font-weight:700}
+
+/* rewards */
+.points{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;margin-top:18px}
+.points div{background:var(--green);color:var(--lime);height:124px;display:grid;place-content:center;text-align:center;border-radius:2px}
+.points strong{font:800 46px/1 var(--font-display)}
+.points span{font:600 24px/1.1 var(--font-display)}
+.points button{font-size:10.5px;text-decoration:underline;margin-top:8px;cursor:default}
+.points img{width:118px;justify-self:center}
+.tier{display:block;width:104px;margin:26px auto 14px;height:42px;line-height:42px;text-align:center;background:var(--green);color:var(--lime);font:600 24px/42px var(--font-display);border-radius:3px}
+.gifts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gifts figure{margin:0;text-align:center;font-size:10.5px}
+.gifts img{width:100%;height:68px;object-fit:contain;margin-bottom:6px}
+
+/* bottom nav */
+.tabbar{position:absolute;left:8px;right:8px;bottom:10px;height:60px;border-radius:999px;background:var(--green);color:var(--lime);display:flex;align-items:center;justify-content:space-around;padding:0 12px}
+.tabbar button{width:48px;height:48px;display:grid;place-items:center;position:relative;border-radius:50%}
+.tabbar svg{width:38px;height:38px}
+.tabbar button[aria-disabled="true"]{cursor:default}
+.tabbar .count{position:absolute;top:0;right:-2px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--lime);color:var(--green);font:700 11px/20px var(--font-body)}
+
+@media (max-width:860px){
+  body{padding:16px 16px 32px}
+  .wrap{grid-template-columns:minmax(0,1fr);gap:28px}
+  .stage{order:-1;padding:16px 8px}
+}
+@media (prefers-reduced-motion:reduce){.screen{animation:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="notes">
+    <p class="eyebrow">Mobile app · 7 screens</p>
+    <h1>Star Bake</h1>
+    <p class="lede">A bakery and loyalty app. These are the original screens, rebuilt in code so they can be tapped through: sign in, browse the menu, open a product, check the points.</p>
+
+    <ol class="rail">
+      <li><button type="button" data-go="0"><span class="n">01</span><span class="t">Welcome Screen</span></button>
+        <p class="note">The brand seal and one product photo carry the screen. One button to sign in, with sign-up as a text link below it.</p></li>
+      <li><button type="button" data-go="1"><span class="n">02</span><span class="t">Log In Screen</span></button>
+        <p class="note">A large greeting sets the tone before the form. One field accepts a username, an email, or a phone number, so nobody has to remember which they used.</p></li>
+      <li><button type="button" data-go="2"><span class="n">03</span><span class="t">Sign Up Screen</span></button>
+        <p class="note">The same layout on white, which separates creating an account from returning to one. Password rules sit under the fields they apply to.</p></li>
+      <li><button type="button" data-go="3"><span class="n">04</span><span class="t">Forgot Password</span></button>
+        <p class="note">One field and one button. The headline says it in the customer's words, and the seal repeats as a pattern to keep the screen in the brand.</p></li>
+      <li><button type="button" data-go="4"><span class="n">05</span><span class="t">Menu / Bakery</span></button>
+        <p class="note">Search, the weekly deal, then three categories. Every product can be added to the bag or saved from the grid without opening it. Tap the baguette to see its page.</p></li>
+      <li><button type="button" data-go="5"><span class="n">06</span><span class="t">Product</span></button>
+        <p class="note">Photo, name, weight, and price first; nutrition facts below. Quantity is set next to the price it changes.</p></li>
+      <li><button type="button" data-go="6"><span class="n">07</span><span class="t">Reward Screen</span></button>
+        <p class="note">The points balance and the code to scan at the counter sit side by side. Rewards are grouped by what they cost in points.</p></li>
+    </ol>
+    <p class="foot-note">Interactive rebuild · sample data · logo and UI unchanged</p>
+  </div>
+
+  <div class="stage">
+    <div class="phone" id="phone">
+
+      <!-- 01 welcome -->
+      <section class="screen on-green welcome" data-screen="0">
+        <img class="logo" src="star-bake/logo-green-lg.png" alt="Baker Bros">
+        <img class="cake" src="star-bake/cake.png" alt="A slice of chocolate layer cake">
+        <h2>Grab a...</h2>
+        <p class="tag">Explore our tradicional products.</p>
+        <button class="pill" type="button" data-go="1">Sign in</button>
+        <p class="alt">Don't Have an Account?<button type="button" data-go="2">Sign Up</button></p>
+      </section>
+
+      <!-- 02 log in -->
+      <section class="screen on-green auth" data-screen="1" hidden>
+        <div class="mid">
+          <div class="hello"><h2>Hi!<br>Welcome</h2><img src="star-bake/logo-green-sm.png" alt=""></div>
+          <p class="sub">I'm waiting for you, please enter your detail</p>
+          <form data-next="4" novalidate>
+            <label class="line"><input type="text" placeholder="Username, Email or Phone Number" aria-label="Username, email or phone number" autocomplete="off"></label>
+            <label class="line"><input type="password" placeholder="Password" aria-label="Password" autocomplete="off">
+              <button class="eye" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.600-6 10-6 10 6 10 6-3.600 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.600"/></svg></button></label>
+            <div class="row"><label><input type="checkbox"> Remember Me</label><button type="button" data-go="3">Forgot Password ?</button></div>
+            <button class="block" type="submit">Log In</button>
+          </form>
+        </div>
+        <p class="alt">Don't have an account ?<button type="button" data-go="2">Sign Up</button></p>
+      </section>
+
+      <!-- 03 sign up -->
+      <section class="screen on-white auth" data-screen="2" hidden>
+        <div class="mid">
+          <div class="hello"><h2>Hi!<br>Welcome</h2><img src="star-bake/logo-white.png" alt=""></div>
+          <p class="sub">Let's create an account</p>
+          <form data-next="4" novalidate style="margin-top:40px;gap:8px">
+            <label class="line"><input type="text" placeholder="Email or Phone Number" aria-label="Email or phone number" autocomplete="off"></label>
+            <label class="line"><input type="text" placeholder="Full Name" aria-label="Full name" autocomplete="off"></label>
+            <label class="line"><input type="text" placeholder="Username" aria-label="Username" autocomplete="off"></label>
+            <label class="line"><input type="password" placeholder="Password" aria-label="Password" autocomplete="off">
+              <button class="eye" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.600-6 10-6 10 6 10 6-3.600 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.600"/></svg></button>
+              <small>Must contain a number and least of 6 characters</small></label>
+            <label class="line"><input type="password" placeholder="Confirm Password" aria-label="Confirm password" autocomplete="off">
+              <button class="eye" type="button" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.600-6 10-6 10 6 10 6-3.600 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.600"/></svg></button>
+              <small>Must contain a number and least of 6 characters</small></label>
+            <button class="block" type="submit" style="margin-top:18px">Sign Up</button>
+          </form>
+        </div>
+        <p class="alt">Have an account?<button type="button" data-go="1">Log In</button></p>
+      </section>
+
+      <!-- 04 forgot -->
+      <section class="screen on-green auth forgot" data-screen="3" hidden>
+        <div class="mid">
+          <div class="badges" aria-hidden="true"><img src="star-bake/logo-green-sm.png" alt=""><img src="star-bake/logo-green-sm.png" alt=""><img src="star-bake/logo-green-sm.png" alt=""><img src="star-bake/logo-green-sm.png" alt=""></div>
+          <h2>Oh no!<br>I forgot</h2>
+          <p class="sub">Enter your email, phone, or username and we'll send you a link to change a new password</p>
+          <div class="badges" aria-hidden="true"><img src="star-bake/logo-green-sm.png" alt=""><img src="star-bake/logo-green-sm.png" alt=""><img src="star-bake/logo-green-sm.png" alt=""><img src="star-bake/logo-green-sm.png" alt=""></div>
+          <form data-next="1" novalidate>
+            <label class="line"><input type="text" placeholder="Username, Email or Phone Number" aria-label="Username, email or phone number" autocomplete="off"></label>
+            <button class="block" type="submit">Forgot Password</button>
+          </form>
+        </div>
+        <p class="alt">Don't have an account ?<button type="button" data-go="2">Sign Up</button></p>
+      </section>
+
+      <!-- 05–07 app -->
+      <section class="screen on-white app" data-screen="4" hidden>
+        <div class="apphead">
+          <div class="who"><img src="star-bake/logo-white.png" alt="Baker Bros"><span>Hi Olivia <img src="star-bake/avatar.png" alt=""></span></div>
+          <label class="search"><input id="search" type="search" placeholder="Search here" aria-label="Search products" autocomplete="off">
+            <svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="14" fill="var(--lime)"/><circle cx="13" cy="13" r="5.500" fill="none" stroke="var(--green)" stroke-width="3"/><path d="m17.500 17.500 3.500 3.500" stroke="var(--green)" stroke-width="3" stroke-linecap="round"/></svg></label>
+          <div class="cats" id="cats" hidden>
+            <button type="button" aria-disabled="true"><img src="star-bake/cat-pastry.png" alt="">Pastry</button>
+            <button type="button" aria-pressed="true" data-go="4"><img src="star-bake/cat-bakery.png" alt="">Bakery</button>
+            <button type="button" aria-disabled="true"><img src="star-bake/cat-drinks.png" alt="">Drinks</button>
+          </div>
+        </div>
+
+        <div class="view" data-view="4">
+          <div class="deal"><img src="star-bake/deal.png" alt=""><p>Deal of<br>the week<small>2x1 croissant</small></p></div>
+          <div class="cats">
+            <button type="button" aria-disabled="true"><img src="star-bake/cat-pastry.png" alt="">Pastry</button>
+            <button type="button" aria-pressed="true"><img src="star-bake/cat-bakery.png" alt="">Bakery</button>
+            <button type="button" aria-disabled="true"><img src="star-bake/cat-drinks.png" alt="">Drinks</button>
+          </div>
+          <div class="grid" id="grid"></div>
+        </div>
+
+        <div class="view product" data-view="5" hidden>
+          <div class="acts">
+            <button class="round" type="button" data-fav="baguette" aria-pressed="false" aria-label="Save Baguette"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 13.500S2.500 10 2.500 6.200A2.800 2.800 0 0 1 8 5a2.800 2.800 0 0 1 5.500 1.200C13.500 10 8 13.500 8 13.500z"/></svg></button>
+            <button class="round" type="button" data-add="1" aria-label="Add Baguette to bag"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><path d="M8 3.500v9M3.500 8h9"/></svg></button>
+          </div>
+          <img class="hero" src="star-bake/baguette.png" alt="Baguette">
+          <div class="info">
+            <div><h3>Baguette</h3><p class="wt">100g</p></div>
+            <div>
+              <div class="qty"><output id="qty" aria-label="Quantity">1</output>
+                <button class="round" type="button" id="more" aria-label="Add one more"><svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><path d="M8 3.500v9M3.500 8h9"/></svg></button></div>
+              <p class="price" id="price">$2.00</p>
+            </div>
+          </div>
+          <ul class="facts">
+            <li><b>Calories:</b> 200 kcal</li><li><b>Protein:</b> 9 g</li><li><b>Fat:</b> 2 g</li><li><b>Trans fat:</b> 0.5 g</li>
+            <li><b>Carbohydrates:</b> 60 g</li><li><b>Sugar:</b> 2 g</li><li><b>Fiber:</b> 3 g</li><li><b>Sodium:</b> 500 mg</li>
+          </ul>
+        </div>
+
+        <div class="view" data-view="6" hidden>
+          <div class="points">
+            <div><strong>365</strong><span>Points</span><button type="button" aria-disabled="true">View history</button></div>
+            <img src="star-bake/qr.png" alt="Member code to scan at the counter">
+          </div>
+          <span class="tier">100</span>
+          <div class="gifts">
+            <figure><img src="star-bake/baguette.png" alt="">Baguette</figure>
+            <figure><img src="star-bake/cheese.png" alt="">Cheese Bread</figure>
+            <figure><img src="star-bake/croissant.png" alt="">Croissant</figure>
+          </div>
+          <span class="tier">200</span>
+          <div class="gifts">
+            <figure><img src="star-bake/slice.png" alt="">Slice bread</figure>
+            <figure><img src="star-bake/bagels.png" alt="">Bagel</figure>
+          </div>
+          <span class="tier">5000</span>
+          <div class="gifts">
+            <figure><img src="star-bake/basket.png" alt="">Bread basket</figure>
+          </div>
+        </div>
+
+        <nav class="tabbar" aria-label="App sections">
+          <button type="button" data-go="4" aria-label="Menu"><svg viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="17" fill="currentColor"/><path d="M13 9v7a2.500 2.500 0 0 0 5 0V9M15.500 9v20M24 9c-2 1-3 4-3 8h3zM24 9v20" fill="none" stroke="var(--green)" stroke-width="2.400" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button type="button" data-go="6" aria-label="Rewards"><svg viewBox="0 0 38 38" aria-hidden="true"><path d="m12 23-3 12 6-3 4 4 4-4 6 3-3-12" fill="currentColor"/><circle cx="19" cy="15" r="12" fill="currentColor"/><circle cx="19" cy="15" r="8" fill="var(--green)"/><path d="m19 9.500 1.700 3.500 3.800.5-2.800 2.700.7 3.800-3.400-1.800-3.400 1.800.7-3.800-2.800-2.700 3.800-.5z" fill="currentColor"/></svg></button>
+          <button type="button" aria-disabled="true" aria-label="Scan"><svg viewBox="0 0 38 38" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M4 12V4h9M25 4h9v8M34 26v8h-9M13 34H4v-8"/></svg></button>
+          <button type="button" aria-disabled="true" aria-label="Hot right now"><svg viewBox="0 0 38 38" aria-hidden="true"><path d="M20 3c1 6 9 9 9 19a10 10 0 0 1-20 0c0-4 2-7 4-9 0 4 2 6 4 6 0-6 1-11 3-16z" fill="currentColor"/><path d="M19 22c2 3 4 4 4 7a4 4 0 0 1-8 0c0-3 3-4 4-7z" fill="var(--green)"/></svg></button>
+          <button type="button" aria-disabled="true" aria-label="Bag" id="bag"><svg viewBox="0 0 38 38" aria-hidden="true"><path d="M13 13V10a6 6 0 0 1 12 0v3" fill="none" stroke="currentColor" stroke-width="2.600"/><path d="M8 13h22l2 21H6z" fill="currentColor"/></svg><span class="count" id="bagCount" hidden>0</span></button>
+        </nav>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = [
+  { id: 'baguette', name: 'Baguette', price: 2, img: 'baguette', page: true },
+  { id: 'slice', name: 'Slice bread', price: 3, img: 'slice' },
+  { id: 'croissant', name: 'Croissant', price: .8, img: 'croissant' },
+  { id: 'cheese', name: 'Cheese Bread', price: .8, img: 'cheese' },
+  { id: 'bagels', name: 'Bagels', price: 5, img: 'bagels' },
+  { id: 'basket', name: 'Bread basket', price: 20, img: 'basket' },
+];
+const ICON_HEART = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 13.500S2.500 10 2.500 6.200A2.800 2.800 0 0 1 8 5a2.800 2.800 0 0 1 5.500 1.200C13.500 10 8 13.500 8 13.500z"/></svg>';
+const ICON_PLUS = '<svg viewBox="0 0 16 16" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><path d="M8 3.500v9M3.500 8h9"/></svg>';
+
+const state = { step: 0, favs: new Set(), bag: 0, qty: 1 };
+const $ = (id) => document.getElementById(id);
+const money = (n) => '$' + n.toFixed(2);
+const screens = [...document.querySelectorAll('[data-screen]')];
+const views = [...document.querySelectorAll('[data-view]')];
+const railItems = [...document.querySelectorAll('.rail li')];
+
+function renderGrid() {
+  const q = $('search').value.trim().toLowerCase();
+  const list = PRODUCTS.filter((p) => p.name.toLowerCase().includes(q));
+  $('grid').innerHTML = list.map((p) => `
+    <div class="item">
+      <button class="pic" type="button" ${p.page ? 'data-go="5"' : 'aria-disabled="true" tabindex="-1"'} aria-label="${p.name}"><img src="star-bake/${p.img}.png" alt=""></button>
+      <div class="acts">
+        <button class="round" type="button" data-add="1" aria-label="Add ${p.name} to bag">${ICON_PLUS}</button>
+        <button class="round" type="button" data-fav="${p.id}" aria-pressed="${state.favs.has(p.id)}" aria-label="Save ${p.name}">${ICON_HEART}</button>
+      </div>
+      <b>${p.name}</b><span>${money(p.price)}</span>
+    </div>`).join('') || '<p class="empty">Nothing on the bakery shelf matches that search.</p>';
+}
+
+function renderBag() {
+  $('bagCount').hidden = state.bag === 0;
+  $('bagCount').textContent = state.bag;
+  $('bag').setAttribute('aria-label', `Bag, ${state.bag} items`);
+}
+
+function go(step) {
+  state.step = step;
+  const shell = Math.min(step, 4);
+  screens.forEach((el) => { el.hidden = Number(el.dataset.screen) !== shell; });
+  views.forEach((el) => { el.hidden = Number(el.dataset.view) !== step; });
+  railItems.forEach((li, i) => li.classList.toggle('is-current', i === step));
+  $('cats').hidden = step !== 5;
+  if (step === 4) renderGrid();
+  if (step === 5) { state.qty = 1; $('qty').textContent = 1; $('price').textContent = money(2); }
+}
+
+document.addEventListener('click', (e) => {
+  const fav = e.target.closest('[data-fav]');
+  if (fav) {
+    const id = fav.dataset.fav;
+    state.favs.has(id) ? state.favs.delete(id) : state.favs.add(id);
+    document.querySelectorAll(`[data-fav="${id}"]`).forEach((b) => b.setAttribute('aria-pressed', String(state.favs.has(id))));
+    return;
+  }
+  const add = e.target.closest('[data-add]');
+  if (add) {
+    state.bag += state.step === 5 ? state.qty : 1;
+    return renderBag();
+  }
+  const eye = e.target.closest('.eye');
+  if (eye) {
+    const input = eye.parentElement.querySelector('input');
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    return eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  }
+  const link = e.target.closest('[data-go]');
+  if (link) go(Number(link.dataset.go));
+});
+
+// The prototype accepts any input: nothing typed here is stored or sent.
+document.querySelectorAll('form[data-next]').forEach((form) => form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  go(Number(form.dataset.next));
+}));
+
+$('search').addEventListener('input', () => { if (state.step === 4) renderGrid(); else go(4); });
+$('more').addEventListener('click', () => {
+  state.qty += 1;
+  $('qty').textContent = state.qty;
+  $('price').textContent = money(2 * state.qty);
+});
+
+// Fit the phone to short or narrow viewports (the portfolio modal embeds this page in an iframe).
+function fitPhone() {
+  const byHeight = (innerHeight - 72) / 756;
+  const byWidth = (innerWidth - 48) / 372;
+  $('phone').style.zoom = Math.max(.62, Math.min(1, byHeight, byWidth));
+}
+addEventListener('resize', fitPhone);
+fitPhone();
+
+go(0);
+</script>
+</body>
+</html>

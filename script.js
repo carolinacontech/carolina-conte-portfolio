@@ -265,6 +265,18 @@ const UI_GALLERIES = {
       { src: 'assets/ui/component-library-stay-scout.png', label: 'Stay Scout' },
     ],
   },
+  'onboarding-flow': {
+    title: 'Onboarding flow',
+    embed: 'assets/ui/onboarding-flow.html',
+    label: 'Stay Scout · first-run onboarding (interactive, sample data)',
+    bg: '#fbf9f7',
+  },
+  'mobile-app': {
+    title: 'Mobile app',
+    embed: 'assets/ui/star-bake.html',
+    label: 'Star Bake · bakery and loyalty app (interactive rebuild of the original screens)',
+    bg: '#f4efe5',
+  },
   'landing-page': {
     title: 'Landing page',
     embed: 'assets/ui/free-trial/index.html',
