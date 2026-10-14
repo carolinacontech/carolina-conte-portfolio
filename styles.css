@@ -1333,6 +1333,8 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
 
   .hero { min-height: 620px; }
   .hero-copy { padding-bottom: 32px; }
+  .hero-logo-stage { width: min(240px, 60vw); margin-top: 10px; }
+  .hero.is-playing .hero-logo-stage { width: min(180px, 46vw); }
   .hero h1 span { font-size: 44px; }
   .hero h1 strong { font-size: 48px; }
   .hero-text { font-size: 15px; }
