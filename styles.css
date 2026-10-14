@@ -1343,7 +1343,7 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
   .hero-copy .eyebrow,
   .hero-copy .hero-text { display: none; }
   .hero-headline { font-size: 19px; margin-top: 14px; }
-  .hero-video,
+  .hero-video { object-position: 50% center; }
   .hero-video-still { object-position: right center; }
   .hero-logo-stage { width: min(200px, 52vw); margin-top: 0; }
   .hero.is-playing .hero-logo-stage { width: min(160px, 42vw); }
