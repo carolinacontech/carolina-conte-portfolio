@@ -1315,6 +1315,8 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
   .spotlight-side-right { right: 16px; }
   .video-grid { grid-template-columns: repeat(2,1fr); }
   .masonry { grid-template-columns: repeat(2,1fr); }
+  .masonry .tile-form { grid-column: 1 / -1; }
+  .tile-form img { object-position: center top; }
   .brand-grid { grid-template-columns: repeat(2,1fr); }
   .deliv-row-1,
   .deliv-row-2 { grid-template-columns: 1fr; }
@@ -1342,11 +1344,11 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
   .hero-copy { padding-bottom: 28px; }
   .hero-copy .eyebrow,
   .hero-copy .hero-text { display: none; }
-  .hero-headline { font-size: 19px; margin-top: 14px; text-align: center; }
+  .hero-headline { font-size: 19px; margin-top: 9px; text-align: center; }
   .hero-video { object-position: 50% center; }
   .hero-video-still { object-position: right center; }
-  .hero-logo-stage { width: min(200px, 52vw); margin-top: 0; margin-left: auto; margin-right: auto; }
-  .hero.is-playing .hero-logo-stage { width: min(160px, 42vw); }
+  .hero-logo-stage { --logo-w: min(200px, 52vw); width: var(--logo-w); margin: 0 auto calc(var(--logo-w) * -0.0866); }
+  .hero.is-playing .hero-logo-stage { --logo-w: min(160px, 42vw); width: var(--logo-w); }
   .hero h1 span { font-size: 44px; }
   .hero h1 strong { font-size: 48px; }
   .hero-text { font-size: 15px; }
