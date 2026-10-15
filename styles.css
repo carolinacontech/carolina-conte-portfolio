@@ -356,6 +356,7 @@ section h2 span {
   gap: 14px;
 }
 .card { border-radius: var(--radius); overflow: hidden; }
+.split-grid-single { grid-template-columns: 1fr; }
 
 .about {
   background: var(--paper-2);

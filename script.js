@@ -260,7 +260,7 @@ const UI_GALLERIES = {
   'component-library': {
     title: 'Component library',
     items: [
-      { src: 'assets/ui/component-library-carolina-conte.png?v=3', label: 'Carolina Conte · portfolio' },
+      { src: 'assets/ui/component-library-carolina-conte.png?v=4', label: 'Carolina Conte · portfolio' },
       { src: 'assets/ui/component-library-market-open-media.png', label: 'Market Open Media' },
       { src: 'assets/ui/component-library-stay-scout.png', label: 'Stay Scout' },
     ],
