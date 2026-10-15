@@ -1228,6 +1228,9 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
   flex: 1;
 }
 .cert-list li { margin-bottom: 2px; }
+.cert-card-wide { grid-column: span 2; }
+.cert-list-cols { column-count: 2; column-gap: 28px; }
+.cert-list-cols li { break-inside: avoid; }
 .cert-meta {
   font-family: "JetBrains Mono", monospace;
   font-size: 11px;
@@ -1371,6 +1374,8 @@ blockquote cite { font-family: "JetBrains Mono", monospace; font-size: 11px; fon
   .journal-grid { grid-template-columns: 1fr; }
   .journal { padding: 38px 28px; }
   .cert-grid { grid-template-columns: 1fr; }
+  .cert-card-wide { grid-column: auto; }
+  .cert-list-cols { column-count: 1; }
   .certifications { padding: 38px 28px; }
   .process-grid { grid-template-columns: 1fr 1fr; }
   .tools-grid { grid-template-columns: 1fr; }
