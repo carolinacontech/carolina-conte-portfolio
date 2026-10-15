@@ -169,14 +169,17 @@ function brandAsset(slug, key) {
 }
 
 function loadImage(src, alt) {
-  return new Promise((resolve) => {
+  const candidates = [src, src.replace(/\.png$/, '.jpg')];
+  const tryNext = (i) => new Promise((resolve) => {
+    if (i >= candidates.length) return resolve(null);
     const img = new Image();
     img.alt = alt;
     img.decoding = 'async';
     img.onload = () => resolve(img);
-    img.onerror = () => resolve(null);
-    img.src = src;
+    img.onerror = () => tryNext(i + 1).then(resolve);
+    img.src = candidates[i];
   });
+  return tryNext(0);
 }
 
 document.querySelectorAll('.brand-card').forEach(async (card) => {

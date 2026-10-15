@@ -1,3 +1,11 @@
 .DS_Store
 *.log
 *.docx
+
+# raw brand working files stay local; only the curated, named folders below are published
+assets/brands/*
+!assets/brands/cakes-for-a-cause/
+!assets/brands/eva-shoes/
+!assets/brands/lica/
+!assets/brands/annies-bakery/
+!assets/brands/las-marias-market/
