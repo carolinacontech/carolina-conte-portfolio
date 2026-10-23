@@ -247,6 +247,123 @@ html { scroll-padding-top: 94px; }
 .contact { margin-top: 16px; border-radius: 5px; min-height: 600px; }
 .site-footer { padding: 30px 6px 45px; }
 
+
+/* Calendly — a direct booking experience, not a contact form */
+.booking {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: clamp(28px, 5vw, 84px);
+  margin-top: 16px;
+  padding: clamp(36px, 5.5vw, 82px);
+  border-radius: 5px;
+  background: var(--paper-2);
+  align-items: start;
+}
+.booking-copy {
+  min-width: 0;
+  padding: clamp(12px, 2vw, 35px) 0 0;
+  position: sticky;
+  top: 114px;
+}
+.booking h2 {
+  font-size: clamp(50px, 5.5vw, 84px);
+  letter-spacing: -.055em;
+  line-height: .96;
+  margin-bottom: 32px;
+}
+.booking-description {
+  margin: 0;
+  font-size: clamp(14px, 1.3vw, 16px);
+  line-height: 1.8;
+  opacity: .78;
+  max-width: 380px;
+}
+.booking-next {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+  margin-top: 46px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.booking-index {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .04em;
+  opacity: .75;
+}
+.booking-link {
+  display: inline-flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 36px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  font-weight: 600;
+  transition: color .2s ease;
+}
+.booking-link:hover, .booking-fallback a:hover { color: var(--accent); }
+.booking-link span { font-size: 20px; }
+.booking-calendar {
+  min-width: 0;
+  background: #fff;
+  border: 1px solid rgba(36,35,33,.11);
+  border-radius: 5px;
+  box-shadow: 0 18px 56px rgba(34,31,26,.06);
+  overflow: hidden;
+}
+.booking-calendar-top {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 22px;
+  border-bottom: 1px solid rgba(36,35,33,.1);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: .075em;
+}
+.booking-live { display: inline-flex; align-items: center; gap: 8px; color: #53685d; white-space: nowrap; }
+.booking-live i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3e9863;
+}
+.booking .calendly-inline-widget { width: 100%; min-width: 0; }
+.booking-fallback {
+  margin: 0;
+  padding: 14px 22px 19px;
+  border-top: 1px solid rgba(36,35,33,.08);
+  color: rgba(36,35,33,.65);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.booking-fallback a { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 900px) {
+  .booking { grid-template-columns: minmax(0,1fr); padding: 48px 32px; gap: 34px; }
+  .booking-copy { position: static; padding: 0; }
+  .booking h2 { font-size: clamp(52px, 8vw, 74px); }
+  .booking-next { margin-top: 25px; }
+  .booking-link { margin-top: 22px; }
+}
+@media (max-width: 560px) {
+  .booking { padding: 36px 16px; gap: 26px; }
+  .booking h2 { font-size: clamp(46px, 12vw, 58px); margin-bottom: 20px; }
+  .booking-description { font-size: 13px; }
+  .booking-next { gap: 12px; }
+  .booking-index { font-size: 9px; }
+  .booking-calendar-top { padding: 13px 12px; font-size: 8px; letter-spacing: 0; }
+  .booking-fallback { padding-inline: 12px; }
+  .booking .calendly-inline-widget { height: 760px !important; }
+}
+
 /* Tablet */
 @media (max-width: 900px) {
   .shell, .site-header { width: min(100% - 30px, 1360px); }
