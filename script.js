@@ -60,101 +60,33 @@ const spotlightSection = document.querySelector('.project-spotlight');
 const spotlightIntro = document.querySelector('.spotlight-video-intro');
 const spotlightLoop = document.querySelector('.spotlight-video-loop');
 
-const rotatorProjects = [
-  { tag: 'Mobile App', type: 'video', src: 'assets/spotlight-left-mobile.mp4' },
-  { tag: 'Design System', type: 'image', src: 'assets/ui/component-library-carolina-conte.png?v=4' },
-  { tag: 'Dashboard', type: 'image', src: 'assets/ui/dashboard-ui-thumb.jpg' },
-  { tag: 'Marketing Site', type: 'image', src: 'assets/ui/landing-page-thumb.jpg' },
-];
-
-const sideLeft = document.querySelector('.spotlight-side-left .spotlight-side-content');
-const sideRight = document.querySelector('.spotlight-side-right .spotlight-side-content');
-const phoneCards = document.querySelectorAll('.phone-card');
-
-let rotatorLeftIndex = 0;
-let rotatorRightIndex = 2;
-let rotatorIntervalId = null;
-
-function renderSideProject(el, project) {
-  if (!el) return;
-  if (project.type === 'video') {
-    el.innerHTML = `<video src="${project.src}" muted loop playsinline autoplay preload="auto"></video>`;
-  } else if (project.type === 'image') {
-    const img = document.createElement('img');
-    img.src = project.src;
-    img.alt = project.tag;
-    img.loading = 'lazy';
-    el.replaceChildren(img);
-  } else {
-    el.innerHTML = `<div class="mock">${project.tag}</div>`;
-  }
-}
-
-function highlightActive(tags) {
-  phoneCards.forEach((card) => {
-    card.classList.toggle('is-active', tags.includes(card.dataset.tag));
-  });
-}
-
-function swapSide(el, project) {
-  if (!el) return;
-  el.classList.add('is-fading');
-  setTimeout(() => {
-    renderSideProject(el, project);
-    el.classList.remove('is-fading');
-  }, 300);
-}
-
-function startRotator() {
-  if (!sideLeft || !sideRight || rotatorIntervalId) return;
-
-  rotatorLeftIndex = 0;
-  rotatorRightIndex = 2;
-  renderSideProject(sideLeft, rotatorProjects[rotatorLeftIndex]);
-  renderSideProject(sideRight, rotatorProjects[rotatorRightIndex]);
-  highlightActive([rotatorProjects[rotatorLeftIndex].tag, rotatorProjects[rotatorRightIndex].tag]);
-
-  rotatorIntervalId = setInterval(() => {
-    rotatorLeftIndex = (rotatorLeftIndex + 1) % rotatorProjects.length;
-    rotatorRightIndex = (rotatorRightIndex + 1) % rotatorProjects.length;
-    swapSide(sideLeft, rotatorProjects[rotatorLeftIndex]);
-    swapSide(sideRight, rotatorProjects[rotatorRightIndex]);
-    setTimeout(() => {
-      highlightActive([rotatorProjects[rotatorLeftIndex].tag, rotatorProjects[rotatorRightIndex].tag]);
-    }, 300);
-  }, 4500);
-}
-
-function stopRotator() {
-  clearInterval(rotatorIntervalId);
-  rotatorIntervalId = null;
-  phoneCards.forEach((card) => card.classList.remove('is-active'));
+// The Websites reel plays actual video files rather than cycling UI image placeholders.
+const websitePreviewVideos = document.querySelectorAll('.spotlight-website-video');
+const reduceWebsiteMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduceWebsiteMotion) {
+  websitePreviewVideos.forEach(video => video.pause());
 }
 
 spotlightIntro?.addEventListener('ended', () => {
   spotlightSection?.classList.add('is-looping');
   spotlightLoop?.play().catch(() => {});
-  startRotator();
 });
 
 if (spotlightIntro && spotlightLoop && spotlightSection) {
   const spotlightObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
+    entries.forEach(entry => {
       if (entry.isIntersecting) {
-        spotlightSection.classList.remove('is-looping');
-        spotlightLoop.pause();
-        spotlightLoop.currentTime = 0;
-        spotlightIntro.currentTime = 0;
-        spotlightIntro.play().catch(() => {});
-        stopRotator();
+        if (reduceWebsiteMotion) return;
+        if (!spotlightSection.classList.contains('is-looping')) spotlightIntro.play().catch(() => {});
+        else spotlightLoop.play().catch(() => {});
+        websitePreviewVideos.forEach(video => video.play().catch(() => {}));
       } else {
         spotlightIntro.pause();
         spotlightLoop.pause();
-        stopRotator();
+        websitePreviewVideos.forEach(video => video.pause());
       }
     });
-  }, { threshold: 0.4 });
-
+  }, { threshold: 0.1 });
   spotlightObserver.observe(spotlightSection);
 }
 
