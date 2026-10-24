@@ -281,9 +281,9 @@ const UI_GALLERIES = {
     bg: '#fbf9f7',
   },
   'mobile-app': {
-    title: 'Mobile app',
-    embed: 'assets/ui/star-bake.html',
-    label: 'Star Bake · bakery and loyalty app (interactive rebuild of the original screens)',
+    title: 'Star Bake · Mobile App',
+    embed: 'assets/ui/star-bake-gallery.html',
+    label: 'Seven original bakery and rewards UI screens — swipe horizontally to explore',
     bg: '#f4efe5',
   },
   'landing-page': {
