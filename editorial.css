@@ -598,3 +598,34 @@ html { scroll-padding-top: 94px; }
   .brand-card::after { font-size: 9px; }
   .gallery-case-link { width: 100%; justify-content: center; }
 }
+
+/* Websites — editorial reel, portrait-only moving web previews */
+.project-spotlight--websites{min-height:clamp(540px,53vw,760px);background:#141917;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;padding:clamp(28px,5vw,74px);gap:18px;isolation:isolate}
+.project-spotlight--websites .spotlight-scrim{background:linear-gradient(90deg,rgba(10,15,13,.87) 0%,rgba(10,15,13,.69) 40%,rgba(10,15,13,.4) 100%);z-index:1}
+.project-spotlight--websites .spotlight-story{position:relative;z-index:3;max-width:430px;color:#fff}
+.spotlight-eyebrow{font:500 10px "JetBrains Mono",monospace;letter-spacing:.13em;color:#e1c7b9;margin:0 0 22px}
+.spotlight-story h3{font:400 clamp(70px,8vw,125px)/.85 "Fraunces",Georgia,serif;letter-spacing:-.07em;margin:0 0 30px;color:#fff}
+.spotlight-story h3 span{color:#ff7255}
+.spotlight-description{font:400 clamp(14px,1.3vw,17px)/1.7 Inter,sans-serif;color:rgba(255,255,255,.84);margin:0;max-width:345px}
+.project-spotlight--websites .spotlight-web-screens{position:relative;z-index:2;height:100%;min-height:440px;display:flex;align-items:center;justify-content:center;gap:clamp(15px,2.4vw,35px);padding:18px 0}
+.project-spotlight--websites .spotlight-side{position:relative;top:auto;left:auto;right:auto;transform:none;flex:none;width:min(38%,220px);aspect-ratio:9/16;border:1px solid rgba(255,255,255,.38);border-radius:12px;background:#101511;box-shadow:0 28px 70px rgba(0,0,0,.45);overflow:hidden}
+.project-spotlight--websites .spotlight-side-left{transform:translateY(-24px) rotate(-5deg)}
+.project-spotlight--websites .spotlight-side-right{transform:translateY(25px) rotate(5deg)}
+.project-spotlight--websites .spotlight-side .browser-bar{height:22px;flex:none}
+.project-spotlight--websites .spotlight-website-video{display:block;width:100%;height:calc(100% - 22px);object-fit:cover;object-position:center top;background:#131c19}
+@media(max-width:900px){.project-spotlight--websites{min-height:560px;grid-template-columns:.88fr 1.12fr;padding:30px 26px}.project-spotlight--websites .spotlight-web-screens{min-height:420px}.project-spotlight--websites .spotlight-side{width:min(41%,185px)}.spotlight-story h3{font-size:clamp(60px,8vw,95px)}}
+@media(max-width:560px){
+.project-spotlight--websites{min-height:680px;display:flex;flex-direction:column;justify-content:space-between;gap:0;padding:32px 22px 18px}
+.project-spotlight--websites .spotlight-scrim{background:linear-gradient(180deg,rgba(10,15,13,.8),rgba(10,15,13,.44) 65%,rgba(10,15,13,.7))}
+.project-spotlight--websites .spotlight-story{width:100%;flex:none}
+.spotlight-eyebrow{font-size:9px;margin-bottom:14px}
+.spotlight-story h3{font-size:clamp(59px,17vw,88px);margin-bottom:15px}
+.spotlight-description{font-size:12px;line-height:1.55;max-width:310px}
+.project-spotlight--websites .spotlight-web-screens{min-height:0;height:auto;flex:1;width:100%;max-height:425px;padding:18px 0 8px;gap:14px}
+.project-spotlight--websites .spotlight-side{display:flex;width:min(43%,176px);aspect-ratio:9/16;max-height:345px}
+.project-spotlight--websites .spotlight-side-left{transform:translateY(-9px) rotate(-4deg)}
+.project-spotlight--websites .spotlight-side-right{transform:translateY(13px) rotate(4deg)}
+.project-spotlight--websites .spotlight-side .browser-bar{height:18px}
+.project-spotlight--websites .spotlight-website-video{height:calc(100% - 18px)}
+}
+@media(prefers-reduced-motion:reduce){.project-spotlight--websites .spotlight-side{transform:none}}
