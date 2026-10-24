@@ -568,3 +568,33 @@ html { scroll-padding-top: 94px; }
   .gallery .masonry .tile-logo { padding: 12px; }
   .gallery .masonry .tile-logo img { width: 100%; }
 }
+
+/* Dedicated project stories — clickable work and related gallery links. */
+.brand-card { position: relative; }
+.brand-card::after {
+  content: "Read case study ↗";
+  display: inline-flex;
+  color: var(--accent);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  line-height: 1.4;
+  letter-spacing: .015em;
+  margin-top: 1px;
+}
+.brand-card:hover::after { text-decoration: underline; text-underline-offset: 4px; }
+.gallery-case-link {
+  display: inline-flex;
+  margin: 5px 0 0;
+  width: fit-content;
+  padding: 14px 19px;
+  background: #faf8f3;
+  color: #242321;
+  border-radius: 3px;
+  font: 500 12px "JetBrains Mono", monospace;
+  text-decoration: none;
+}
+.gallery-case-link:hover { background: #e7e2d7; }
+@media (max-width: 560px) {
+  .brand-card::after { font-size: 9px; }
+  .gallery-case-link { width: 100%; justify-content: center; }
+}
