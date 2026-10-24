@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css?v=63" />
-  <link rel="stylesheet" href="editorial.css?v=3" />
+  <link rel="stylesheet" href="editorial.css?v=4" />
 </head>
 <body>
   <header class="site-header">
@@ -88,39 +88,27 @@
         <p>A collection of interfaces, systems and digital experiences — designed with intent, built to be used.</p>
       </div>
 
-      <div class="project-spotlight">
-        <video
-          class="spotlight-video spotlight-video-intro"
-          src="assets/project-01-intro.mp4"
-          muted
-          autoplay
-          playsinline
-          preload="auto"
-        ></video>
-        <video
-          class="spotlight-video spotlight-video-loop"
-          src="assets/project-01-loop.mp4"
-          muted
-          loop
-          playsinline
-          preload="auto"
-        ></video>
+      <div class="project-spotlight project-spotlight--websites" aria-label="Websites showcase">
+        <video class="spotlight-video spotlight-video-intro" src="assets/project-01-intro.mp4" muted autoplay playsinline preload="metadata"></video>
+        <video class="spotlight-video spotlight-video-loop" src="assets/project-01-loop.mp4" muted loop playsinline preload="metadata"></video>
         <div class="spotlight-scrim"></div>
 
-        <div class="spotlight-side spotlight-side-left" data-role="left">
-          <div class="browser-bar"><i></i><i></i><i></i></div>
-          <div class="spotlight-side-content"></div>
+        <div class="spotlight-story">
+          <p class="spotlight-eyebrow">DESIGN / DEVELOPMENT / EXPERIENCE</p>
+          <h3>Websites<span>.</span></h3>
+          <p class="spotlight-description">Digital experiences where brand identity, clear navigation and thoughtful interactions come together.</p>
         </div>
 
-        <div class="spotlight-side spotlight-side-right" data-role="right">
-          <div class="browser-bar"><i></i><i></i><i></i></div>
-          <div class="spotlight-side-content"></div>
+        <div class="spotlight-web-screens" aria-label="Moving previews of web experiences">
+          <div class="spotlight-side spotlight-side-left">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+            <video class="spotlight-website-video" src="assets/spotlight-left-mobile.mp4" poster="assets/ui/landing-page-thumb.jpg" muted autoplay loop playsinline preload="metadata" aria-label="Website preview clip"></video>
+          </div>
+          <div class="spotlight-side spotlight-side-right">
+            <div class="browser-bar" aria-hidden="true"><i></i><i></i><i></i></div>
+            <video class="spotlight-website-video" src="assets/project-01-loop.mp4" poster="assets/brands/las-marias-market/las-marias-market_web-desktop.png" muted autoplay loop playsinline preload="metadata" aria-label="Website motion preview clip"></video>
+          </div>
         </div>
-      </div>
-
-      <div class="editorial-spotlight-note">
-        <span class="editorial-index">01 / FEATURED EXPERIMENT</span>
-        <span>Building interfaces that feel as considered as they function.</span>
       </div>
 
       <p class="editorial-mobile-hint">Swipe to explore projects <span aria-hidden="true">→</span></p>
@@ -462,6 +450,6 @@
   </dialog>
 
   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
 </body>
 </html>
