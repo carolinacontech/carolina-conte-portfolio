@@ -1,0 +1,31 @@
+/* Market Open Media — illustrative home-page preview using the live site's core messaging.
+   This is an editorial representation, not a screenshot or a campaign landing page. */
+.mom-webframe{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;min-width:0;min-height:100%;background:radial-gradient(ellipse at 94% 57%,rgba(28,103,215,.32),transparent 42%),linear-gradient(135deg,#040c1b,#081c43 85%);color:#f7f9ff;font-family:Inter,system-ui,sans-serif;padding:clamp(14px,2.2vw,34px);border-radius:3px}
+.mom-webframe *{box-sizing:border-box}
+.mom-webframe-top{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:11px;border-bottom:1px solid rgba(255,255,255,.14)}
+.mom-webframe-brand{font:750 clamp(9px,1.05vw,15px)/.98 Inter,system-ui,sans-serif;letter-spacing:-.035em;text-transform:uppercase;color:#f8faff}
+.mom-webframe-brand b{color:#51aaff}
+.mom-webframe-nav{font:500 clamp(7px,.72vw,10px)/1.3 Inter,system-ui,sans-serif;color:#b6cbe8;white-space:nowrap}
+.mom-webframe-main{position:relative;z-index:2;padding:25px 0 30px;max-width:84%}
+.mom-webframe-kicker{display:block;margin-bottom:12px;font:650 clamp(8px,.73vw,12px)/1.45 Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.075em;color:#79b7ff}
+.mom-webframe-headline{display:block;font:750 clamp(23px,2.5vw,43px)/1.03 Inter,system-ui,sans-serif;letter-spacing:-.06em;color:#fff}
+.mom-webframe-headline em{font-style:normal;color:#7ab4ff}
+.mom-webframe-copy{max-width:410px;margin:14px 0 19px;font-size:clamp(9px,.91vw,13px);line-height:1.58;color:#c9d5e8}
+.mom-webframe-cta{display:inline-block;padding:10px 13px;border-radius:2px;background:#0b72ff;font-size:clamp(8px,.79vw,11px);font-weight:700;color:#fff}
+.mom-webframe-footer{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:12px;font:500 clamp(8px,.75vw,11px)/1.2 Inter,system-ui,sans-serif;color:#a5c1e4;border-top:1px solid rgba(255,255,255,.12);padding-top:12px}
+.mom-webframe-decor{position:absolute;width:51%;aspect-ratio:1;right:-13%;top:16%;border-radius:50%;border:1px solid rgba(90,165,255,.22);box-shadow:0 0 0 28px rgba(75,158,255,.045),0 0 0 62px rgba(75,158,255,.04);background:radial-gradient(circle at 50% 50%,rgba(55,144,255,.17),transparent 66%);pointer-events:none}
+.mom-webframe-decor::before,.mom-webframe-decor::after{content:"";position:absolute;background:#177cff;box-shadow:0 0 0 7px rgba(64,143,255,.13),0 0 0 12px rgba(64,143,255,.08);width:12px;height:12px;border-radius:50%}
+.mom-webframe-decor::before{top:22%;left:21%}
+.mom-webframe-decor::after{top:59%;left:63%;background:#52dbe8}
+.mom-webframe--card{height:100%;min-height:230px}
+.mom-webframe--card .mom-webframe-main{padding:19px 0 24px}
+.mom-webframe--card .mom-webframe-headline{font-size:clamp(20px,2.2vw,32px)}
+.mom-webframe--card .mom-webframe-copy{font-size:11px;max-width:70%}
+.mom-webframe--card .mom-webframe-nav{display:none}
+.mom-webframe--case{height:100%;min-height:480px;border-radius:4px;padding:clamp(24px,4vw,60px)}
+.mom-webframe--case .mom-webframe-headline{font-size:clamp(45px,6vw,94px)}
+.mom-webframe--case .mom-webframe-main{padding:52px 0 65px;max-width:86%}
+.mom-webframe--case .mom-webframe-copy{font-size:clamp(13px,1.4vw,17px);max-width:430px}
+.mom-webframe--case .mom-webframe-cta{font-size:13px;padding:14px 20px}
+@media(max-width:950px){.mom-webframe--card .mom-webframe-headline{font-size:clamp(23px,4.1vw,39px)}.mom-webframe--card .mom-webframe-copy{max-width:79%}}
+@media(max-width:560px){.mom-webframe--card{min-height:245px}.mom-webframe--card .mom-webframe-headline{font-size:clamp(22px,6vw,29px)}.mom-webframe--card .mom-webframe-copy{font-size:10px}.mom-webframe--case{min-height:380px;padding:22px}.mom-webframe--case .mom-webframe-headline{font-size:clamp(36px,9vw,60px)}.mom-webframe--case .mom-webframe-main{padding:35px 0}.mom-webframe--case .mom-webframe-copy{font-size:12px}.mom-webframe--case .mom-webframe-nav{display:none}}
