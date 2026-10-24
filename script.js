@@ -196,7 +196,7 @@ document.querySelectorAll('.brand-card').forEach(async (card) => {
   const logo = await loadImage(brandAsset(slug, 'logo'), `${card.dataset.name} logo`);
   if (logo) {
     mark.appendChild(logo);
-    card.addEventListener('click', () => openBrandModal(card));
+    // The brand card is now an anchor to its dedicated case study.
   } else {
     card.classList.add('is-soon');
     card.setAttribute('aria-disabled', 'true');
