@@ -627,3 +627,7 @@ html { scroll-padding-top: 94px; }
 .project-spotlight--websites .spotlight-website-video{height:calc(100% - 18px)}
 }
 @media(prefers-reduced-motion:reduce){.project-spotlight--websites .spotlight-side{transform:none}}
+
+/* Three featured projects, balanced across desktop and tablet. */
+@media(min-width:901px){.video-grid.editorial-project-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}}
+@media(min-width:561px) and (max-width:900px){.video-grid.editorial-project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.video-grid.editorial-project-grid>.editorial-project-card:last-child{grid-column:1/-1;max-width:650px}}
