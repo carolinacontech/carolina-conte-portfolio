@@ -1,0 +1,118 @@
+
+/* Case study design system — editorial portfolio 2026 */
+:root{--page:#eeebe4;--paper:#fbfaf6;--ink:#242321;--soft:#746e65;--accent:#d65d43;--line:rgba(36,35,33,.17)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1300px,calc(100% - 56px));margin-inline:auto}
+header.case-nav{position:sticky;top:10px;z-index:50;background:rgba(251,250,246,.96);border:1px solid var(--line);backdrop-filter:blur(18px);border-radius:5px;margin:10px auto 20px;min-height:72px;padding:14px 29px;display:flex;align-items:center;justify-content:space-between;gap:25px}
+.home-logo{font:600 13px "JetBrains Mono",monospace;letter-spacing:.04em}
+.home-logo i{font-style:normal;color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:25px;font:500 11px "JetBrains Mono",monospace;letter-spacing:.045em;text-transform:uppercase}
+.nav-right a:hover,.text-link:hover{color:var(--accent)}
+.nav-back{border-bottom:1px solid currentColor;padding:8px 0}
+.case-hero{background:var(--paper);padding:clamp(34px,5.5vw,88px);border-radius:5px 5px 0 0}
+.kicker,.index,.eyebrow{font:500 11px "JetBrains Mono",monospace;letter-spacing:.13em;text-transform:uppercase}
+.kicker{display:flex;align-items:center;gap:10px;color:var(--accent);margin:0 0 34px}
+.kicker:before{content:"✳";font-size:15px}
+.case-hero h1{font:400 clamp(66px,9vw,156px)/.86 Fraunces,Georgia,serif;letter-spacing:-.075em;margin:0;max-width:1100px}
+.case-hero h1 em{font-weight:400}
+.case-deck{font:400 clamp(20px,2.4vw,36px)/1.32 Fraunces,Georgia,serif;letter-spacing:-.025em;max-width:790px;margin:39px 0 43px}
+.case-meta{border-top:1px solid var(--line);padding-top:22px;display:grid;grid-template-columns:1.1fr 1fr 1fr;gap:28px}
+.case-meta div{display:flex;flex-direction:column;gap:10px}
+.case-meta span{font:500 10px "JetBrains Mono",monospace;color:var(--soft);text-transform:uppercase;letter-spacing:.1em}
+.case-meta strong{font:500 13px Inter,system-ui,sans-serif;line-height:1.55}
+.case-visual{position:relative;min-height:400px;background:var(--visual,#e3e7df);overflow:hidden;display:grid;place-items:center;padding:clamp(28px,4vw,62px);border-radius:0 0 5px 5px}
+.case-visual img{width:100%;height:min(690px,56vw);object-fit:contain;object-position:center}
+.case-visual--cover img{height:min(630px,53vw)}
+.case-visual--logo img{height:min(450px,38vw);width:min(650px,80%)}
+.case-visual-caption{position:absolute;bottom:21px;left:29px;background:rgba(251,250,246,.92);border-radius:3px;padding:8px 12px;font:500 10px "JetBrains Mono",monospace;letter-spacing:.04em}
+.case-main{background:var(--paper);margin-top:16px;padding:clamp(35px,6vw,95px);border-radius:5px}
+.section-label{font:500 11px "JetBrains Mono",monospace;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin:0}
+.case-intro{display:grid;grid-template-columns:minmax(160px,.48fr) 1fr;gap:clamp(25px,5vw,95px);padding-bottom:75px;border-bottom:1px solid var(--line)}
+.case-intro h2,.section-lead h2,.case-outcome h2{font:400 clamp(39px,5vw,72px)/1.03 Fraunces,Georgia,serif;letter-spacing:-.045em;margin:0}
+.case-intro .intro-copy{font-size:clamp(16px,1.65vw,21px);line-height:1.8;max-width:760px}
+.case-intro .intro-copy p{margin:0 0 20px}
+.story-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin:0 0 80px}
+.story-panel{padding:55px 48px 58px 0;border-bottom:1px solid var(--line)}
+.story-panel:nth-child(even){border-left:1px solid var(--line);padding-left:48px}
+.story-panel h3{font:400 clamp(30px,3.2vw,47px)/1.13 Fraunces,Georgia,serif;letter-spacing:-.045em;margin:24px 0 20px}
+.story-panel p{font-size:15px;line-height:1.85;max-width:500px;color:#49443e}
+.story-panel ul{padding-left:21px;color:#49443e;font-size:14px;line-height:1.9}
+.section-lead{display:flex;justify-content:space-between;align-items:end;gap:32px;margin:0 0 35px}
+.section-lead p:last-child{font-size:14px;line-height:1.6;max-width:320px;color:var(--soft);margin:0}
+.work-images{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.work-images figure{margin:0;background:#efebe4;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.work-images figure.featured{grid-column:1/-1}
+.work-images figure img{height:auto;width:100%;max-height:620px;object-fit:contain;background:#f4f0e9}
+.work-images figure.featured img{max-height:730px}
+.work-images figcaption{border-top:1px solid var(--line);padding:14px 19px;font:500 11px "JetBrains Mono",monospace;letter-spacing:.035em;line-height:1.55}
+.experience-box{margin:25px 0 0;border:1px solid var(--line);padding:25px;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.experience-box p{margin:0;max-width:540px;line-height:1.7;font-size:14px;color:#49443e}
+.link-arrow{display:inline-flex;align-items:center;justify-content:center;gap:18px;padding:17px 22px;background:var(--ink);color:#fff;font:500 12px "JetBrains Mono",monospace;letter-spacing:.02em;transition:transform .2s}
+.link-arrow:hover{transform:translateY(-3px)}
+.case-outcome{background:var(--ink);color:#fff;padding:clamp(38px,6vw,94px);margin-top:16px;border-radius:5px;display:grid;grid-template-columns:.54fr 1fr;gap:55px}
+.case-outcome .section-label{color:#ee927d}
+.case-outcome h2{margin-top:22px}
+.case-outcome p{font-size:16px;line-height:1.8;max-width:680px;margin:0 0 22px}
+.outcome-items{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.outcome-items span{padding:10px 12px;border:1px solid rgba(255,255,255,.28);border-radius:2px;font:500 11px "JetBrains Mono",monospace}
+.results-note{font-size:12px!important;opacity:.66;margin:26px 0 0!important}
+.case-footer{margin-top:16px;background:var(--paper);padding:clamp(38px,6vw,85px);border-radius:5px;display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+.case-footer .eyebrow{color:var(--accent)}
+.case-footer h2{font:400 clamp(38px,5vw,74px)/1.05 Fraunces,Georgia,serif;letter-spacing:-.045em;margin:21px 0 0}
+.case-footer .link-arrow{white-space:nowrap}
+footer{padding:26px 5px 46px;display:flex;justify-content:space-between;gap:20px;color:var(--soft);font:500 11px "JetBrains Mono",monospace}
+@media(max-width:850px){
+.wrap{width:calc(100% - 30px)}
+.case-meta{grid-template-columns:repeat(2,1fr)}
+.case-intro{grid-template-columns:1fr;gap:25px}
+.case-intro h2{font-size:46px}
+.case-hero h1{font-size:clamp(60px,12vw,110px)}
+.story-panel{padding-right:25px}
+.story-panel:nth-child(even){padding-left:25px}
+.case-outcome{grid-template-columns:1fr;gap:20px}
+}
+@media(max-width:560px){
+.wrap{width:calc(100% - 18px)}
+header.case-nav{padding:13px 17px;min-height:60px}
+.home-logo{font-size:10px;letter-spacing:0}
+.nav-right{gap:12px;font-size:10px}
+.nav-right a:first-child{display:none}
+.case-hero{padding:40px 23px}
+.kicker{font-size:10px;margin-bottom:25px}
+.case-hero h1{font-size:clamp(53px,14vw,83px);overflow-wrap:anywhere}
+.case-deck{font-size:23px;margin:26px 0}
+.case-meta{grid-template-columns:1fr 1fr;gap:22px}
+.case-meta span{font-size:9px}
+.case-meta strong{font-size:12px}
+.case-visual{min-height:260px;padding:20px}
+.case-visual img,.case-visual--cover img{height:auto;max-height:430px}
+.case-visual--logo img{height:auto;max-height:260px;width:87%}
+.case-visual-caption{font-size:9px;left:11px;bottom:11px}
+.case-main{padding:43px 23px}
+.case-intro{padding-bottom:34px}
+.case-intro h2{font-size:42px}
+.case-intro .intro-copy{font-size:15px}
+.story-grid{grid-template-columns:1fr;margin-bottom:47px}
+.story-panel,.story-panel:nth-child(even){padding:35px 0;border-left:0}
+.story-panel h3{font-size:36px;margin:18px 0 12px}
+.story-panel p{font-size:14px}
+.section-lead{display:block}
+.section-lead h2{font-size:39px;margin:10px 0 14px}
+.work-images{grid-template-columns:1fr;gap:14px}
+.work-images figure.featured{grid-column:auto}
+.work-images figure img{max-height:520px}
+.experience-box{display:block}
+.experience-box .link-arrow{margin-top:20px;width:100%}
+.case-outcome{padding:46px 24px}
+.case-outcome h2{font-size:48px}
+.case-outcome p{font-size:14px}
+.case-footer{display:block;padding:45px 23px}
+.case-footer h2{font-size:46px}
+.case-footer .link-arrow{width:100%;margin-top:30px}
+footer{font-size:10px;padding:20px 5px 35px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.link-arrow{transition:none}}
