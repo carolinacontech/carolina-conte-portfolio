@@ -62,9 +62,9 @@ const spotlightLoop = document.querySelector('.spotlight-video-loop');
 
 const rotatorProjects = [
   { tag: 'Mobile App', type: 'video', src: 'assets/spotlight-left-mobile.mp4' },
-  { tag: 'Design System', type: 'mock' },
-  { tag: 'Dashboard', type: 'mock' },
-  { tag: 'Marketing Site', type: 'mock' },
+  { tag: 'Design System', type: 'image', src: 'assets/ui/component-library-carolina-conte.png?v=4' },
+  { tag: 'Dashboard', type: 'image', src: 'assets/ui/dashboard-ui-thumb.jpg' },
+  { tag: 'Marketing Site', type: 'image', src: 'assets/ui/landing-page-thumb.jpg' },
 ];
 
 const sideLeft = document.querySelector('.spotlight-side-left .spotlight-side-content');
@@ -79,6 +79,12 @@ function renderSideProject(el, project) {
   if (!el) return;
   if (project.type === 'video') {
     el.innerHTML = `<video src="${project.src}" muted loop playsinline autoplay preload="auto"></video>`;
+  } else if (project.type === 'image') {
+    const img = document.createElement('img');
+    img.src = project.src;
+    img.alt = project.tag;
+    img.loading = 'lazy';
+    el.replaceChildren(img);
   } else {
     el.innerHTML = `<div class="mock">${project.tag}</div>`;
   }
