@@ -363,6 +363,24 @@ function openGalleryModal(gallery) {
     brandModalBody.appendChild(figure);
   });
 
+  // Related long-form story, without changing how the interactive gallery works.
+  const relatedCaseStudies = {
+    'mobile-app': 'projects/star-bake.html',
+    'component-library': 'projects/component-systems.html',
+    'design-tokens': 'projects/component-systems.html',
+    'dashboard-ui': 'projects/jarvis.html',
+    'landing-page': 'projects/market-open-media.html',
+    'form-system': 'projects/market-open-media.html',
+  };
+  const caseSlug = Object.entries(UI_GALLERIES).find(([, entry]) => entry === gallery)?.[0];
+  const studyUrl = relatedCaseStudies[caseSlug];
+  if (studyUrl) {
+    const link = document.createElement('a');
+    link.href = studyUrl;
+    link.className = 'gallery-case-link';
+    link.textContent = 'Read the full case study ↗';
+    brandModalBody.appendChild(link);
+  }
   brandModal.showModal();
   document.body.classList.add('modal-open');
 }
