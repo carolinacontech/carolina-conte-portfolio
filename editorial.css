@@ -535,3 +535,36 @@ html { scroll-padding-top: 94px; }
   }
   .editorial-mobile-hint span { font-size: 19px; color: var(--accent); }
 }
+
+/* Original brand signature in the free lower-right slot of Interfaces. */
+.gallery .masonry .tile-logo {
+  grid-column: 4;
+  grid-row: 3;
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gallery .masonry .tile-logo img {
+  display: block;
+  width: min(100%, 230px);
+  height: auto;
+  max-height: 100%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+@media (max-width: 900px) {
+  .gallery .masonry .tile-logo {
+    grid-column: 2;
+    grid-row: auto;
+  }
+}
+@media (max-width: 560px) {
+  .gallery .masonry .tile-logo { padding: 12px; }
+  .gallery .masonry .tile-logo img { width: 100%; }
+}
