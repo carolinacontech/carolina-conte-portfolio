@@ -1,0 +1,15 @@
+/* Eva Shoes — the symbolic language behind the handcrafted identity. */
+.eva-story{margin:0 0 clamp(62px,7vw,105px);padding:clamp(28px,4.7vw,70px);background:#efe3d7;border:1px solid rgba(100,64,39,.2);border-radius:4px}
+.eva-story-intro{display:grid;grid-template-columns:minmax(165px,.42fr) 1fr;column-gap:clamp(25px,5vw,85px);border-bottom:1px solid rgba(100,64,39,.24);padding-bottom:37px}
+.eva-story-intro .section-label{grid-row:1 / span 2;color:#785037}
+.eva-story-intro h3{font:400 clamp(34px,4.6vw,67px)/1.05 Fraunces,Georgia,serif;letter-spacing:-.05em;margin:0 0 19px}
+.eva-story-intro h3 em{font-weight:400;color:#67412e}
+.eva-story-intro p:last-child{grid-column:2;line-height:1.75;max-width:640px;font-size:15px;margin:0;color:#574b42}
+.eva-story-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:15px}
+.eva-story-detail{padding:32px 34px 33px 0;border-bottom:1px solid rgba(100,64,39,.2)}
+.eva-story-detail:nth-child(even){padding-left:34px;border-left:1px solid rgba(100,64,39,.2)}
+.eva-story-detail span{font:600 10px "JetBrains Mono",monospace;color:#875a3d;letter-spacing:.08em}
+.eva-story-detail h4{font:400 clamp(24px,2.5vw,35px)/1.15 Fraunces,Georgia,serif;letter-spacing:-.03em;margin:19px 0 15px}
+.eva-story-detail p{font-size:14px;line-height:1.8;color:#574b42;max-width:475px;margin:0}
+@media(max-width:800px){.eva-story-intro{grid-template-columns:1fr}.eva-story-intro .section-label{grid-row:auto;margin-bottom:19px}.eva-story-intro p:last-child{grid-column:1}}
+@media(max-width:560px){.eva-story{padding:30px 22px}.eva-story-intro h3{font-size:42px}.eva-story-intro p:last-child{font-size:14px}.eva-story-grid{grid-template-columns:1fr}.eva-story-detail,.eva-story-detail:nth-child(even){padding:29px 0;border-left:0}.eva-story-detail h4{font-size:30px}.eva-story-detail p{font-size:13px}}
