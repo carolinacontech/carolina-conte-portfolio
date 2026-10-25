@@ -635,3 +635,7 @@ html { scroll-padding-top: 94px; }
 /* The Market Open Media project tile displays the actual website screenshot. */
 .editorial-project-grid .market-open-media-card .editorial-project-image{background:#040c1b}
 .editorial-project-grid .market-open-media-card .editorial-project-image img{object-fit:contain;object-position:center center}
+
+/* Authentic Market Open Media website screenshot — show the complete design. */
+.editorial-project-grid .market-open-media-card .editorial-project-image{background:#040c1b}
+.editorial-project-grid .market-open-media-card .editorial-project-image img{object-fit:contain;object-position:center center}
