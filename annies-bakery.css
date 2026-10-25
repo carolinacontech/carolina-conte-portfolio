@@ -1,0 +1,68 @@
+/* Annie's Bakery — a multigenerational brand story. */
+.annie-story{
+  margin:0 0 clamp(62px,7vw,106px);
+  padding:clamp(28px,4.6vw,70px);
+  background:#f7e9e4;
+  border:1px solid rgba(124,67,58,.18);
+  border-radius:4px;
+}
+.annie-story-top{
+  display:grid;
+  grid-template-columns:minmax(165px,.43fr) 1fr;
+  column-gap:clamp(25px,5vw,85px);
+  padding-bottom:38px;
+  border-bottom:1px solid rgba(124,67,58,.22);
+}
+.annie-story-top .section-label{grid-row:1/span 2;color:#95534b}
+.annie-story-top h3{
+  font:400 clamp(34px,4.6vw,67px)/1.05 Fraunces,Georgia,serif;
+  letter-spacing:-.05em;
+  margin:0 0 19px;
+}
+.annie-story-top h3 em{font-weight:400;color:#a75a4b}
+.annie-story-top p:last-child{
+  grid-column:2;
+  max-width:640px;
+  margin:0;
+  color:#604c46;
+  font-size:15px;
+  line-height:1.78;
+}
+.annie-story-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  margin-top:14px;
+}
+.annie-story-grid article{
+  padding:32px 34px 32px 0;
+  border-bottom:1px solid rgba(124,67,58,.19);
+}
+.annie-story-grid article:nth-child(even){
+  padding-left:34px;
+  border-left:1px solid rgba(124,67,58,.19);
+}
+.annie-story-grid .step{
+  font:600 10px "JetBrains Mono",monospace;
+  letter-spacing:.075em;
+  color:#a45950;
+}
+.annie-story-grid h4{
+  font:400 clamp(24px,2.6vw,36px)/1.16 Fraunces,Georgia,serif;
+  letter-spacing:-.033em;
+  margin:20px 0 13px;
+}
+.annie-story-grid p{max-width:475px;color:#604c46;font-size:14px;line-height:1.82;margin:0}
+@media(max-width:800px){
+  .annie-story-top{grid-template-columns:1fr}
+  .annie-story-top .section-label{grid-row:auto;margin-bottom:20px}
+  .annie-story-top p:last-child{grid-column:1}
+}
+@media(max-width:560px){
+  .annie-story{padding:30px 22px}
+  .annie-story-top h3{font-size:42px}
+  .annie-story-top p:last-child{font-size:14px}
+  .annie-story-grid{grid-template-columns:1fr}
+  .annie-story-grid article,.annie-story-grid article:nth-child(even){padding:29px 0;border-left:0}
+  .annie-story-grid h4{font-size:30px}
+  .annie-story-grid p{font-size:13px}
+}
