@@ -1,0 +1,13 @@
+/* Cakes for a Cause — discovery storytelling */
+.cause-story{margin:0 0 clamp(65px,7vw,110px);padding:clamp(28px,4.5vw,70px);background:#fff4db;border:1px solid rgba(166,119,46,.2);border-radius:4px}
+.cause-story-heading{display:grid;grid-template-columns:minmax(180px,.44fr) 1fr;column-gap:clamp(25px,5vw,85px);align-items:start;padding-bottom:34px;border-bottom:1px solid rgba(80,59,32,.22)}
+.cause-story-heading .section-label{grid-row:1 / span 2;color:#a36327}
+.cause-story-heading h3{font:400 clamp(35px,4.2vw,62px)/1.05 Fraunces,Georgia,serif;letter-spacing:-.05em;margin:0 0 16px}
+.cause-story-heading p:last-child{grid-column:2;max-width:600px;font-size:15px;line-height:1.8;color:#554735;margin:0}
+.cause-story-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;list-style:none;padding:34px 0 0;margin:0}
+.cause-story-steps li{border-top:2px solid #d3a662;padding-top:18px}
+.cause-story-steps li span{display:block;font:600 10px "JetBrains Mono",monospace;letter-spacing:.055em;color:#9b632d;margin:0 0 19px}
+.cause-story-steps strong{display:block;font:400 clamp(18px,1.65vw,25px)/1.17 Fraunces,Georgia,serif;letter-spacing:-.02em;margin-bottom:10px}
+.cause-story-steps li p{font-size:12px;line-height:1.75;color:#5a5145;margin:0}
+@media(max-width:900px){.cause-story-heading{grid-template-columns:1fr}.cause-story-heading .section-label{grid-row:auto;margin-bottom:22px}.cause-story-heading p:last-child{grid-column:1}.cause-story-steps{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:32px}}
+@media(max-width:560px){.cause-story{padding:27px 21px}.cause-story-heading h3{font-size:40px}.cause-story-heading p:last-child{font-size:14px}.cause-story-steps{grid-template-columns:1fr;gap:0;padding-top:10px}.cause-story-steps li{padding:21px 0 24px;display:grid;grid-template-columns:1fr 2fr;column-gap:15px}.cause-story-steps li span{grid-column:1;grid-row:1 / span 2;line-height:1.5;margin:3px 0 0}.cause-story-steps strong{grid-column:2;font-size:22px}.cause-story-steps li p{grid-column:2;font-size:12px}}
