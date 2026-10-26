@@ -231,7 +231,26 @@ html { scroll-padding-top: 94px; }
 /* Writing + credentials stay available, but they don't overwhelm the work */
 .journal { background: #e9e5dc; }
 .journal-card { border-radius: 3px; }
-.certifications { background: var(--paper-2); }
+.certifications {
+  background: var(--paper-2);
+  color: var(--ink);
+}
+.certifications .section-heading,
+.certifications .section-heading h2,
+.certifications .section-heading > p,
+.certifications .editorial-credentials summary,
+.certifications .cert-card,
+.certifications .cert-card h3,
+.certifications .cert-card p,
+.certifications .cert-list,
+.certifications .cert-meta {
+  color: var(--ink);
+}
+.certifications .cert-card {
+  background: rgba(36,35,33,.035);
+  border-color: rgba(36,35,33,.15);
+}
+.certifications .cert-issuer { color: #a44833; }
 .certifications .section-heading { margin-bottom: 28px; }
 .editorial-credentials { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .editorial-credentials summary {
