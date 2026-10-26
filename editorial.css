@@ -563,8 +563,9 @@ html { scroll-padding-top: 94px; }
   overflow: hidden;
   padding: 18px;
   min-width: 0;
-  background: var(--paper-2);
-  border: 1px solid rgba(36,35,33,.12);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -576,6 +577,7 @@ html { scroll-padding-top: 94px; }
   max-height: 100%;
   object-fit: contain;
   filter: none; /* Preserve the logo's original colors */
+  background: transparent;
 }
 @media (max-width: 900px) {
   .gallery .masonry .tile-logo {
