@@ -11,6 +11,21 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../case-study.css?v=1" />
   <!-- Screenshot visuals now replace the custom illustration. -->
+  <style>
+    /* Market Open Media: show the actual page screenshot edge-to-edge, without a dark surround. */
+    .mom-hero-screenshot {
+      padding: 0;
+      min-height: 0;
+      background: transparent;
+    }
+    .mom-hero-screenshot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: none;
+      object-fit: contain;
+    }
+  </style>
 </head>
 <body>
   <header class="case-nav wrap">
@@ -31,7 +46,7 @@
         <div><span>Explore</span><strong>Concept · Craft · Outcome</strong></div>
       </div>
     </section>
-    <div class="case-visual wrap case-visual--cover" style="--visual:#040c1b">
+    <div class="case-visual wrap case-visual--cover mom-hero-screenshot">
       <img src="../assets/ui/market-open-media-homepage-2026.webp" alt="Updated Market Open Media website homepage, with navy Google Maps SEO hero and cyan call-to-action" onerror="this.onerror=null;this.src='../assets/ui/market-open-media-homepage.svg'" />
       <span class="case-visual-caption">Homepage hero</span>
     </div>
