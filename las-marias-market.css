@@ -85,16 +85,25 @@
   object-fit:contain;
   background:#12151b;
 }
-/* Brand reel 01: force its correct portrait display, not 16:9. */
-.marias-video-grid video.marias-video--01{
-  width:270px;
-  height:480px;
-  max-width:100%;
+/* Video 01: dedicated portrait viewport, independent from encoded dimensions. */
+.marias-video-frame--portrait{
+  position:relative;
+  width:min(100%,270px);
   aspect-ratio:9 / 16;
-  object-fit:contain;
+  overflow:hidden;
+  background:#12151b;
+}
+.marias-video-grid .marias-video-frame--portrait video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  aspect-ratio:9 / 16;
+  max-width:none;
+  object-fit:cover;
 }
 @media(max-width:640px){
-  .marias-video-grid video.marias-video--01{width:225px;height:400px}
+  .marias-video-frame--portrait{width:min(100%,225px)}
 }
 .marias-video-grid figcaption{
   width:100%;margin-top:auto;padding:15px 18px;
