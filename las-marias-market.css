@@ -85,6 +85,17 @@
   object-fit:contain;
   background:#12151b;
 }
+/* Brand reel 01: force its correct portrait display, not 16:9. */
+.marias-video-grid video.marias-video--01{
+  width:270px;
+  height:480px;
+  max-width:100%;
+  aspect-ratio:9 / 16;
+  object-fit:contain;
+}
+@media(max-width:640px){
+  .marias-video-grid video.marias-video--01{width:225px;height:400px}
+}
 .marias-video-grid figcaption{
   width:100%;margin-top:auto;padding:15px 18px;
   font:500 11px "JetBrains Mono",monospace;
