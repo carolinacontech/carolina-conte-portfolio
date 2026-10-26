@@ -65,3 +65,11 @@
   .marias-story-grid h4{font-size:30px}
   .marias-story-grid p{font-size:13px}
 }
+
+/* Las Marías Market — motion library */
+.marias-videos{margin-top:clamp(55px,7vw,110px)}
+.marias-video-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.marias-video-grid figure{min-width:0;margin:0;overflow:hidden;border:1px solid rgba(112,78,41,.20);border-radius:4px;background:#f3eee8}
+.marias-video-grid video{display:block;width:100%;height:clamp(260px,35vw,510px);object-fit:contain;background:#12151b}
+.marias-video-grid figcaption{padding:15px 18px;font:500 11px "JetBrains Mono",monospace;letter-spacing:.035em;color:#50463b}
+@media(max-width:640px){.marias-video-grid{grid-template-columns:1fr;gap:16px}.marias-video-grid video{height:auto;max-height:530px;min-height:240px}}
