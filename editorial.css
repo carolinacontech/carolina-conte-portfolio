@@ -694,3 +694,45 @@ html { scroll-padding-top: 94px; }
     width: 100%;
   }
 }
+
+
+/* Archive gateway at the end of Selected Work. */
+.case-index-cta{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  gap:30px;
+  padding:29px 0 0;
+  margin-top:44px;
+  border-top:1px solid var(--line);
+}
+.case-index-cta .editorial-index{color:var(--accent)}
+.case-index-cta p{
+  max-width:485px;
+  font:400 clamp(21px,2.2vw,29px)/1.3 Fraunces,Georgia,serif;
+  letter-spacing:-.027em;
+  margin:13px 0 0;
+}
+.case-index-cta a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:28px;
+  min-width:265px;
+  padding:18px 20px;
+  background:var(--ink);
+  color:#faf8f3;
+  font:500 11px "JetBrains Mono",monospace;
+  letter-spacing:.035em;
+  text-decoration:none;
+  white-space:nowrap;
+  transition:background .2s;
+}
+.case-index-cta a:hover{background:#af4937}
+.case-index-cta a:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+@media(max-width:650px){
+  .case-index-cta{display:block;margin-top:31px;padding-top:25px}
+  .case-index-cta p{font-size:25px}
+  .case-index-cta a{width:100%;margin-top:22px}
+}
+@media(prefers-reduced-motion:reduce){.case-index-cta a{transition:none}}
