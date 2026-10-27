@@ -660,3 +660,37 @@ html { scroll-padding-top: 94px; }
 /* Authentic Market Open Media website screenshot — show the complete design. */
 .editorial-project-grid .market-open-media-card .editorial-project-image{background:#040c1b}
 .editorial-project-grid .market-open-media-card .editorial-project-image img{object-fit:contain;object-position:center center}
+
+
+/* Responsive section headers: keep title blocks anchored to the left. */
+@media (max-width: 900px) {
+  .section-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .section-heading > div {
+    align-self: stretch;
+    width: 100%;
+    min-width: 0;
+    margin-inline: 0;
+  }
+  .section-heading .section-kicker,
+  .section-heading h2,
+  .section-heading > p {
+    text-align: left;
+  }
+}
+@media (max-width: 560px) {
+  .editorial-approach .section-heading,
+  .editorial-approach .section-heading > div,
+  .editorial-approach .section-heading h2,
+  .editorial-approach .section-heading > p {
+    align-self: flex-start;
+    text-align: left;
+    margin-left: 0;
+  }
+  .editorial-approach .section-heading > div {
+    width: 100%;
+  }
+}
