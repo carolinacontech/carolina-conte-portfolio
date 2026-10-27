@@ -123,8 +123,8 @@
 .marias-identity-grid figure[hidden]{display:none}
 .marias-identity-grid img{display:block;width:100%;height:auto;object-fit:contain}
 .marias-identity-full{grid-column:1/-1}
-.marias-identity-full img{max-height:720px;background:#000;object-fit:contain}
-.marias-identity-symbol img{aspect-ratio:1/1;background:#000}
+.marias-identity-full img{max-height:720px;background:#fff;object-fit:contain}
+.marias-identity-symbol img{aspect-ratio:1/1;background:#fff}
 .marias-identity-wordmark img{aspect-ratio:1/1;background:#fff;padding:clamp(12px,3vw,35px)}
 .marias-identity-grid figcaption{padding:15px 18px;border-top:1px solid rgba(112,78,41,.2);font:500 11px "JetBrains Mono",monospace;line-height:1.6;color:#50463b}
 @media(max-width:640px){.marias-identity-grid{grid-template-columns:1fr;gap:14px}.marias-identity-full{grid-column:auto}}
