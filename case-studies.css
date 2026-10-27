@@ -28,7 +28,7 @@ button{font:inherit}
 .case-library-card{min-width:0;display:flex;flex-direction:column;text-decoration:none;color:inherit;align-self:start}
 .case-library-card[hidden]{display:none!important}
 .case-library-image{display:flex;align-items:center;justify-content:center;aspect-ratio:1.85/1;overflow:hidden;background:var(--tile-bg,#f0ece4);border:0;border-radius:3px;position:relative}
-.case-library-image img{display:block;width:100%;height:100%;object-fit:var(--tile-fit,cover);object-position:var(--tile-position,center);transform:scale(var(--tile-scale,1));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.case-library-image img{display:block;width:100%;height:100%;object-fit:var(--tile-fit,cover);object-position:var(--tile-position,center);filter:var(--tile-filter,none);transform:scale(var(--tile-scale,1));transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 .case-library-card:hover .case-library-image img{transform:scale(var(--tile-hover-scale,1.045))}
 .case-library-details{padding-top:18px}
 .case-library-card-number{font:500 10px "JetBrains Mono",monospace;letter-spacing:.12em;color:var(--cs-accent)}
