@@ -37,7 +37,54 @@ heroVideo?.addEventListener('ended', () => {
   heroSection?.classList.remove('is-playing');
   heroSection?.classList.add('is-ended');
   heroStage?.classList.add('is-ended');
+  startHeroGaze();
 });
+
+// Cursor gaze: after the video ends, swap between pre-rendered photos of her
+// looking toward the pointer (8 directions + center). Desktop only.
+let heroGazeReady = false;
+function startHeroGaze() {
+  if (heroGazeReady || !heroStage || heroPhoneMq.matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  heroGazeReady = true;
+  const names = ['left', 'right', 'up', 'down', 'ul', 'ur', 'dl', 'dr'];
+  const imgs = {};
+  names.forEach((n) => {
+    const im = new Image();
+    im.className = 'hero-gaze';
+    im.alt = '';
+    im.src = `assets/gaze/${n}.jpg?v=1`;
+    heroStage.insertBefore(im, heroStage.querySelector('.hero-scrim'));
+    imgs[n] = im;
+  });
+  let current = null;
+  const setDir = (n) => {
+    if (n === current) return;
+    if (current) imgs[current].classList.remove('is-on');
+    if (n) imgs[n].classList.add('is-on');
+    current = n;
+  };
+  // Head position inside the 1672x941 photo, mapped through object-fit: cover (right top)
+  const HEAD = { x: 0.655, y: 0.2 };
+  const headPoint = () => {
+    const r = heroStage.getBoundingClientRect();
+    const scale = Math.max(r.width / 1672, r.height / 941);
+    const w = 1672 * scale, h = 941 * scale;
+    return { x: r.left + (r.width - w) + HEAD.x * w, y: r.top + HEAD.y * h };
+  };
+  window.addEventListener('mousemove', (e) => {
+    if (!heroSection.classList.contains('is-ended')) return;
+    const r = heroStage.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const p = headPoint();
+    const dx = e.clientX - p.x, dy = e.clientY - p.y;
+    if (Math.hypot(dx, dy) < 90) return setDir(null);
+    const a = Math.atan2(dy, dx) * 180 / Math.PI; // 0=right, 90=down
+    const k = Math.round(a / 45);
+    setDir(['right', 'dr', 'down', 'dl', 'left', 'ul', 'up', 'ur'][((k % 8) + 8) % 8]);
+  });
+  document.addEventListener('mouseleave', () => setDir(null));
+}
 
 const heroLogoStage = document.querySelector('.hero-logo-stage');
 const heroLogo = document.querySelector('.hero-logo');
